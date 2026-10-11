@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>فروشگاه دیجیتال</title>
+<meta name="description" content="فروشگاه محصولات دیجیتال با کیف پول و تحویل فوری">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --lapis:#1E3264; --lapis-2:#2B4485; --firoozeh:#139A9E; --firoozeh-soft:#E3F4F4;
+  --saffron:#E9A23B; --paper:#F5F7FA; --surface:#FFFFFF; --text:#16213A; --muted:#5D6B85;
+  --line:#DCE2EC; --danger:#C2412D; --ok:#1F8A5B;
+  --r-lg:20px; --r-md:12px; --r-sm:8px;
+  --font:"Vazirmatn","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1424; --surface:#161F35; --text:#E6EBF5; --muted:#9AA6BE; --line:#26324D;
+  --firoozeh-soft:#12343A; --lapis:#2A438A; --lapis-2:#3553A3; color-scheme:dark;}}
+:root[data-theme="dark"]{--paper:#0E1424; --surface:#161F35; --text:#E6EBF5; --muted:#9AA6BE; --line:#26324D; --firoozeh-soft:#12343A; --lapis:#2A438A; --lapis-2:#3553A3; color-scheme:dark;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;text-decoration:none;white-space:nowrap}
+@media (max-width:420px){.brand{font-size:1rem}.top .wrap{gap:8px}.lang{max-width:96px}}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:var(--lapis) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Cg fill='none' stroke='%23E9A23B' stroke-width='1.6'%3E%3Crect x='10' y='10' width='14' height='14'/%3E%3Crect x='10' y='10' width='14' height='14' transform='rotate(45 17 17)'/%3E%3C/g%3E%3C/svg%3E") center/cover}
+.nav{display:flex;gap:4px;margin-inline-start:12px}
+.nav a{padding:8px 12px;border-radius:var(--r-sm);text-decoration:none;color:var(--muted);font-weight:500}
+.nav a:hover{color:var(--text);background:var(--surface)}
+.nav a.on{color:var(--lapis-2);background:var(--firoozeh-soft)}
+.top-end{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
+.lang{border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);padding:6px 8px}
+.chip-balance{display:inline-flex;gap:6px;align-items:center;padding:6px 12px;border-radius:999px;background:var(--firoozeh-soft);color:var(--firoozeh);font-weight:700;text-decoration:none;font-size:.9rem}
+
+/* bottom tabs (mobile) */
+.tabs{display:none}
+@media (max-width:760px){
+  .nav{display:none}
+  .chip-balance{display:none}
+  .tabs{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .tabs a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 6px;font-size:.72rem;color:var(--muted);text-decoration:none}
+  .tabs a.on{color:var(--firoozeh)}
+  .tabs svg{width:22px;height:22px}
+  main{padding-bottom:84px}
+}
+
+main{padding:28px 0 60px}
+h1{font-size:1.75rem;line-height:1.3;margin:0 0 6px;font-weight:800}
+h2{font-size:1.2rem;margin:0 0 14px;font-weight:700}
+.sub{color:var(--muted);margin:0 0 24px}
+.section{margin-top:40px}
+.row-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.row-head h2{margin:0}
+.link{color:var(--firoozeh);text-decoration:none;font-weight:500}
+.link:hover{text-decoration:underline}
+
+/* buttons & forms */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:var(--r-md);padding:10px 18px;font-weight:700;cursor:pointer;text-decoration:none;background:var(--lapis);color:#fff;transition:background .15s}
+.btn:hover{background:var(--lapis-2)}
+.btn.alt{background:var(--surface);color:var(--text);border:1px solid var(--line)}
+.btn.alt:hover{border-color:var(--muted)}
+.btn.teal{background:var(--firoozeh)}
+.btn.danger{background:var(--danger)}
+.btn.sm{padding:6px 12px;font-size:.88rem;border-radius:var(--r-sm)}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+label{display:block;font-weight:500;font-size:.92rem;margin-bottom:6px}
+.field{margin-bottom:16px}
+.input,select.input,textarea.input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface)}
+textarea.input{min-height:110px;resize:vertical}
+.input:focus{border-color:var(--firoozeh);outline:none;box-shadow:0 0 0 3px var(--firoozeh-soft)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check{display:flex;align-items:center;gap:8px;font-weight:400}
+.hint{color:var(--muted);font-size:.85rem}
+
+/* wallet card: the one bold element */
+.wallet-card{position:relative;overflow:hidden;border-radius:var(--r-lg);padding:28px;color:#fff;background:linear-gradient(135deg,var(--lapis),#14254d);}
+.wallet-card::before{content:"";position:absolute;inset:0;opacity:.9;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.09' stroke-width='1.2'%3E%3Crect x='17' y='17' width='22' height='22'/%3E%3Crect x='17' y='17' width='22' height='22' transform='rotate(45 28 28)'/%3E%3C/g%3E%3C/svg%3E")}
+.wallet-card > *{position:relative}
+.wc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.wc-label{opacity:.75;font-size:.92rem}
+.wc-amount{font-size:2.4rem;font-weight:800;line-height:1.2;margin-top:4px;letter-spacing:-.01em}
+.wc-amount small{font-size:1rem;font-weight:500;opacity:.8;margin-inline-start:6px}
+.level-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(233,162,59,.16);color:var(--saffron);border:1px solid rgba(233,162,59,.45);padding:6px 12px;border-radius:999px;font-weight:700}
+.progress{height:8px;background:rgba(255,255,255,.14);border-radius:99px;margin-top:22px;overflow:hidden}
+.progress span{display:block;height:100%;background:var(--saffron);border-radius:99px;transition:width .8s ease}
+.wc-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:.88rem;opacity:.85}
+.wc-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.wc-actions .btn{background:#fff;color:var(--lapis)}
+.wc-actions .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px}
+.stat b{display:block;font-size:1.35rem}
+.stat span{color:var(--muted);font-size:.86rem}
+@media (max-width:560px){.stats{grid-template-columns:1fr 1fr}.wc-amount{font-size:2rem}}
+
+/* products */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.pcard{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;text-decoration:none}
+.pcard:hover{border-color:var(--firoozeh)}
+.pthumb{aspect-ratio:16/10;background:var(--firoozeh-soft);display:grid;place-items:center;font-size:2.4rem;font-weight:800;color:var(--firoozeh);overflow:hidden}
+.pthumb img{width:100%;height:100%;object-fit:cover}
+.pbody{padding:14px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.pname{font-weight:700}
+.pprice{color:var(--muted);font-size:.9rem;margin-top:auto}
+.tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--paper);border:1px solid var(--line);color:var(--muted);font-weight:500}
+.tag.warn{background:#FFF4E0;border-color:#F3D29A;color:#8A5A10}
+.tag.ok{background:#E3F5EC;border-color:#A9DDC2;color:var(--ok)}
+.tag.bad{background:#FBE7E3;border-color:#EDB5AA;color:var(--danger)}
+.tag.info{background:var(--firoozeh-soft);border-color:transparent;color:var(--firoozeh)}
+
+.product{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:start}
+@media (max-width:760px){.product{grid-template-columns:1fr}}
+.product .pthumb{border-radius:var(--r-lg);font-size:4rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}
+.variant{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-md);margin-bottom:10px;cursor:pointer}
+.variant:has(input:checked){border-color:var(--firoozeh);background:var(--firoozeh-soft)}
+.variant input{accent-color:var(--firoozeh)}
+.variant .vp{margin-inline-start:auto;font-weight:700;white-space:nowrap}
+.variant.disabled{opacity:.5;cursor:not-allowed}
+.qty{display:flex;align-items:center;gap:8px}
+.qty input{width:70px;text-align:center}
+.sumline{display:flex;justify-content:space-between;margin:6px 0;color:var(--muted)}
+.sumline.total{color:var(--text);font-weight:800;font-size:1.1rem;border-top:1px dashed var(--line);padding-top:10px;margin-top:10px}
+
+/* lists / tables */
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.li{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.li:last-child{border-bottom:0}
+.li.click{cursor:pointer}
+.li.click:hover{background:var(--paper)}
+.li .grow{flex:1;min-width:0}
+.li .t{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li .m{color:var(--muted);font-size:.85rem}
+.amt-pos{color:var(--ok);font-weight:700;white-space:nowrap}
+.amt-neg{color:var(--danger);font-weight:700;white-space:nowrap}
+.table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{padding:10px 12px;text-align:start;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+th{color:var(--muted);font-weight:500;background:var(--paper)}
+tr:last-child td{border-bottom:0}
+
+.empty{text-align:center;padding:48px 20px;background:var(--surface);border:1px dashed var(--line);border-radius:var(--r-md);color:var(--muted)}
+.empty p{margin:0 0 14px}
+.notice{padding:12px 16px;border-radius:var(--r-md);background:#FFF4E0;color:#7A4F0E;border:1px solid #F3D29A;margin-bottom:16px;font-size:.92rem}
+.code{direction:ltr;text-align:left;font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;white-space:pre-wrap;word-break:break-all;margin:0}
+.update{padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);margin-bottom:12px}
+.update time{color:var(--muted);font-size:.85rem}
+.update h3{margin:2px 0 6px;font-size:1.05rem}
+.update p{margin:0;white-space:pre-wrap}
+
+/* auth */
+.auth{max-width:420px;margin:20px auto}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px;margin-bottom:20px}
+.seg button{flex:1;border:0;background:transparent;padding:8px;border-radius:var(--r-sm);cursor:pointer;font-weight:500;color:var(--muted)}
+.seg button.on{background:var(--lapis);color:#fff}
+
+/* admin */
+.admin-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px}
+.admin-tabs a{padding:8px 14px;border-radius:999px;border:1px solid var(--line);text-decoration:none;white-space:nowrap;background:var(--surface);font-size:.92rem}
+.admin-tabs a.on{background:var(--lapis);color:#fff;border-color:var(--lapis)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.toolbar .input{width:auto;min-width:180px}
+.vrow{display:grid;grid-template-columns:2fr 1.3fr 1fr auto auto;gap:8px;align-items:center;margin-bottom:8px}
+@media (max-width:560px){.vrow{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+
+/* modal + toast */
+dialog{border:0;border-radius:var(--r-lg);padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100dvh - 40px);background:var(--surface);color:var(--text);box-shadow:0 30px 80px rgba(10,20,45,.35)}
+dialog::backdrop{background:rgba(10,18,36,.55)}
+.modal-in{padding:24px;overflow:auto;max-height:calc(100dvh - 40px)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modal-head h2{margin:0}
+.x{border:0;background:transparent;font-size:1.5rem;cursor:pointer;color:var(--muted);line-height:1}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+#toasts{position:fixed;inset-inline:0;bottom:calc(90px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:8px;z-index:50;pointer-events:none}
+.toast{background:var(--text);color:var(--paper);padding:10px 18px;border-radius:999px;font-size:.92rem;box-shadow:0 8px 24px rgba(0,0,0,.2);animation:pop .25s ease}
+.toast.err{background:var(--danger);color:#fff}
+@keyframes pop{from{transform:translateY(8px);opacity:0}}
+.spin{display:grid;place-items:center;padding:60px;color:var(--muted)}
+.spin::before{content:"";width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--firoozeh);border-radius:50%;animation:r 0.8s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+footer{color:var(--muted);font-size:.85rem;text-align:center;padding:20px 0 40px}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#/"><span class="brand-mark" aria-hidden="true"></span><span data-i="brand"></span></a>
+  <nav class="nav" id="nav"></nav>
+  <div class="top-end" id="topEnd"></div>
+</div></header>
+<main><div class="wrap" id="app"><div class="spin"></div></div></main>
+<nav class="tabs" id="tabs"></nav>
+<footer id="foot"></footer>
+<dialog id="modal"><div class="modal-in" id="modalIn"></div></dialog>
+<div id="toasts" aria-live="polite"></div>
+<script>
+const SUPABASE_URL = "https://wmiarqmtymsrosuthouk.supabase.co";
+const SUPABASE_KEY = "sb_publishable_m21sCQoERco9N2L8ue5kIg_NThf1pYG";
+
+const I18N = {
+fa:{brand:"فروشگاه دیجیتال",home:"خانه",products:"محصولات",orders:"سفارش‌ها",wallet:"کیف پول",account:"حساب",updates:"تازه‌ها",admin:"مدیریت",
+login:"ورود",logout:"خروج",signup:"ثبت‌نام",email:"ایمیل",password:"رمز عبور",fullName:"نام و نام خانوادگی",phone:"شماره موبایل",language:"زبان",
+save:"ذخیره",saved:"ذخیره شد",cancel:"انصراف",close:"بستن",buy:"خرید با کیف پول",balance:"موجودی کیف پول",level:"سطح",ordersCount:"سفارش‌ها",
+totalSpent:"مجموع خرید",discountLevel:"تخفیف سطح",toNext:"تا سطح {n}",maxLevel:"به بالاترین سطح رسیده‌اید",featured:"دسترسی سریع",latest:"تازه‌ها",seeAll:"همه",
+welcome:"خوش آمدید",guestTitle:"محصولات دیجیتال، تحویل فوری",guestSub:"کیف پولتان را شارژ کنید و هر وقت خواستید خرید کنید؛ کدها و لایسنس‌ها بلافاصله تحویل داده می‌شوند.",
+startNow:"ورود یا ثبت‌نام",toman:"تومان",quantity:"تعداد",subtotal:"جمع",discount:"تخفیف",total:"مبلغ نهایی",choose:"یک پلن انتخاب کنید",
+inStock:"{n} عدد موجود",outStock:"ناموجود",days:"{n} روزه",demo:"نمونه",demoNote:"این محصول نمونه است و قابل خرید نیست.",noVariants:"هنوز پلنی برای این محصول تعریف نشده.",
+confirmBuy:"تأیید خرید",confirmBuyText:"{p} از کیف پول شما کسر می‌شود.",bought:"خرید انجام شد",yourItem:"محصول شما",copy:"کپی",copied:"کپی شد",
+manualDelivery:"سفارش ثبت شد و به‌زودی توسط پشتیبانی تحویل داده می‌شود. وضعیت را در صفحه سفارش‌ها ببینید.",viewOrders:"مشاهده سفارش‌ها",
+noOrders:"هنوز سفارشی ثبت نکرده‌اید.",browse:"دیدن محصولات",order:"سفارش",status:"وضعیت",date:"تاریخ",note:"توضیح شما (اختیاری)",
+st_pending:"در انتظار",st_paid:"پرداخت‌شده",st_delivered:"تحویل‌شده",st_cancelled:"لغوشده",st_refunded:"برگشت وجه",
+topUp:"شارژ کیف پول",topUpSoon:"پرداخت آنلاین به‌زودی فعال می‌شود. تا آن زمان برای شارژ با پشتیبانی تماس بگیرید.",tx:"تراکنش‌ها",noTx:"هنوز تراکنشی ندارید.",
+tx_deposit:"شارژ",tx_purchase:"خرید",tx_refund:"برگشت وجه",tx_adjustment:"اصلاح توسط مدیر",
+forgot:"رمز را فراموش کرده‌ام",resetSent:"لینک بازیابی رمز به ایمیل شما ارسال شد.",checkEmail:"حساب ساخته شد. اگر ایمیل تأیید دریافت کردید، روی لینک آن بزنید و بعد وارد شوید.",
+loginTitle:"ورود به حساب",signupTitle:"ساخت حساب جدید",needLogin:"برای ادامه وارد حساب شوید.",noProducts:"هنوز محصولی اضافه نشده.",noUpdates:"خبری ثبت نشده.",
+err_INSUFFICIENT_BALANCE:"موجودی کیف پول کافی نیست. ابتدا کیف پول را شارژ کنید.",err_OUT_OF_STOCK:"موجودی این پلن تمام شده.",err_PRODUCT_NOT_AVAILABLE:"این محصول در حال حاضر قابل خرید نیست.",
+err_DEMO_PRODUCT:"محصول نمونه قابل خرید نیست.",err_generic:"خطایی رخ داد. دوباره تلاش کنید.",err_auth:"ایمیل یا رمز عبور اشتباه است.",
+notFound:"این صفحه پیدا نشد.",back:"بازگشت",profileTitle:"اطلاعات حساب",memberSince:"عضو از",theme:"پوسته"},
+en:{brand:"Digital Store",home:"Home",products:"Products",orders:"Orders",wallet:"Wallet",account:"Account",updates:"Updates",admin:"Admin",
+login:"Log in",logout:"Log out",signup:"Sign up",email:"Email",password:"Password",fullName:"Full name",phone:"Mobile number",language:"Language",
+save:"Save",saved:"Saved",cancel:"Cancel",close:"Close",buy:"Buy with wallet",balance:"Wallet balance",level:"Level",ordersCount:"Orders",
+totalSpent:"Total spent",discountLevel:"Level discount",toNext:"to {n}",maxLevel:"You've reached the top level",featured:"Quick access",latest:"Updates",seeAll:"See all",
+welcome:"Welcome",guestTitle:"Digital products, delivered instantly",guestSub:"Top up your wallet once and buy whenever you like. Codes and licences are delivered right away.",
+startNow:"Log in or sign up",toman:"Toman",quantity:"Quantity",subtotal:"Subtotal",discount:"Discount",total:"Total",choose:"Choose a plan",
+inStock:"{n} in stock",outStock:"Out of stock",days:"{n} days",demo:"Demo",demoNote:"This is a demo product and can't be purchased.",noVariants:"No plans have been added for this product yet.",
+confirmBuy:"Confirm purchase",confirmBuyText:"{p} will be deducted from your wallet.",bought:"Purchase complete",yourItem:"Your item",copy:"Copy",copied:"Copied",
+manualDelivery:"Your order is placed and will be delivered by support shortly. Track it on the Orders page.",viewOrders:"View orders",
+noOrders:"You haven't placed any orders yet.",browse:"Browse products",order:"Order",status:"Status",date:"Date",note:"Note (optional)",
+st_pending:"Pending",st_paid:"Paid",st_delivered:"Delivered",st_cancelled:"Cancelled",st_refunded:"Refunded",
+topUp:"Top up wallet",topUpSoon:"Online payment is coming soon. Until then, contact support to top up.",tx:"Transactions",noTx:"No transactions yet.",
+tx_deposit:"Top-up",tx_purchase:"Purchase",tx_refund:"Refund",tx_adjustment:"Admin adjustment",
+forgot:"Forgot password",resetSent:"A password reset link was sent to your email.",checkEmail:"Account created. If you received a confirmation email, open its link, then log in.",
+loginTitle:"Log in to your account",signupTitle:"Create an account",needLogin:"Log in to continue.",noProducts:"No products yet.",noUpdates:"No updates yet.",
+err_INSUFFICIENT_BALANCE:"Not enough wallet balance. Top up your wallet first.",err_OUT_OF_STOCK:"This plan is out of stock.",err_PRODUCT_NOT_AVAILABLE:"This product isn't available right now.",
+err_DEMO_PRODUCT:"Demo products can't be purchased.",err_generic:"Something went wrong. Try again.",err_auth:"Wrong email or password.",
+notFound:"Page not found.",back:"Back",profileTitle:"Account details",memberSince:"Member since",theme:"Theme"},
+ar:{brand:"المتجر الرقمي",home:"الرئيسية",products:"المنتجات",orders:"الطلبات",wallet:"المحفظة",account:"الحساب",updates:"المستجدات",admin:"الإدارة",
+login:"تسجيل الدخول",logout:"تسجيل الخروج",signup:"إنشاء حساب",email:"البريد الإلكتروني",password:"كلمة المرور",fullName:"الاسم الكامل",phone:"رقم الجوال",language:"اللغة",
+save:"حفظ",saved:"تم الحفظ",cancel:"إلغاء",close:"إغلاق",buy:"شراء من المحفظة",balance:"رصيد المحفظة",level:"المستوى",ordersCount:"الطلبات",
+totalSpent:"إجمالي المشتريات",discountLevel:"خصم المستوى",toNext:"حتى {n}",maxLevel:"وصلت إلى أعلى مستوى",featured:"وصول سريع",latest:"المستجدات",seeAll:"الكل",
+welcome:"أهلاً بك",guestTitle:"منتجات رقمية بتسليم فوري",guestSub:"اشحن محفظتك واشترِ متى شئت؛ تُسلَّم الأكواد والتراخيص فوراً.",
+startNow:"دخول أو تسجيل",toman:"تومان",quantity:"الكمية",subtotal:"المجموع",discount:"الخصم",total:"الإجمالي",choose:"اختر باقة",
+inStock:"متوفر {n}",outStock:"غير متوفر",days:"{n} يوماً",demo:"نموذج",demoNote:"هذا منتج تجريبي ولا يمكن شراؤه.",noVariants:"لم تُضف باقات لهذا المنتج بعد.",
+confirmBuy:"تأكيد الشراء",confirmBuyText:"سيتم خصم {p} من محفظتك.",bought:"تم الشراء",yourItem:"منتجك",copy:"نسخ",copied:"تم النسخ",
+manualDelivery:"تم تسجيل طلبك وسيسلّمه الدعم قريباً. تابعه في صفحة الطلبات.",viewOrders:"عرض الطلبات",
+noOrders:"لم تقم بأي طلب بعد.",browse:"تصفح المنتجات",order:"طلب",status:"الحالة",date:"التاريخ",note:"ملاحظة (اختياري)",
+st_pending:"قيد الانتظار",st_paid:"مدفوع",st_delivered:"تم التسليم",st_cancelled:"ملغى",st_refunded:"مسترد",
+topUp:"شحن المحفظة",topUpSoon:"الدفع الإلكتروني قريباً. حتى ذلك الحين تواصل مع الدعم للشحن.",tx:"المعاملات",noTx:"لا توجد معاملات بعد.",
+tx_deposit:"شحن",tx_purchase:"شراء",tx_refund:"استرداد",tx_adjustment:"تعديل من الإدارة",
+forgot:"نسيت كلمة المرور",resetSent:"أُرسل رابط إعادة التعيين إلى بريدك.",checkEmail:"تم إنشاء الحساب. إن وصلتك رسالة تأكيد فافتح الرابط ثم سجّل الدخول.",
+loginTitle:"تسجيل الدخول",signupTitle:"إنشاء حساب جديد",needLogin:"سجّل الدخول للمتابعة.",noProducts:"لا توجد منتجات بعد.",noUpdates:"لا توجد مستجدات.",
+err_INSUFFICIENT_BALANCE:"رصيد المحفظة غير كافٍ. اشحن المحفظة أولاً.",err_OUT_OF_STOCK:"نفدت هذه الباقة.",err_PRODUCT_NOT_AVAILABLE:"هذا المنتج غير متاح حالياً.",
+err_DEMO_PRODUCT:"لا يمكن شراء المنتجات التجريبية.",err_generic:"حدث خطأ. حاول مرة أخرى.",err_auth:"البريد أو كلمة المرور غير صحيحة.",
+notFound:"الصفحة غير موجودة.",back:"رجوع",profileTitle:"بيانات الحساب",memberSince:"عضو منذ",theme:"المظهر"},
+zh:{brand:"数字商店",home:"首页",products:"商品",orders:"订单",wallet:"钱包",account:"账户",updates:"动态",admin:"管理",
+login:"登录",logout:"退出",signup:"注册",email:"邮箱",password:"密码",fullName:"姓名",phone:"手机号",language:"语言",
+save:"保存",saved:"已保存",cancel:"取消",close:"关闭",buy:"用钱包购买",balance:"钱包余额",level:"等级",ordersCount:"订单",
+totalSpent:"累计消费",discountLevel:"等级折扣",toNext:"距离{n}",maxLevel:"您已达到最高等级",featured:"快速入口",latest:"动态",seeAll:"全部",
+welcome:"欢迎",guestTitle:"数字商品，即时交付",guestSub:"充值钱包后随时购买，激活码和许可证立即发放。",
+startNow:"登录或注册",toman:"托曼",quantity:"数量",subtotal:"小计",discount:"折扣",total:"合计",choose:"选择套餐",
+inStock:"库存 {n}",outStock:"缺货",days:"{n} 天",demo:"示例",demoNote:"这是示例商品，无法购买。",noVariants:"该商品尚未添加套餐。",
+confirmBuy:"确认购买",confirmBuyText:"将从钱包扣除 {p}。",bought:"购买成功",yourItem:"您的商品",copy:"复制",copied:"已复制",
+manualDelivery:"订单已提交，客服将尽快发货。可在订单页查看进度。",viewOrders:"查看订单",
+noOrders:"您还没有订单。",browse:"浏览商品",order:"订单",status:"状态",date:"日期",note:"备注（可选）",
+st_pending:"待处理",st_paid:"已支付",st_delivered:"已发货",st_cancelled:"已取消",st_refunded:"已退款",
+topUp:"钱包充值",topUpSoon:"在线支付即将上线，目前请联系客服充值。",tx:"交易记录",noTx:"暂无交易。",
+tx_deposit:"充值",tx_purchase:"购买",tx_refund:"退款",tx_adjustment:"管理员调整",
+forgot:"忘记密码",resetSent:"重置链接已发送到您的邮箱。",checkEmail:"账户已创建。如收到确认邮件，请点击链接后再登录。",
+loginTitle:"登录账户",signupTitle:"创建账户",needLogin:"请先登录。",noProducts:"暂无商品。",noUpdates:"暂无动态。",
+err_INSUFFICIENT_BALANCE:"钱包余额不足，请先充值。",err_OUT_OF_STOCK:"该套餐已售罄。",err_PRODUCT_NOT_AVAILABLE:"该商品暂不可购买。",
+err_DEMO_PRODUCT:"示例商品无法购买。",err_generic:"出错了，请重试。",err_auth:"邮箱或密码错误。",
+notFound:"页面不存在。",back:"返回",profileTitle:"账户信息",memberSince:"注册于",theme:"主题"}
+};
+
+// Admin strings (Persian + English; Arabic/Chinese fall back to English)
+const ADMIN_I18N = {
+fa:{a_orders:"سفارش‌ها",a_products:"محصولات",a_categories:"دسته‌ها",a_stock:"انبار کد",a_users:"کاربران",a_updates:"تازه‌ها",a_levels:"سطح‌ها",
+a_all:"همه",a_customer:"مشتری",a_deliver:"تحویل",a_refund:"برگشت وجه",a_deliverTitle:"تحویل سفارش",a_content:"محتوای تحویلی (کد، اکانت، لینک…)",a_adminNote:"یادداشت مدیر",
+a_refundConfirm:"مبلغ این سفارش به کیف پول مشتری برمی‌گردد. ادامه می‌دهید؟",a_done:"انجام شد",a_newProduct:"محصول جدید",a_editProduct:"ویرایش محصول",a_name:"نام",a_slug:"نامک (در آدرس)",
+a_category:"دسته",a_none:"بدون دسته",a_desc:"توضیحات",a_image:"آدرس تصویر",a_delivery:"نوع تحویل",a_auto:"خودکار از انبار کد",a_manual:"دستی توسط مدیر",a_active:"فعال",a_featured:"نمایش در صفحه اصلی",
+a_isDemo:"نمونه (غیرقابل خرید)",a_sort:"ترتیب",a_trans:"ترجمه نام",a_variants:"پلن‌ها",a_addVariant:"افزودن پلن",a_price:"قیمت (تومان)",a_duration:"مدت (روز)",a_delete:"حذف",a_edit:"ویرایش",
+a_deleteConfirm:"حذف شود؟ این کار برگشت‌پذیر نیست.",a_newCategory:"دسته جدید",a_variant:"پلن",a_available:"موجود",a_sold:"فروخته‌شده",a_addStock:"افزودن کد",a_stockHelp:"هر خط یک کد/اکانت. فقط برای محصولات با تحویل خودکار.",
+a_added:"{n} مورد اضافه شد",a_search:"جستجو با ایمیل یا نام…",a_adjust:"تغییر موجودی",a_amount:"مبلغ (مثبت = افزایش، منفی = کاهش)",a_reason:"توضیح",a_makeAdmin:"ادمین کن",a_removeAdmin:"حذف ادمین",
+a_newUpdate:"خبر جدید",a_title:"عنوان",a_body:"متن",a_published:"منتشرشده",a_minSpent:"حداقل خرید (تومان)",a_discount:"درصد تخفیف",a_newLevel:"سطح جدید",a_variantsCount:"پلن",a_noData:"موردی نیست.",
+a_selectVariant:"یک پلن انتخاب کنید",a_items:"اقلام",a_selfAdmin:"نمی‌توانید ادمین بودن خودتان را حذف کنید."},
+en:{a_orders:"Orders",a_products:"Products",a_categories:"Categories",a_stock:"Code stock",a_users:"Users",a_updates:"Updates",a_levels:"Levels",
+a_all:"All",a_customer:"Customer",a_deliver:"Deliver",a_refund:"Refund",a_deliverTitle:"Deliver order",a_content:"Delivered content (code, account, link…)",a_adminNote:"Admin note",
+a_refundConfirm:"The order total will be returned to the customer's wallet. Continue?",a_done:"Done",a_newProduct:"New product",a_editProduct:"Edit product",a_name:"Name",a_slug:"Slug (in URL)",
+a_category:"Category",a_none:"No category",a_desc:"Description",a_image:"Image URL",a_delivery:"Delivery",a_auto:"Automatic from code stock",a_manual:"Manual by admin",a_active:"Active",a_featured:"Show on home page",
+a_isDemo:"Demo (not purchasable)",a_sort:"Order",a_trans:"Name translations",a_variants:"Plans",a_addVariant:"Add plan",a_price:"Price (Toman)",a_duration:"Duration (days)",a_delete:"Delete",a_edit:"Edit",
+a_deleteConfirm:"Delete this? This can't be undone.",a_newCategory:"New category",a_variant:"Plan",a_available:"Available",a_sold:"Sold",a_addStock:"Add codes",a_stockHelp:"One code/account per line. Only for products with automatic delivery.",
+a_added:"{n} added",a_search:"Search by email or name…",a_adjust:"Adjust balance",a_amount:"Amount (positive adds, negative subtracts)",a_reason:"Reason",a_makeAdmin:"Make admin",a_removeAdmin:"Remove admin",
+a_newUpdate:"New update",a_title:"Title",a_body:"Body",a_published:"Published",a_minSpent:"Minimum spent (Toman)",a_discount:"Discount %",a_newLevel:"New level",a_variantsCount:"plans",a_noData:"Nothing here.",
+a_selectVariant:"Choose a plan",a_items:"items",a_selfAdmin:"You can't remove your own admin role."}
+};
+</script>
+<script>
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+const S = { session: null, profile: null, isAdmin: false, lang: "fa", dash: null };
+try { S.lang = localStorage.getItem("lang") || "fa"; } catch (e) {}
+if (!I18N[S.lang]) S.lang = "fa";
+
+const RTL = { fa: true, ar: true };
+const LOCALE = { fa: "fa-IR", en: "en-US", ar: "ar-EG", zh: "zh-CN" };
+function t(k, vars) {
+  let s = (I18N[S.lang] && I18N[S.lang][k]) ?? (ADMIN_I18N[S.lang] && ADMIN_I18N[S.lang][k]) ?? ADMIN_I18N.en[k] ?? I18N.en[k] ?? I18N.fa[k] ?? k;
+  if (vars) for (const [a, b] of Object.entries(vars)) s = s.replace("{" + a + "}", b);
+  return s;
+}
+function esc(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function num(n) { return new Intl.NumberFormat(LOCALE[S.lang]).format(Number(n || 0)); }
+function sep() { return RTL[S.lang] ? "، " : " · "; }
+function pct(n) { return num(n) + (RTL[S.lang] ? "٪" : "%"); }
+function money(n) { return num(n) + " " + t("toman"); }
+function fdate(d) {
+  try { return new Intl.DateTimeFormat(S.lang === "fa" ? "fa-IR-u-ca-persian" : LOCALE[S.lang], { dateStyle: "medium", timeStyle: "short" }).format(new Date(d)); }
+  catch (e) { return new Date(d).toLocaleString(); }
+}
+function fday(d) {
+  try { return new Intl.DateTimeFormat(S.lang === "fa" ? "fa-IR-u-ca-persian" : LOCALE[S.lang], { dateStyle: "long" }).format(new Date(d)); }
+  catch (e) { return new Date(d).toLocaleDateString(); }
+}
+function loc(o, f) { if (!o) return ""; if (S.lang !== "fa" && o[f + "_i18n"] && o[f + "_i18n"][S.lang]) return o[f + "_i18n"][S.lang]; return o[f] || ""; }
+function errMsg(e) {
+  const m = (e && (e.message || e.error_description)) || "";
+  for (const code of ["INSUFFICIENT_BALANCE", "OUT_OF_STOCK", "PRODUCT_NOT_AVAILABLE", "DEMO_PRODUCT"]) if (m.includes(code)) return t("err_" + code);
+  if (/Invalid login credentials/i.test(m)) return t("err_auth");
+  return m || t("err_generic");
+}
+function toast(msg, err) {
+  const el = document.createElement("div");
+  el.className = "toast" + (err ? " err" : "");
+  el.textContent = msg;
+  document.getElementById("toasts").appendChild(el);
+  setTimeout(() => el.remove(), err ? 5000 : 2600);
+}
+const modal = document.getElementById("modal");
+function openModal(title, body, actions) {
+  document.getElementById("modalIn").innerHTML =
+    `<div class="modal-head"><h2>${esc(title)}</h2><button class="x" data-act="close-modal" aria-label="${esc(t("close"))}">×</button></div>${body}` +
+    (actions ? `<div class="modal-actions">${actions}</div>` : "");
+  if (!modal.open) modal.showModal();
+}
+function closeModal() { if (modal.open) modal.close(); }
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+
+function statusTag(s) {
+  const cls = { pending: "warn", paid: "info", delivered: "ok", cancelled: "bad", refunded: "bad" }[s] || "";
+  return `<span class="tag ${cls}">${esc(t("st_" + s))}</span>`;
+}
+function thumb(p) {
+  if (p.image_url) return `<div class="pthumb"><img src="${esc(p.image_url)}" alt="" loading="lazy"></div>`;
+  const letter = (loc(p, "name") || "?").trim().charAt(0);
+  return `<div class="pthumb" aria-hidden="true">${esc(letter)}</div>`;
+}
+async function copyText(txt) {
+  try { await navigator.clipboard.writeText(txt); toast(t("copied")); }
+  catch (e) { toast(t("err_generic"), true); }
+}
+
+const ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+  products: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></svg>',
+  orders: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>',
+  wallet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M16 15h2"/><path d="M6 6l9-3 1 3"/></svg>',
+  account: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>'
+};
+
+async function loadMe() {
+  S.profile = null; S.isAdmin = false; S.dash = null;
+  if (!S.session) return;
+  const uid = S.session.user.id;
+  const [p, r] = await Promise.all([
+    sb.from("profiles").select("*").eq("id", uid).maybeSingle(),
+    sb.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin").maybeSingle()
+  ]);
+  S.profile = p.data || null;
+  S.isAdmin = !!r.data;
+}
+async function loadDash() {
+  if (!S.session) { S.dash = null; return null; }
+  const { data, error } = await sb.rpc("get_my_dashboard");
+  if (!error) S.dash = data;
+  return S.dash;
+}
+
+function renderChrome() {
+  document.documentElement.lang = S.lang;
+  document.documentElement.dir = RTL[S.lang] ? "rtl" : "ltr";
+  document.title = t("brand");
+  document.querySelectorAll("[data-i]").forEach(el => el.textContent = t(el.dataset.i));
+  const path = location.hash || "#/";
+  const on = (h) => (h === "#/" ? path === "#/" || path === "" : path.startsWith(h)) ? "on" : "";
+  const links = [["#/", "home"], ["#/products", "products"], ["#/orders", "orders"], ["#/wallet", "wallet"], ["#/updates", "updates"]];
+  if (S.isAdmin) links.push(["#/admin", "admin"]);
+  document.getElementById("nav").innerHTML = links.map(([h, k]) => `<a href="${h}" class="${on(h)}">${esc(t(k))}</a>`).join("");
+  const tabs = [["#/", "home"], ["#/products", "products"], ["#/orders", "orders"], ["#/wallet", "wallet"], [S.isAdmin ? "#/admin" : "#/account", S.isAdmin ? "admin" : "account"]];
+  document.getElementById("tabs").innerHTML = tabs.map(([h, k]) => `<a href="${h}" class="${on(h)}">${ICONS[k] || ICONS.account}<span>${esc(t(k))}</span></a>`).join("");
+  const langSel = `<select class="lang" data-change="lang" aria-label="${esc(t("language"))}">${[["fa", "فارسی"], ["en", "English"], ["ar", "العربية"], ["zh", "简体中文"]].map(([v, l]) => `<option value="${v}" ${v === S.lang ? "selected" : ""}>${l}</option>`).join("")}</select>`;
+  const right = S.session
+    ? `<a class="chip-balance" href="#/wallet">${esc(money(S.profile?.wallet_balance || 0))}</a><a class="btn alt sm" href="#/account">${esc(t("account"))}</a>`
+    : `<a class="btn sm" href="#/login">${esc(t("login"))}</a>`;
+  document.getElementById("topEnd").innerHTML = langSel + right;
+  document.getElementById("foot").textContent = "© " + new Date().getFullYear() + " " + t("brand");
+}
+</script>
+<script>
+const V = {};
+
+V.home = async () => {
+  const prodsQ = sb.from("products").select("id,slug,name,name_i18n,image_url,is_demo,product_variants(price,is_active)").eq("is_active", true).eq("is_featured", true).order("sort").limit(8);
+  const updQ = sb.from("updates").select("*").eq("is_published", true).order("published_at", { ascending: false }).limit(3);
+  const [prods, upd, dash] = await Promise.all([prodsQ, updQ, loadDash()]);
+  let top = "";
+  if (S.session && dash) {
+    const prog = dash.next_level_min ? Math.min(100, Math.round(dash.total_spent / dash.next_level_min * 100)) : 100;
+    const levelName = (S.lang !== "fa" && dash.level_name_i18n && dash.level_name_i18n[S.lang]) || dash.level_name || "—";
+    const name = S.profile?.full_name ? (RTL[S.lang] ? "، " : ", ") + S.profile.full_name : "";
+    top = `
+      <h1>${esc(t("welcome"))}${esc(name)}</h1>
+      <p class="sub">${esc(t("guestSub"))}</p>
+      <section class="wallet-card" aria-label="${esc(t("balance"))}">
+        <div class="wc-top">
+          <div><div class="wc-label">${esc(t("balance"))}</div>
+          <div class="wc-amount">${esc(num(dash.wallet_balance))}<small>${esc(t("toman"))}</small></div></div>
+          <span class="level-badge">★ ${esc(levelName)}${Number(dash.discount_percent) > 0 ? sep() + esc(pct(dash.discount_percent)) : ""}</span>
+        </div>
+        <div class="progress" role="progressbar" aria-valuenow="${prog}" aria-valuemin="0" aria-valuemax="100"><span style="width:${prog}%"></span></div>
+        <div class="wc-foot"><span>${esc(t("totalSpent"))}: ${esc(money(dash.total_spent))}</span>
+          <span>${dash.next_level_name ? esc(money(dash.next_level_min - dash.total_spent)) + " " + esc(t("toNext", { n: dash.next_level_name })) : esc(t("maxLevel"))}</span></div>
+        <div class="wc-actions"><button class="btn" data-act="topup">${esc(t("topUp"))}</button><a class="btn ghost" href="#/products">${esc(t("browse"))}</a></div>
+      </section>
+      <div class="stats">
+        <a class="stat" href="#/orders" style="text-decoration:none"><b>${esc(num(dash.orders_count))}</b><span>${esc(t("ordersCount"))}</span></a>
+        <div class="stat"><b>${esc(levelName)}</b><span>${esc(t("level"))}</span></div>
+        <div class="stat"><b>${esc(pct(dash.discount_percent))}</b><span>${esc(t("discountLevel"))}</span></div>
+      </div>`;
+  } else {
+    top = `
+      <section class="wallet-card">
+        <h1 style="color:#fff;max-width:20ch">${esc(t("guestTitle"))}</h1>
+        <p style="opacity:.85;max-width:52ch;margin:8px 0 0">${esc(t("guestSub"))}</p>
+        <div class="wc-actions"><a class="btn" href="#/login">${esc(t("startNow"))}</a><a class="btn ghost" href="#/products">${esc(t("browse"))}</a></div>
+      </section>`;
+  }
+  const plist = prods.data || [];
+  const updates = upd.data || [];
+  return top + `
+    <section class="section"><div class="row-head"><h2>${esc(t("featured"))}</h2><a class="link" href="#/products">${esc(t("seeAll"))}</a></div>
+      ${plist.length ? `<div class="pgrid">${plist.map(pcard).join("")}</div>` : `<div class="empty"><p>${esc(t("noProducts"))}</p></div>`}
+    </section>
+    <section class="section"><div class="row-head"><h2>${esc(t("latest"))}</h2><a class="link" href="#/updates">${esc(t("seeAll"))}</a></div>
+      ${updates.length ? updates.map(updCard).join("") : `<div class="empty"><p>${esc(t("noUpdates"))}</p></div>`}
+    </section>`;
+};
+
+function minPrice(p) {
+  const prices = (p.product_variants || []).filter(v => v.is_active).map(v => Number(v.price));
+  return prices.length ? Math.min(...prices) : null;
+}
+function pcard(p) {
+  const mp = minPrice(p);
+  return `<a class="pcard" href="#/products/${encodeURIComponent(p.slug)}">${thumb(p)}
+    <div class="pbody"><div class="pname">${esc(loc(p, "name"))}</div>
+    ${p.is_demo ? `<div><span class="tag warn">${esc(t("demo"))}</span></div>` : ""}
+    <div class="pprice">${mp !== null ? esc(money(mp)) : "—"}</div></div></a>`;
+}
+function updCard(u) {
+  return `<article class="update"><time>${esc(fday(u.published_at))}</time><h3>${esc(loc(u, "title"))}</h3>${loc(u, "body") ? `<p>${esc(loc(u, "body"))}</p>` : ""}</article>`;
+}
+
+V.products = async () => {
+  const [cats, prods] = await Promise.all([
+    sb.from("categories").select("*").eq("is_active", true).order("sort"),
+    sb.from("products").select("id,slug,name,name_i18n,image_url,is_demo,category_id,product_variants(price,is_active)").eq("is_active", true).order("sort")
+  ]);
+  const P = prods.data || [], C = cats.data || [];
+  if (!P.length) return `<h1>${esc(t("products"))}</h1><div class="empty"><p>${esc(t("noProducts"))}</p></div>`;
+  let html = `<h1>${esc(t("products"))}</h1><p class="sub"></p>`;
+  const groups = C.map(c => ({ c, items: P.filter(p => p.category_id === c.id) })).filter(g => g.items.length);
+  const orphans = P.filter(p => !C.some(c => c.id === p.category_id));
+  for (const g of groups) html += `<section class="section" style="margin-top:28px"><h2>${esc(loc(g.c, "name"))}</h2><div class="pgrid">${g.items.map(pcard).join("")}</div></section>`;
+  if (orphans.length) html += `<section class="section" style="margin-top:28px"><div class="pgrid">${orphans.map(pcard).join("")}</div></section>`;
+  return html;
+};
+
+V.product = async (slug) => {
+  const { data: p } = await sb.from("products").select("*,product_variants(*),categories(name,name_i18n)").eq("slug", decodeURIComponent(slug)).maybeSingle();
+  if (!p) return `<div class="empty"><p>${esc(t("notFound"))}</p><a class="btn" href="#/products">${esc(t("back"))}</a></div>`;
+  const variants = (p.product_variants || []).filter(v => v.is_active).sort((a, b) => a.sort - b.sort);
+  let stock = {};
+  if (p.delivery_type === "auto") {
+    const { data } = await sb.rpc("get_variant_stock", { _product_id: p.id });
+    (data || []).forEach(r => stock[r.variant_id] = r.available);
+  }
+  if (S.session) await loadDash();
+  S.current = { product: p, variants, stock };
+  const disc = Number(S.dash?.discount_percent || 0);
+  const firstOk = variants.find(v => p.delivery_type !== "auto" || (stock[v.id] || 0) > 0);
+  const vhtml = variants.length ? variants.map(v => {
+    const out = p.delivery_type === "auto" && !(stock[v.id] > 0);
+    const meta = [v.duration_days ? t("days", { n: num(v.duration_days) }) : "", p.delivery_type === "auto" ? (out ? t("outStock") : t("inStock", { n: num(stock[v.id]) })) : ""].filter(Boolean).join(sep());
+    return `<label class="variant ${out ? "disabled" : ""}"><input type="radio" name="variant" value="${v.id}" ${out ? "disabled" : ""} ${firstOk && firstOk.id === v.id ? "checked" : ""} data-change="calc">
+      <span><b>${esc(loc(v, "name"))}</b>${meta ? `<br><span class="hint">${esc(meta)}</span>` : ""}</span><span class="vp">${esc(money(v.price))}</span></label>`;
+  }).join("") : `<p class="hint">${esc(t("noVariants"))}</p>`;
+  return `
+    <p><a class="link" href="#/products">${RTL[S.lang] ? "→" : "←"} ${esc(t("products"))}</a></p>
+    <div class="product">
+      <div>${thumb(p)}
+        <h1 style="margin-top:20px">${esc(loc(p, "name"))}</h1>
+        ${p.categories ? `<span class="tag">${esc(loc(p.categories, "name"))}</span> ` : ""}${p.is_demo ? `<span class="tag warn">${esc(t("demo"))}</span>` : ""}
+        ${loc(p, "description") ? `<p style="white-space:pre-wrap;max-width:65ch">${esc(loc(p, "description"))}</p>` : ""}
+      </div>
+      <div class="panel">
+        ${p.is_demo ? `<div class="notice">${esc(t("demoNote"))}</div>` : ""}
+        <h2>${esc(t("choose"))}</h2>
+        ${vhtml}
+        ${variants.length ? `
+        <div class="field" style="margin-top:16px"><label for="qty">${esc(t("quantity"))}</label>
+          <div class="qty"><input id="qty" class="input" type="number" min="1" max="100" value="1" data-input="calc" inputmode="numeric"></div></div>
+        <div class="field"><label for="note">${esc(t("note"))}</label><input id="note" class="input" maxlength="300"></div>
+        <div id="sum"></div>
+        <button class="btn block teal" style="margin-top:14px" data-act="buy" ${p.is_demo || !firstOk ? "disabled" : ""}>${esc(t("buy"))}</button>
+        ${S.session ? `<p class="hint" style="margin:10px 0 0">${esc(t("balance"))}: ${esc(money(S.profile?.wallet_balance || 0))}</p>` : `<p class="hint" style="margin:10px 0 0">${esc(t("needLogin"))}</p>`}` : ""}
+      </div>
+    </div>`;
+};
+function calcSummary() {
+  const box = document.getElementById("sum"); if (!box || !S.current) return null;
+  const vid = document.querySelector('input[name="variant"]:checked')?.value;
+  const v = S.current.variants.find(x => x.id === vid);
+  const qty = Math.max(1, Math.min(100, parseInt(document.getElementById("qty")?.value || "1", 10) || 1));
+  if (!v) { box.innerHTML = ""; return null; }
+  const disc = Number(S.dash?.discount_percent || 0);
+  const sub = Number(v.price) * qty, d = Math.floor(sub * disc / 100), total = sub - d;
+  box.innerHTML = `<div class="sumline"><span>${esc(t("subtotal"))}</span><span>${esc(money(sub))}</span></div>` +
+    (d > 0 ? `<div class="sumline"><span>${esc(t("discount"))} (${esc(pct(disc))})</span><span>−${esc(money(d))}</span></div>` : "") +
+    `<div class="sumline total"><span>${esc(t("total"))}</span><span>${esc(money(total))}</span></div>`;
+  return { v, qty, total };
+}
+
+V.orders = async () => {
+  const { data } = await sb.from("orders").select("*").order("created_at", { ascending: false }).limit(200);
+  const O = data || [];
+  S.ordersCache = O;
+  if (!O.length) return `<h1>${esc(t("orders"))}</h1><div class="empty"><p>${esc(t("noOrders"))}</p><a class="btn" href="#/products">${esc(t("browse"))}</a></div>`;
+  return `<h1>${esc(t("orders"))}</h1><p class="sub"></p><div class="list">${O.map(o => `
+    <div class="li click" data-act="order" data-id="${o.id}" role="button" tabindex="0">
+      <div class="grow"><div class="t">${esc(o.product_name)}${o.variant_name ? " — " + esc(o.variant_name) : ""}${o.quantity > 1 ? " ×" + esc(num(o.quantity)) : ""}</div>
+      <div class="m">${esc(t("order"))} #${esc(num(o.order_number))}${sep()}${esc(fdate(o.created_at))}</div></div>
+      <div style="text-align:end"><div><b>${esc(money(o.total))}</b></div>${statusTag(o.status)}</div>
+    </div>`).join("")}</div>`;
+};
+function orderModal(o) {
+  openModal(`${t("order")} #${num(o.order_number)}`, `
+    <div class="sumline"><span>${esc(t("products"))}</span><span>${esc(o.product_name)}${o.variant_name ? " — " + esc(o.variant_name) : ""}</span></div>
+    <div class="sumline"><span>${esc(t("quantity"))}</span><span>${esc(num(o.quantity))}</span></div>
+    ${o.discount > 0 ? `<div class="sumline"><span>${esc(t("discount"))}</span><span>${esc(money(o.discount))}</span></div>` : ""}
+    <div class="sumline"><span>${esc(t("total"))}</span><span>${esc(money(o.total))}</span></div>
+    <div class="sumline"><span>${esc(t("status"))}</span><span>${statusTag(o.status)}</span></div>
+    <div class="sumline"><span>${esc(t("date"))}</span><span>${esc(fdate(o.created_at))}</span></div>
+    ${o.customer_note ? `<div class="sumline"><span>${esc(t("note"))}</span><span>${esc(o.customer_note)}</span></div>` : ""}
+    ${o.delivered_content ? `<h2 style="margin-top:18px">${esc(t("yourItem"))}</h2><pre class="code">${esc(o.delivered_content)}</pre>` : (o.status === "paid" ? `<p class="hint" style="margin-top:14px">${esc(t("manualDelivery"))}</p>` : "")}`,
+    (o.delivered_content ? `<button class="btn alt" data-act="copy" data-text="${esc(o.delivered_content)}">${esc(t("copy"))}</button>` : "") + `<button class="btn" data-act="close-modal">${esc(t("close"))}</button>`);
+}
+
+V.wallet = async () => {
+  await loadMe();
+  const { data } = await sb.from("wallet_transactions").select("*").order("created_at", { ascending: false }).limit(200);
+  const T = data || [];
+  return `<h1>${esc(t("wallet"))}</h1><p class="sub"></p>
+    <section class="wallet-card"><div class="wc-label">${esc(t("balance"))}</div>
+      <div class="wc-amount">${esc(num(S.profile?.wallet_balance || 0))}<small>${esc(t("toman"))}</small></div>
+      <div class="wc-actions"><button class="btn" data-act="topup">${esc(t("topUp"))}</button></div></section>
+    <section class="section"><h2>${esc(t("tx"))}</h2>
+    ${T.length ? `<div class="list">${T.map(x => `<div class="li"><div class="grow"><div class="t">${esc(t("tx_" + x.type))}</div>
+      <div class="m">${esc(fdate(x.created_at))}${x.description ? sep() + esc(x.description) : ""}</div></div>
+      <div style="text-align:end"><div class="${x.amount >= 0 ? "amt-pos" : "amt-neg"}" dir="ltr">${x.amount >= 0 ? "+" : "−"}${esc(num(Math.abs(x.amount)))}</div>
+      <div class="m">${esc(money(x.balance_after))}</div></div></div>`).join("")}</div>` : `<div class="empty"><p>${esc(t("noTx"))}</p></div>`}</section>`;
+};
+
+V.account = async () => {
+  await loadMe();
+  const p = S.profile || {};
+  return `<h1>${esc(t("account"))}</h1><p class="sub">${esc(S.session.user.email)}${p.created_at ? sep() + esc(t("memberSince")) + " " + esc(fday(p.created_at)) : ""}</p>
+    <div class="panel" style="max-width:560px">
+      <h2>${esc(t("profileTitle"))}</h2>
+      <form data-form="profile">
+        <div class="field"><label for="fn">${esc(t("fullName"))}</label><input id="fn" name="full_name" class="input" value="${esc(p.full_name)}" maxlength="80" autocomplete="name"></div>
+        <div class="field"><label for="ph">${esc(t("phone"))}</label><input id="ph" name="phone" class="input" value="${esc(p.phone)}" maxlength="20" dir="ltr" inputmode="tel" autocomplete="tel"></div>
+        <div class="field"><label for="pl">${esc(t("language"))}</label><select id="pl" name="preferred_language" class="input">
+          ${[["fa", "فارسی"], ["en", "English"], ["ar", "العربية"], ["zh", "简体中文"]].map(([v, l]) => `<option value="${v}" ${v === (p.preferred_language || S.lang) ? "selected" : ""}>${l}</option>`).join("")}</select></div>
+        <button class="btn" type="submit">${esc(t("save"))}</button>
+      </form>
+    </div>
+    <p style="margin-top:24px"><button class="btn alt" data-act="logout">${esc(t("logout"))}</button></p>`;
+};
+
+V.updates = async () => {
+  const { data } = await sb.from("updates").select("*").eq("is_published", true).order("published_at", { ascending: false }).limit(100);
+  return `<h1>${esc(t("updates"))}</h1><p class="sub"></p>` + ((data || []).length ? data.map(updCard).join("") : `<div class="empty"><p>${esc(t("noUpdates"))}</p></div>`);
+};
+
+V.login = async () => {
+  if (S.session) { location.hash = S.next || "#/"; return ""; }
+  const mode = S.authMode || "login";
+  return `<div class="auth">
+    <div class="seg" role="tablist"><button class="${mode === "login" ? "on" : ""}" data-act="authmode" data-mode="login">${esc(t("login"))}</button><button class="${mode === "signup" ? "on" : ""}" data-act="authmode" data-mode="signup">${esc(t("signup"))}</button></div>
+    <div class="panel"><h1 style="font-size:1.35rem;margin-bottom:18px">${esc(t(mode === "login" ? "loginTitle" : "signupTitle"))}</h1>
+    <form data-form="${mode}">
+      ${mode === "signup" ? `<div class="field"><label for="fn">${esc(t("fullName"))}</label><input id="fn" name="full_name" class="input" required maxlength="80" autocomplete="name"></div>` : ""}
+      <div class="field"><label for="em">${esc(t("email"))}</label><input id="em" name="email" type="email" class="input" required dir="ltr" autocomplete="email"></div>
+      <div class="field"><label for="pw">${esc(t("password"))}</label><input id="pw" name="password" type="password" class="input" required minlength="6" dir="ltr" autocomplete="${mode === "login" ? "current-password" : "new-password"}"></div>
+      <button class="btn block" type="submit">${esc(t(mode === "login" ? "login" : "signup"))}</button>
+    </form>
+    ${mode === "login" ? `<p style="margin:14px 0 0;text-align:center"><button class="link" style="background:none;border:0;cursor:pointer" data-act="forgot">${esc(t("forgot"))}</button></p>` : ""}
+    </div></div>`;
+};
+
+V.reset = async () => `<div class="auth"><div class="panel"><h1 style="font-size:1.35rem">${esc(t("password"))}</h1>
+  <form data-form="newpass"><div class="field"><label for="np">${esc(t("password"))}</label><input id="np" name="password" type="password" minlength="6" required class="input" dir="ltr" autocomplete="new-password"></div>
+  <button class="btn block" type="submit">${esc(t("save"))}</button></form></div></div>`;
+</script>
+<script>
+const A = {};
+const ADMIN_TABS = ["orders", "products", "categories", "stock", "users", "updates", "levels"];
+
+V.admin = async (tab) => {
+  tab = ADMIN_TABS.includes(tab) ? tab : "orders";
+  const head = `<h1>${esc(t("admin"))}</h1><p class="sub"></p><nav class="admin-tabs">${ADMIN_TABS.map(x => `<a href="#/admin/${x}" class="${x === tab ? "on" : ""}">${esc(t("a_" + x))}</a>`).join("")}</nav>`;
+  return head + await A[tab]();
+};
+function i18nInputs(obj, field) {
+  const v = (obj && obj[field + "_i18n"]) || {};
+  return `<div class="field"><label>${esc(t("a_trans"))}</label><div class="grid2">
+    <input class="input" name="${field}_en" placeholder="English" value="${esc(v.en)}" dir="ltr">
+    <input class="input" name="${field}_ar" placeholder="العربية" value="${esc(v.ar)}">
+    <input class="input" name="${field}_zh" placeholder="简体中文" value="${esc(v.zh)}"></div></div>`;
+}
+function readI18n(fd, field, prev) {
+  const o = Object.assign({}, prev || {});
+  for (const l of ["en", "ar", "zh"]) { const val = (fd.get(field + "_" + l) || "").trim(); if (val) o[l] = val; else delete o[l]; }
+  return o;
+}
+function slugify(s) {
+  const out = String(s || "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return out || "p-" + Date.now().toString(36);
+}
+
+/* ---------- Orders ---------- */
+A.orders = async () => {
+  const f = S.orderFilter || "";
+  let q = sb.from("orders").select("*").order("created_at", { ascending: false }).limit(300);
+  if (f) q = q.eq("status", f);
+  const { data } = await q;
+  const O = data || [];
+  S.adminOrders = O;
+  const ids = [...new Set(O.map(o => o.user_id))];
+  const users = {};
+  if (ids.length) { const { data: ps } = await sb.from("profiles").select("id,email,full_name").in("id", ids); (ps || []).forEach(p => users[p.id] = p); }
+  const opts = ["", "paid", "delivered", "pending", "refunded", "cancelled"].map(s => `<option value="${s}" ${s === f ? "selected" : ""}>${esc(s ? t("st_" + s) : t("a_all"))}</option>`).join("");
+  return `<div class="toolbar"><select class="input" data-change="orderFilter">${opts}</select></div>` +
+    (O.length ? `<div class="table-wrap"><table><thead><tr><th>#</th><th>${esc(t("a_customer"))}</th><th>${esc(t("products"))}</th><th>${esc(t("total"))}</th><th>${esc(t("status"))}</th><th>${esc(t("date"))}</th><th></th></tr></thead><tbody>
+    ${O.map(o => { const u = users[o.user_id] || {}; return `<tr><td>${esc(num(o.order_number))}</td><td>${esc(u.full_name || "")}<br><span class="hint" dir="ltr">${esc(u.email || "")}</span></td>
+      <td>${esc(o.product_name)}${o.variant_name ? " — " + esc(o.variant_name) : ""}${o.quantity > 1 ? " ×" + o.quantity : ""}${o.customer_note ? `<br><span class="hint">${esc(o.customer_note)}</span>` : ""}</td>
+      <td>${esc(money(o.total))}</td><td>${statusTag(o.status)}</td><td>${esc(fdate(o.created_at))}</td>
+      <td>${["paid", "pending"].includes(o.status) ? `<button class="btn sm teal" data-act="a-deliver" data-id="${o.id}">${esc(t("a_deliver"))}</button> ` : ""}
+      ${["paid", "delivered", "pending"].includes(o.status) ? `<button class="btn sm alt" data-act="a-refund" data-id="${o.id}">${esc(t("a_refund"))}</button>` : ""}
+      ${o.delivered_content ? `<button class="btn sm alt" data-act="a-view" data-id="${o.id}">👁</button>` : ""}</td></tr>`; }).join("")}
+    </tbody></table></div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`);
+};
+
+/* ---------- Products ---------- */
+A.products = async () => {
+  const [{ data: P }, { data: C }] = await Promise.all([
+    sb.from("products").select("*,product_variants(*)").order("sort"),
+    sb.from("categories").select("*").order("sort")
+  ]);
+  S.adminProducts = P || []; S.adminCats = C || [];
+  const catName = id => { const c = (C || []).find(x => x.id === id); return c ? c.name : "—"; };
+  return `<div class="toolbar"><button class="btn" data-act="a-product" data-id="">${esc(t("a_newProduct"))}</button></div>` +
+    ((P || []).length ? `<div class="table-wrap"><table><thead><tr><th>${esc(t("a_name"))}</th><th>${esc(t("a_category"))}</th><th>${esc(t("a_delivery"))}</th><th>${esc(t("a_variants"))}</th><th>${esc(t("status"))}</th><th></th></tr></thead><tbody>
+    ${P.map(p => `<tr><td><b>${esc(p.name)}</b><br><span class="hint" dir="ltr">/${esc(p.slug)}</span></td><td>${esc(catName(p.category_id))}</td>
+      <td>${esc(p.delivery_type === "auto" ? t("a_auto") : t("a_manual"))}</td><td>${esc(num((p.product_variants || []).length))}</td>
+      <td>${p.is_active ? `<span class="tag ok">${esc(t("a_active"))}</span>` : `<span class="tag">—</span>`} ${p.is_demo ? `<span class="tag warn">${esc(t("demo"))}</span>` : ""} ${p.is_featured ? `<span class="tag info">★</span>` : ""}</td>
+      <td><button class="btn sm alt" data-act="a-product" data-id="${p.id}">${esc(t("a_edit"))}</button></td></tr>`).join("")}
+    </tbody></table></div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`);
+};
+function variantRow(v) {
+  v = v || {};
+  return `<div class="vrow" data-vid="${esc(v.id || "")}">
+    <input class="input" name="vname" placeholder="${esc(t("a_name"))}" value="${esc(v.name)}" required>
+    <input class="input" name="vprice" type="number" min="0" step="1" placeholder="${esc(t("a_price"))}" value="${esc(v.price ?? "")}" required dir="ltr">
+    <input class="input" name="vdays" type="number" min="0" placeholder="${esc(t("a_duration"))}" value="${esc(v.duration_days ?? "")}" dir="ltr">
+    <label class="check" style="margin:0"><input type="checkbox" name="vactive" ${v.is_active === false ? "" : "checked"}> ${esc(t("a_active"))}</label>
+    <button type="button" class="btn sm alt" data-act="a-vdel" aria-label="${esc(t("a_delete"))}">✕</button></div>`;
+}
+function productModal(p) {
+  p = p || {};
+  S.editProduct = p;
+  const cats = S.adminCats || [];
+  openModal(p.id ? t("a_editProduct") : t("a_newProduct"), `<form data-form="a-product" id="pform">
+    <div class="field"><label>${esc(t("a_name"))}</label><input class="input" name="name" value="${esc(p.name)}" required></div>
+    ${i18nInputs(p, "name")}
+    <div class="grid2">
+      <div class="field"><label>${esc(t("a_slug"))}</label><input class="input" name="slug" value="${esc(p.slug)}" dir="ltr" placeholder="chatgpt-plus"></div>
+      <div class="field"><label>${esc(t("a_category"))}</label><select class="input" name="category_id"><option value="">${esc(t("a_none"))}</option>${cats.map(c => `<option value="${c.id}" ${c.id === p.category_id ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></div>
+    </div>
+    <div class="field"><label>${esc(t("a_desc"))}</label><textarea class="input" name="description">${esc(p.description)}</textarea></div>
+    <div class="grid2">
+      <div class="field"><label>${esc(t("a_image"))}</label><input class="input" name="image_url" value="${esc(p.image_url)}" dir="ltr" placeholder="https://…"></div>
+      <div class="field"><label>${esc(t("a_delivery"))}</label><select class="input" name="delivery_type"><option value="auto" ${p.delivery_type === "auto" ? "selected" : ""}>${esc(t("a_auto"))}</option><option value="manual" ${p.delivery_type !== "auto" ? "selected" : ""}>${esc(t("a_manual"))}</option></select></div>
+    </div>
+    <div class="field" style="display:flex;gap:18px;flex-wrap:wrap">
+      <label class="check"><input type="checkbox" name="is_active" ${p.is_active === false ? "" : "checked"}> ${esc(t("a_active"))}</label>
+      <label class="check"><input type="checkbox" name="is_featured" ${p.is_featured ? "checked" : ""}> ${esc(t("a_featured"))}</label>
+      <label class="check"><input type="checkbox" name="is_demo" ${p.is_demo ? "checked" : ""}> ${esc(t("a_isDemo"))}</label>
+    </div>
+    <div class="field"><label>${esc(t("a_sort"))}</label><input class="input" name="sort" type="number" value="${esc(p.sort ?? 0)}" dir="ltr" style="max-width:120px"></div>
+    <h2 style="margin-top:8px">${esc(t("a_variants"))}</h2>
+    <div id="vrows">${(p.product_variants || []).sort((a, b) => a.sort - b.sort).map(variantRow).join("") || variantRow()}</div>
+    <button type="button" class="btn sm alt" data-act="a-vadd">+ ${esc(t("a_addVariant"))}</button>
+  </form>`,
+  (p.id ? `<button class="btn danger" data-act="a-pdel" data-id="${p.id}" style="margin-inline-end:auto">${esc(t("a_delete"))}</button>` : "") +
+  `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" type="submit" form="pform">${esc(t("save"))}</button>`);
+}
+async function saveProduct(form) {
+  const fd = new FormData(form), p = S.editProduct || {};
+  const payload = {
+    name: fd.get("name").trim(), name_i18n: readI18n(fd, "name", p.name_i18n),
+    slug: (fd.get("slug") || "").trim() ? slugify(fd.get("slug")) : (p.slug || slugify(fd.get("name"))),
+    category_id: fd.get("category_id") || null, description: fd.get("description") || null, image_url: (fd.get("image_url") || "").trim() || null,
+    delivery_type: fd.get("delivery_type"), is_active: fd.has("is_active"), is_featured: fd.has("is_featured"), is_demo: fd.has("is_demo"),
+    sort: parseInt(fd.get("sort") || "0", 10) || 0
+  };
+  let pid = p.id;
+  if (pid) { const { error } = await sb.from("products").update(payload).eq("id", pid); if (error) throw error; }
+  else { const { data, error } = await sb.from("products").insert(payload).select("id").single(); if (error) throw error; pid = data.id; }
+  const rows = [...form.querySelectorAll(".vrow")].map((r, i) => ({
+    id: r.dataset.vid || null, product_id: pid, name: r.querySelector('[name="vname"]').value.trim(),
+    price: parseInt(r.querySelector('[name="vprice"]').value || "0", 10), duration_days: r.querySelector('[name="vdays"]').value ? parseInt(r.querySelector('[name="vdays"]').value, 10) : null,
+    is_active: r.querySelector('[name="vactive"]').checked, sort: i
+  })).filter(r => r.name);
+  const keep = rows.filter(r => r.id).map(r => r.id);
+  const removed = (p.product_variants || []).map(v => v.id).filter(id => !keep.includes(id));
+  if (removed.length) { const { error } = await sb.from("product_variants").delete().in("id", removed); if (error) throw error; }
+  for (const r of rows.filter(r => r.id)) { const { id, ...rest } = r; const { error } = await sb.from("product_variants").update(rest).eq("id", id); if (error) throw error; }
+  const fresh = rows.filter(r => !r.id).map(({ id, ...rest }) => rest);
+  if (fresh.length) { const { error } = await sb.from("product_variants").insert(fresh); if (error) throw error; }
+}
+
+/* ---------- Categories ---------- */
+A.categories = async () => {
+  const { data } = await sb.from("categories").select("*").order("sort");
+  S.adminCats = data || [];
+  return `<div class="toolbar"><button class="btn" data-act="a-cat" data-id="">${esc(t("a_newCategory"))}</button></div>` +
+    ((data || []).length ? `<div class="list">${data.map(c => `<div class="li"><div class="grow"><div class="t">${esc(c.name)}</div><div class="m" dir="ltr">${esc(c.slug)}</div></div>
+    ${c.is_active ? "" : `<span class="tag">—</span>`}<button class="btn sm alt" data-act="a-cat" data-id="${c.id}">${esc(t("a_edit"))}</button></div>`).join("")}</div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`);
+};
+function catModal(c) {
+  c = c || {}; S.editCat = c;
+  openModal(c.id ? t("a_edit") : t("a_newCategory"), `<form data-form="a-cat" id="cform">
+    <div class="field"><label>${esc(t("a_name"))}</label><input class="input" name="name" value="${esc(c.name)}" required></div>
+    ${i18nInputs(c, "name")}
+    <div class="grid2"><div class="field"><label>${esc(t("a_slug"))}</label><input class="input" name="slug" value="${esc(c.slug)}" dir="ltr"></div>
+    <div class="field"><label>${esc(t("a_sort"))}</label><input class="input" name="sort" type="number" value="${esc(c.sort ?? 0)}" dir="ltr"></div></div>
+    <label class="check"><input type="checkbox" name="is_active" ${c.is_active === false ? "" : "checked"}> ${esc(t("a_active"))}</label></form>`,
+    (c.id ? `<button class="btn danger" data-act="a-cdel" data-id="${c.id}" style="margin-inline-end:auto">${esc(t("a_delete"))}</button>` : "") +
+    `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" type="submit" form="cform">${esc(t("save"))}</button>`);
+}
+
+/* ---------- Stock ---------- */
+A.stock = async () => {
+  const [{ data: P }, { data: items }] = await Promise.all([
+    sb.from("products").select("id,name,delivery_type,product_variants(id,name)").order("sort"),
+    sb.from("stock_items").select("variant_id,is_sold").limit(10000)
+  ]);
+  const counts = {};
+  (items || []).forEach(i => { counts[i.variant_id] = counts[i.variant_id] || { a: 0, s: 0 }; counts[i.variant_id][i.is_sold ? "s" : "a"]++; });
+  const variants = [];
+  (P || []).forEach(p => (p.product_variants || []).forEach(v => variants.push({ id: v.id, label: p.name + " — " + v.name, auto: p.delivery_type === "auto" })));
+  return `<div class="panel" style="margin-bottom:20px"><h2>${esc(t("a_addStock"))}</h2><form data-form="a-stock">
+      <div class="field"><select class="input" name="variant_id" required><option value="">${esc(t("a_selectVariant"))}</option>${variants.map(v => `<option value="${v.id}">${esc(v.label)}${v.auto ? "" : " (" + esc(t("a_manual")) + ")"}</option>`).join("")}</select></div>
+      <div class="field"><textarea class="input" name="codes" dir="ltr" placeholder="KEY-AAAA-1111&#10;KEY-BBBB-2222" required></textarea><p class="hint">${esc(t("a_stockHelp"))}</p></div>
+      <button class="btn" type="submit">${esc(t("a_addStock"))}</button></form></div>` +
+    (variants.length ? `<div class="table-wrap"><table><thead><tr><th>${esc(t("a_variant"))}</th><th>${esc(t("a_available"))}</th><th>${esc(t("a_sold"))}</th></tr></thead><tbody>
+    ${variants.map(v => `<tr><td>${esc(v.label)}</td><td><b>${esc(num(counts[v.id]?.a || 0))}</b></td><td>${esc(num(counts[v.id]?.s || 0))}</td></tr>`).join("")}</tbody></table></div>` : "");
+};
+
+/* ---------- Users ---------- */
+A.users = async () => {
+  const [{ data: U }, { data: R }, { data: L }] = await Promise.all([
+    sb.from("profiles").select("*").order("created_at", { ascending: false }).limit(1000),
+    sb.from("user_roles").select("user_id").eq("role", "admin"),
+    sb.from("levels").select("id,name")
+  ]);
+  S.adminUsers = U || [];
+  const admins = new Set((R || []).map(r => r.user_id));
+  const lv = {}; (L || []).forEach(l => lv[l.id] = l.name);
+  const q = (S.userQuery || "").toLowerCase();
+  const list = (U || []).filter(u => !q || (u.email || "").toLowerCase().includes(q) || (u.full_name || "").toLowerCase().includes(q) || (u.phone || "").includes(q));
+  return `<div class="toolbar"><input class="input" placeholder="${esc(t("a_search"))}" value="${esc(S.userQuery || "")}" data-input="userQuery" style="flex:1"></div>
+    <div class="table-wrap"><table><thead><tr><th>${esc(t("fullName"))}</th><th>${esc(t("email"))}</th><th>${esc(t("phone"))}</th><th>${esc(t("balance"))}</th><th>${esc(t("level"))}</th><th></th></tr></thead><tbody>
+    ${list.map(u => `<tr><td>${esc(u.full_name || "—")} ${admins.has(u.id) ? `<span class="tag info">${esc(t("admin"))}</span>` : ""}</td><td dir="ltr">${esc(u.email || "")}</td><td dir="ltr">${esc(u.phone || "")}</td>
+      <td>${esc(money(u.wallet_balance))}</td><td>${esc(lv[u.level_id] || "—")}</td>
+      <td><button class="btn sm teal" data-act="a-adjust" data-id="${u.id}">${esc(t("a_adjust"))}</button>
+      <button class="btn sm alt" data-act="a-role" data-id="${u.id}" data-on="${admins.has(u.id) ? 1 : 0}">${esc(admins.has(u.id) ? t("a_removeAdmin") : t("a_makeAdmin"))}</button></td></tr>`).join("")}
+    </tbody></table></div>`;
+};
+
+/* ---------- Updates ---------- */
+A.updates = async () => {
+  const { data } = await sb.from("updates").select("*").order("published_at", { ascending: false });
+  S.adminUpdates = data || [];
+  return `<div class="toolbar"><button class="btn" data-act="a-upd" data-id="">${esc(t("a_newUpdate"))}</button></div>` +
+    ((data || []).length ? `<div class="list">${data.map(u => `<div class="li"><div class="grow"><div class="t">${esc(u.title)}</div><div class="m">${esc(fday(u.published_at))}</div></div>
+    ${u.is_published ? "" : `<span class="tag">—</span>`}<button class="btn sm alt" data-act="a-upd" data-id="${u.id}">${esc(t("a_edit"))}</button></div>`).join("")}</div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`);
+};
+function updModal(u) {
+  u = u || {}; S.editUpd = u;
+  openModal(u.id ? t("a_edit") : t("a_newUpdate"), `<form data-form="a-upd" id="uform">
+    <div class="field"><label>${esc(t("a_title"))}</label><input class="input" name="title" value="${esc(u.title)}" required></div>
+    ${i18nInputs(u, "title")}
+    <div class="field"><label>${esc(t("a_body"))}</label><textarea class="input" name="body">${esc(u.body)}</textarea></div>
+    <label class="check"><input type="checkbox" name="is_published" ${u.is_published === false ? "" : "checked"}> ${esc(t("a_published"))}</label></form>`,
+    (u.id ? `<button class="btn danger" data-act="a-udel" data-id="${u.id}" style="margin-inline-end:auto">${esc(t("a_delete"))}</button>` : "") +
+    `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" type="submit" form="uform">${esc(t("save"))}</button>`);
+}
+
+/* ---------- Levels ---------- */
+A.levels = async () => {
+  const { data } = await sb.from("levels").select("*").order("min_total_spent");
+  S.adminLevels = data || [];
+  return `<div class="toolbar"><button class="btn" data-act="a-lvl" data-id="">${esc(t("a_newLevel"))}</button></div>
+    <div class="list">${(data || []).map(l => `<div class="li"><div class="grow"><div class="t">★ ${esc(l.name)}</div><div class="m">${esc(t("a_minSpent"))}: ${esc(money(l.min_total_spent))}${sep()}${esc(t("a_discount"))}: ${esc(num(l.discount_percent))}</div></div>
+    <button class="btn sm alt" data-act="a-lvl" data-id="${l.id}">${esc(t("a_edit"))}</button></div>`).join("")}</div>`;
+};
+function lvlModal(l) {
+  l = l || {}; S.editLvl = l;
+  openModal(l.id ? t("a_edit") : t("a_newLevel"), `<form data-form="a-lvl" id="lform">
+    <div class="field"><label>${esc(t("a_name"))}</label><input class="input" name="name" value="${esc(l.name)}" required></div>
+    ${i18nInputs(l, "name")}
+    <div class="grid2"><div class="field"><label>${esc(t("a_minSpent"))}</label><input class="input" name="min_total_spent" type="number" min="0" value="${esc(l.min_total_spent ?? 0)}" dir="ltr" required></div>
+    <div class="field"><label>${esc(t("a_discount"))}</label><input class="input" name="discount_percent" type="number" min="0" max="100" step="0.5" value="${esc(l.discount_percent ?? 0)}" dir="ltr" required></div></div></form>`,
+    (l.id ? `<button class="btn danger" data-act="a-ldel" data-id="${l.id}" style="margin-inline-end:auto">${esc(t("a_delete"))}</button>` : "") +
+    `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" type="submit" form="lform">${esc(t("save"))}</button>`);
+}
+</script>
+<script>
+const ROUTES = [
+  [/^#?\/?$/, V.home],
+  [/^#\/products\/?$/, V.products],
+  [/^#\/products\/([^/?]+)$/, V.product],
+  [/^#\/orders\/?$/, V.orders, "auth"],
+  [/^#\/wallet\/?$/, V.wallet, "auth"],
+  [/^#\/account\/?$/, V.account, "auth"],
+  [/^#\/updates\/?$/, V.updates],
+  [/^#\/login\/?$/, V.login],
+  [/^#\/reset\/?$/, V.reset],
+  [/^#\/admin(?:\/(\w+))?\/?$/, V.admin, "admin"]
+];
+let renderSeq = 0;
+async function render() {
+  const seq = ++renderSeq;
+  const hash = location.hash || "#/";
+  renderChrome();
+  const app = document.getElementById("app");
+  let match = null, fn = null, guard = null;
+  for (const [re, f, g] of ROUTES) { const m = hash.match(re); if (m) { match = m; fn = f; guard = g; break; } }
+  if (!fn) { app.innerHTML = `<div class="empty"><p>${esc(t("notFound"))}</p><a class="btn" href="#/">${esc(t("home"))}</a></div>`; return; }
+  if (guard && !S.session) { S.next = hash; location.hash = "#/login"; return; }
+  if (guard === "admin" && !S.isAdmin) { location.hash = "#/"; return; }
+  app.innerHTML = `<div class="spin" aria-busy="true"></div>`;
+  try {
+    const html = await fn(match[1]);
+    if (seq !== renderSeq) return;
+    app.innerHTML = html;
+    if (fn === V.product) calcSummary();
+    window.scrollTo(0, 0);
+  } catch (e) {
+    console.error(e);
+    if (seq === renderSeq) app.innerHTML = `<div class="empty"><p>${esc(errMsg(e))}</p><button class="btn" data-act="reload">↻</button></div>`;
+  }
+}
+async function refresh() { await loadMe(); await render(); }
+
+/* ---------- click actions ---------- */
+const ACT = {
+  "close-modal": () => closeModal(),
+  reload: () => render(),
+  copy: el => copyText(el.dataset.text),
+  topup: () => openModal(t("topUp"), `<p>${esc(t("topUpSoon"))}</p>`, `<button class="btn" data-act="close-modal">${esc(t("close"))}</button>`),
+  authmode: el => { S.authMode = el.dataset.mode; render(); },
+  logout: async () => { await sb.auth.signOut(); location.hash = "#/"; },
+  forgot: async () => {
+    const email = document.getElementById("em")?.value.trim();
+    if (!email) { document.getElementById("em")?.focus(); toast(t("email"), true); return; }
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname + "#/reset" });
+    error ? toast(errMsg(error), true) : toast(t("resetSent"));
+  },
+  order: el => { const o = (S.ordersCache || []).find(x => x.id === el.dataset.id); if (o) orderModal(o); },
+  buy: () => {
+    if (!S.session) { S.next = location.hash; location.hash = "#/login"; return; }
+    const s = calcSummary(); if (!s) return;
+    openModal(t("confirmBuy"), `<p><b>${esc(loc(S.current.product, "name"))}</b> — ${esc(loc(s.v, "name"))} ×${esc(num(s.qty))}</p><p>${esc(t("confirmBuyText", { p: money(s.total) }))}</p>`,
+      `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" data-act="buy-go">${esc(t("buy"))}</button>`);
+  },
+  "buy-go": async el => {
+    const s = calcSummary(); if (!s) return;
+    el.disabled = true;
+    const { data, error } = await sb.rpc("purchase_with_wallet", { _variant_id: s.v.id, _quantity: s.qty, _note: document.getElementById("note")?.value.trim() || null });
+    if (error) { el.disabled = false; closeModal(); toast(errMsg(error), true); return; }
+    await loadMe(); renderChrome();
+    openModal(t("bought"), `<p>${esc(t("order"))} #${esc(num(data.order_number))}${sep()}${esc(money(data.total))}</p>` +
+      (data.delivered_content ? `<h2>${esc(t("yourItem"))}</h2><pre class="code">${esc(data.delivered_content)}</pre>` : `<p>${esc(t("manualDelivery"))}</p>`),
+      (data.delivered_content ? `<button class="btn alt" data-act="copy" data-text="${esc(data.delivered_content)}">${esc(t("copy"))}</button>` : "") +
+      `<a class="btn" href="#/orders" data-act="close-modal">${esc(t("viewOrders"))}</a>`);
+    render();
+  },
+  /* admin */
+  "a-view": el => { const o = S.adminOrders.find(x => x.id === el.dataset.id); openModal(`#${num(o.order_number)}`, `<pre class="code">${esc(o.delivered_content)}</pre>${o.admin_note ? `<p class="hint">${esc(o.admin_note)}</p>` : ""}`, `<button class="btn" data-act="close-modal">${esc(t("close"))}</button>`); },
+  "a-deliver": el => {
+    const o = S.adminOrders.find(x => x.id === el.dataset.id);
+    openModal(`${t("a_deliverTitle")} #${num(o.order_number)}`, `<p>${esc(o.product_name)}${o.variant_name ? " — " + esc(o.variant_name) : ""} ×${esc(num(o.quantity))}</p>
+      <form data-form="a-deliver" id="dform" data-id="${o.id}"><div class="field"><label>${esc(t("a_content"))}</label><textarea class="input" name="content" dir="ltr" required></textarea></div>
+      <div class="field"><label>${esc(t("a_adminNote"))}</label><input class="input" name="note"></div></form>`,
+      `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" type="submit" form="dform">${esc(t("a_deliver"))}</button>`);
+  },
+  "a-refund": async el => {
+    if (!confirm(t("a_refundConfirm"))) return;
+    const { error } = await sb.rpc("admin_refund_order", { _order_id: el.dataset.id, _reason: null });
+    error ? toast(errMsg(error), true) : (toast(t("a_done")), render());
+  },
+  "a-product": el => productModal(el.dataset.id ? S.adminProducts.find(p => p.id === el.dataset.id) : null),
+  "a-vadd": () => document.getElementById("vrows").insertAdjacentHTML("beforeend", variantRow()),
+  "a-vdel": el => el.closest(".vrow").remove(),
+  "a-pdel": async el => { if (!confirm(t("a_deleteConfirm"))) return; const { error } = await sb.from("products").delete().eq("id", el.dataset.id); if (error) return toast(errMsg(error), true); closeModal(); toast(t("a_done")); render(); },
+  "a-cat": el => catModal(el.dataset.id ? S.adminCats.find(c => c.id === el.dataset.id) : null),
+  "a-cdel": async el => { if (!confirm(t("a_deleteConfirm"))) return; const { error } = await sb.from("categories").delete().eq("id", el.dataset.id); if (error) return toast(errMsg(error), true); closeModal(); toast(t("a_done")); render(); },
+  "a-adjust": el => {
+    const u = S.adminUsers.find(x => x.id === el.dataset.id);
+    openModal(t("a_adjust"), `<p>${esc(u.full_name || "")} <span class="hint" dir="ltr">${esc(u.email || "")}</span><br>${esc(t("balance"))}: <b>${esc(money(u.wallet_balance))}</b></p>
+      <form data-form="a-adjust" id="aform" data-id="${u.id}"><div class="field"><label>${esc(t("a_amount"))}</label><input class="input" name="amount" type="number" step="1" required dir="ltr"></div>
+      <div class="field"><label>${esc(t("a_reason"))}</label><input class="input" name="desc"></div></form>`,
+      `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" type="submit" form="aform">${esc(t("save"))}</button>`);
+  },
+  "a-role": async el => {
+    const uid = el.dataset.id, on = el.dataset.on === "1";
+    if (on && uid === S.session.user.id) return toast(t("a_selfAdmin"), true);
+    const { error } = on ? await sb.from("user_roles").delete().eq("user_id", uid).eq("role", "admin") : await sb.from("user_roles").insert({ user_id: uid, role: "admin" });
+    error ? toast(errMsg(error), true) : (toast(t("a_done")), render());
+  },
+  "a-upd": el => updModal(el.dataset.id ? S.adminUpdates.find(u => u.id === el.dataset.id) : null),
+  "a-udel": async el => { if (!confirm(t("a_deleteConfirm"))) return; const { error } = await sb.from("updates").delete().eq("id", el.dataset.id); if (error) return toast(errMsg(error), true); closeModal(); toast(t("a_done")); render(); },
+  "a-lvl": el => lvlModal(el.dataset.id ? S.adminLevels.find(l => String(l.id) === el.dataset.id) : null),
+  "a-ldel": async el => { if (!confirm(t("a_deleteConfirm"))) return; const { error } = await sb.from("levels").delete().eq("id", el.dataset.id); if (error) return toast(errMsg(error), true); closeModal(); toast(t("a_done")); render(); }
+};
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]");
+  if (!el || !ACT[el.dataset.act]) return;
+  if (el.tagName !== "A") e.preventDefault();
+  ACT[el.dataset.act](el, e);
+});
+document.addEventListener("keydown", e => {
+  if ((e.key === "Enter" || e.key === " ") && e.target.matches('[role="button"][data-act]')) { e.preventDefault(); e.target.click(); }
+});
+
+/* ---------- change / input ---------- */
+let qTimer;
+document.addEventListener("change", e => {
+  const k = e.target.dataset.change;
+  if (k === "lang") { S.lang = e.target.value; try { localStorage.setItem("lang", S.lang); } catch (x) {} render(); }
+  if (k === "calc") calcSummary();
+  if (k === "orderFilter") { S.orderFilter = e.target.value; render(); }
+});
+document.addEventListener("input", e => {
+  const k = e.target.dataset.input;
+  if (k === "calc") calcSummary();
+  if (k === "userQuery") {
+    S.userQuery = e.target.value;
+    clearTimeout(qTimer);
+    qTimer = setTimeout(async () => {
+      const pos = e.target.selectionStart; await render();
+      const inp = document.querySelector('[data-input="userQuery"]'); if (inp) { inp.focus(); try { inp.setSelectionRange(pos, pos); } catch (x) {} }
+    }, 350);
+  }
+});
+
+/* ---------- forms ---------- */
+const FORM = {
+  login: async fd => {
+    const { error } = await sb.auth.signInWithPassword({ email: fd.get("email").trim(), password: fd.get("password") });
+    if (error) throw error;
+  },
+  signup: async fd => {
+    const { data, error } = await sb.auth.signUp({ email: fd.get("email").trim(), password: fd.get("password"),
+      options: { data: { full_name: fd.get("full_name").trim() }, emailRedirectTo: location.origin + location.pathname } });
+    if (error) throw error;
+    if (!data.session) { S.authMode = "login"; openModal(t("signup"), `<p>${esc(t("checkEmail"))}</p>`, `<button class="btn" data-act="close-modal">${esc(t("close"))}</button>`); render(); }
+  },
+  newpass: async fd => {
+    const { error } = await sb.auth.updateUser({ password: fd.get("password") });
+    if (error) throw error;
+    toast(t("saved")); location.hash = "#/";
+  },
+  profile: async fd => {
+    const lang = fd.get("preferred_language");
+    const { error } = await sb.from("profiles").update({ full_name: fd.get("full_name").trim(), phone: fd.get("phone").trim(), preferred_language: lang }).eq("id", S.session.user.id);
+    if (error) throw error;
+    S.lang = lang; try { localStorage.setItem("lang", lang); } catch (x) {}
+    toast(t("saved")); await refresh();
+  },
+  "a-deliver": async (fd, form) => {
+    const { error } = await sb.rpc("admin_deliver_order", { _order_id: form.dataset.id, _content: fd.get("content"), _admin_note: fd.get("note") || null });
+    if (error) throw error; closeModal(); toast(t("a_done")); render();
+  },
+  "a-product": async (fd, form) => { await saveProduct(form); closeModal(); toast(t("saved")); render(); },
+  "a-cat": async fd => {
+    const c = S.editCat || {};
+    const payload = { name: fd.get("name").trim(), name_i18n: readI18n(fd, "name", c.name_i18n), slug: (fd.get("slug") || "").trim() ? slugify(fd.get("slug")) : (c.slug || slugify(fd.get("name"))), sort: parseInt(fd.get("sort") || "0", 10) || 0, is_active: fd.has("is_active") };
+    const { error } = c.id ? await sb.from("categories").update(payload).eq("id", c.id) : await sb.from("categories").insert(payload);
+    if (error) throw error; closeModal(); toast(t("saved")); render();
+  },
+  "a-stock": async fd => {
+    const codes = String(fd.get("codes")).split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    if (!codes.length) return;
+    const { error } = await sb.from("stock_items").insert(codes.map(content => ({ variant_id: fd.get("variant_id"), content })));
+    if (error) throw error; toast(t("a_added", { n: num(codes.length) })); render();
+  },
+  "a-adjust": async (fd, form) => {
+    const amount = parseInt(fd.get("amount"), 10);
+    if (!amount) return;
+    const { error } = await sb.rpc("admin_adjust_wallet", { _user_id: form.dataset.id, _amount: amount, _description: fd.get("desc") || null });
+    if (error) throw error; closeModal(); toast(t("a_done")); await refresh();
+  },
+  "a-upd": async fd => {
+    const u = S.editUpd || {};
+    const payload = { title: fd.get("title").trim(), title_i18n: readI18n(fd, "title", u.title_i18n), body: fd.get("body") || null, is_published: fd.has("is_published") };
+    const { error } = u.id ? await sb.from("updates").update(payload).eq("id", u.id) : await sb.from("updates").insert(payload);
+    if (error) throw error; closeModal(); toast(t("saved")); render();
+  },
+  "a-lvl": async fd => {
+    const l = S.editLvl || {};
+    const payload = { name: fd.get("name").trim(), name_i18n: readI18n(fd, "name", l.name_i18n), min_total_spent: parseInt(fd.get("min_total_spent"), 10) || 0, discount_percent: Number(fd.get("discount_percent")) || 0 };
+    const { error } = l.id ? await sb.from("levels").update(payload).eq("id", l.id) : await sb.from("levels").insert(payload);
+    if (error) throw error; closeModal(); toast(t("saved")); render();
+  }
+};
+document.addEventListener("submit", async e => {
+  const form = e.target, k = form.dataset.form;
+  if (!FORM[k]) return;
+  e.preventDefault();
+  const btns = document.querySelectorAll(`button[type="submit"][form="${form.id}"], form[data-form="${k}"] button[type="submit"]`);
+  btns.forEach(b => b.disabled = true);
+  try { await FORM[k](new FormData(form), form); }
+  catch (err) { console.error(err); toast(errMsg(err), true); }
+  finally { btns.forEach(b => b.disabled = false); }
+});
+
+/* ---------- boot ---------- */
+window.addEventListener("hashchange", () => { closeModal(); render(); });
+sb.auth.onAuthStateChange((event, session) => {
+  const changed = (S.session?.user?.id || null) !== (session?.user?.id || null);
+  S.session = session;
+  if (event === "PASSWORD_RECOVERY") { setTimeout(() => { location.hash = "#/reset"; }, 0); return; }
+  if (!(changed || event === "INITIAL_SESSION")) return;
+  // run Supabase calls outside the auth callback to avoid the client's internal lock
+  setTimeout(async () => {
+    await loadMe();
+    let stored = null; try { stored = localStorage.getItem("lang"); } catch (x) {}
+    if (session && S.profile?.preferred_language && !stored) S.lang = S.profile.preferred_language;
+    if (session && location.hash === "#/login") { location.hash = S.next || "#/"; S.next = null; return; }
+    render();
+  }, 0);
+});
+</script>
+</body>
+</html>
