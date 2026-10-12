@@ -307,6 +307,49 @@ tr.due td{background:#FBE7E3}
 .stars{display:flex;gap:4px;direction:ltr;justify-content:flex-end}.stars label{cursor:pointer}.stars input{position:absolute;opacity:0;width:1px;height:1px}
 .stars span{font-size:1.8rem;color:var(--line);transition:color .1s}.stars label:has(~ label input:checked) span,.stars label:has(input:checked) span{color:#E9A23B}
 .stars input:focus-visible + span{outline:2px solid var(--saffron);border-radius:4px}
+.layout{display:flex;gap:24px;align-items:flex-start}
+.wrap.layout,.top .wrap{max-width:1380px}
+.nav{flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}
+.top-end{flex-shrink:0}
+@media (max-width:1560px){.chip-balance{display:none}}
+.app-col{flex:1 1 auto;min-width:0}
+.qmenu{flex:0 0 250px;position:sticky;top:calc(80px + env(safe-area-inset-top,0px));max-height:calc(100dvh - 100px);overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:2px}
+.qmenu.compact{flex-basis:66px}
+.qm-group{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px solid var(--line)}
+.qm-group:last-child{border-bottom:0}
+.qm-title{font-size:.78rem;color:var(--muted);font-weight:700;padding:4px 10px}
+.qm-i{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;text-decoration:none;color:var(--text);font:inherit;font-size:.93rem;background:transparent;border:0;cursor:pointer;min-height:42px;width:100%;text-align:start}
+.qm-i:hover{background:var(--paper)}.qm-i.on{background:var(--firoozeh-soft);color:var(--lapis-2);font-weight:800}
+.qm-l{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qm-b{background:var(--saffron);color:#1b1b1b;border-radius:99px;min-width:22px;height:22px;padding:0 6px;font-size:.75rem;font-weight:800;display:grid;place-items:center}
+.qmenu.compact .qm-i{justify-content:center;position:relative}.qmenu.compact .qm-b{position:absolute;top:2px;inset-inline-end:2px;min-width:18px;height:18px;font-size:.68rem}
+.qm-toggle{background:var(--paper);margin-bottom:4px}
+.qm-subs{display:flex;flex-direction:column;padding-inline-start:38px;gap:1px}
+.qm-subs a{font-size:.85rem;color:var(--muted);text-decoration:none;padding:5px 8px;border-radius:8px}.qm-subs a:hover{background:var(--paper);color:var(--text)}
+.burger{display:none;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);width:42px;height:40px;cursor:pointer;color:var(--text);flex-shrink:0;place-items:center}
+.hsearch .input{width:200px;padding:7px 12px}
+@media (max-width:1400px){.hsearch{display:none}}
+@media (max-width:1000px){.qmenu{display:none}.burger{display:grid}.layout{display:block}}
+.drawer-back{position:fixed;inset:0;background:rgba(10,18,36,.55);z-index:40}
+.drawer{position:fixed;top:0;bottom:0;inset-inline-start:0;width:min(320px,86vw);background:var(--surface);z-index:41;display:flex;flex-direction:column;box-shadow:0 0 40px rgba(10,20,45,.3);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);animation:drin .2s ease}
+@keyframes drin{from{transform:translateX(30px);opacity:.4}}
+.dr-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.dr-logo{width:40px;height:40px;border-radius:10px}.dr-x{border:0;background:transparent;width:44px;height:44px;border-radius:10px;cursor:pointer;color:var(--muted)}
+.dr-search{padding:10px 14px 0}.dr-body{flex:1;overflow-y:auto;padding:6px 10px 16px}
+body.noscroll{overflow:hidden}
+.drawer[hidden],.drawer-back[hidden]{display:none!important}
+.home-search{display:flex;gap:8px;margin:20px 0 4px}.home-search .input{flex:1}
+.prow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:1100px){.prow{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.prow{display:flex;overflow-x:auto;gap:10px;padding-bottom:6px;scroll-snap-type:x mandatory}.prow>.pcard{flex:0 0 160px;scroll-snap-align:start}}
+.pcard{position:relative}
+.vbadge{position:absolute;top:8px;inset-inline-start:8px;z-index:1;display:inline-flex;align-items:center;gap:4px;background:#6B4E12;color:#FFF4D6;border-radius:999px;padding:2px 10px 2px 8px;font-size:.75rem;font-weight:800}
+.vbadge svg{width:13px;height:13px}.vbadge.inline{position:static;margin-top:16px}
+.pcard.vendor{border-color:#E3CF9A}
+.bazaar{background:#FBF5E6;border:1px solid #E3CF9A;border-radius:22px;padding:22px}
+.bazaar h2{color:#6B4E12}.bz-cat{margin-top:16px}.bz-cat h3{margin:0 0 10px;color:#6B4E12;font-size:1.05rem}
+:root[data-theme="dark"] .bazaar{background:#2A2414;border-color:#5A4A22}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bazaar{background:#2A2414;border-color:#5A4A22}:root:not([data-theme="light"]) .bazaar h2,:root:not([data-theme="light"]) .bz-cat h3{color:#E6C46A}}
 </style>
 </head>
 <body>
@@ -4100,6 +4143,239 @@ document.addEventListener("input", e => { if (e.target.id === "refc") delete e.t
     }
   };
 })();
+</script>
+<script>
+/* ================= Strings ================= */
+Object.assign(I18N.fa, { bazaar: "بازارچه", bazaarTitle: "بازارچه همکاران", bazaarSub: "محصولاتی که همکاران فروش عرضه می‌کنند. پرداخت از طریق فروشگاه انجام می‌شود و پس از خرید می‌توانید کیفیت محصول را ارزیابی کنید.",
+  partnerSale: "فروش همکار", quickAccess: "دسترسی سریع", g_shop: "خرید", g_me: "حساب من", g_contact: "ارتباط", g_admin: "مدیریت", allAdmin: "همه بخش‌های مدیریت",
+  q_payments: "پرداخت‌های منتظر تأیید", q_deliver: "سفارش‌های منتظر تحویل", q_vendor: "پیشنهادها و شکایت‌ها", q_regs: "ثبت‌نام‌های جدید", q_aff: "درخواست‌های همکاری",
+  search: "جستجو", searchPh: "جستجو در محصولات، دوره‌ها و بازارچه…", searchResults: "نتایج جستجو برای «{q}»", noResults: "چیزی پیدا نشد. عبارت کوتاه‌تر یا دیگری را امتحان کنید.",
+  otherProducts: "سایر محصولات", featuredTitle: "پیشنهاد ویژه", allOf: "همه", supportTitle: "پشتیبانی", noBazaar: "هنوز محصولی در بازارچه نیست.", notifications: "اعلان‌ها", menu: "منو" });
+Object.assign(I18N.en, { bazaar: "Marketplace", bazaarTitle: "Partner marketplace", bazaarSub: "Products offered by our sales partners. Payment goes through the store and you can rate each product after buying.",
+  partnerSale: "Partner product", quickAccess: "Quick access", g_shop: "Shop", g_me: "My account", g_contact: "Contact", g_admin: "Admin", allAdmin: "All admin sections",
+  q_payments: "Payments to review", q_deliver: "Orders to deliver", q_vendor: "Proposals & complaints", q_regs: "New registrations", q_aff: "Partner requests",
+  search: "Search", searchPh: "Search products, courses and the marketplace…", searchResults: "Results for “{q}”", noResults: "Nothing found. Try a shorter or different term.",
+  otherProducts: "Other products", featuredTitle: "Featured", allOf: "All", supportTitle: "Support", noBazaar: "No marketplace products yet.", notifications: "Notifications", menu: "Menu" });
+
+/* ================= Layout: side menu next to the page ================= */
+(function buildLayout() {
+  const main = document.querySelector("main");
+  main.innerHTML = `<div class="wrap layout"><aside id="qmenu" class="qmenu" aria-label="دسترسی سریع"></aside><div id="app" class="app-col"><div class="spin"></div></div></div>
+    <div id="drawerBack" class="drawer-back" hidden></div><aside id="drawer" class="drawer" aria-label="دسترسی سریع" hidden></aside>`;
+  document.getElementById("drawerBack").addEventListener("click", closeDrawer);
+})();
+S.qOpen = (() => { try { return localStorage.getItem("qmenu") !== "0"; } catch (e) { return true; } })();
+const QI = {
+  home: "M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z", grid: "M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z",
+  cap: "M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5", shop: "M4 9h16l-1 11H5zM8 9V7a4 4 0 018 0v2", receipt: "M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6",
+  wallet: "M3 7h18v13H3zM3 11h18M16 15h2", form: "M5 4h14v16H5zM8 9h8M8 13h8M8 17h5", hands: "M7 12l3 3 7-7M3 12a9 9 0 1018 0 9 9 0 10-18 0",
+  bell: "M6 8a6 6 0 1112 0c0 7 3 9 3 9H3s3-2 3-9M10 21h4", chat: "M4 5h16v11H8l-4 4z", support: "M4 13a8 8 0 1116 0v4h-4v-5h4M4 12h4v5H4z",
+  news: "M4 5h13v14H4zM17 9h3v8a2 2 0 01-2 2M7 9h7M7 13h7", card: "M3 6h18v12H3zM3 10h18", box: "M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10",
+  alert: "M12 3l10 18H2zM12 10v5M12 18h.01", users: "M9 11a4 4 0 100-8 4 4 0 000 8zM2 21c0-4 3-6 7-6s7 2 7 6M16 3a4 4 0 010 8M22 21c0-3-2-5-5-6",
+  gear: "M4 6h16M4 12h16M4 18h10", user: "M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c1.5-4 4.5-6 8-6s6.5 2 8 6", search: "M11 18a7 7 0 100-14 7 7 0 000 14zM20 20l-4-4"
+};
+function qicon(d) { return `<svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"></path></svg>`; }
+S.cats = null; S.adminCounts = {};
+async function loadMenuData() {
+  if (!S.cats) { const { data } = await sb.from("categories").select("id,slug,name,name_i18n").eq("is_active", true).order("sort"); S.cats = data || []; }
+  if (S.isAdmin && (!S._acAt || Date.now() - S._acAt > 60000)) { const { data } = await sb.rpc("admin_counts"); S.adminCounts = data || {}; S._acAt = Date.now(); }
+}
+function menuGroups() {
+  const path = location.hash || "#/";
+  const it = (href, key, icon, o = {}) => ({ href, label: o.label || t(key), icon, badge: o.badge || 0, act: o.act, on: href && (href === "#/" ? path === "#/" || path === "" : path.startsWith(href)), subs: o.subs });
+  const g = [
+    { title: t("g_shop"), items: [it("#/", "home", QI.home), it("#/products", "products", QI.grid, { subs: (S.cats || []).map(c => ({ href: "#/category/" + encodeURIComponent(c.slug), label: loc(c, "name") })) }),
+      it("#/courses", "courses", QI.cap), it("#/bazaar", "bazaarTitle", QI.shop)] },
+    { title: t("g_me"), items: S.session ? [it("#/orders", "orders", QI.receipt), it("#/wallet", "wallet", QI.wallet), it("#/my-courses", "myRegs", QI.form),
+      it("#/affiliate", "affiliate", QI.hands), it(null, "notifications", QI.bell, { act: "notifs", badge: S.unread }), it("#/account", "account", QI.user)]
+      : [it("#/login", "login", QI.user)] },
+    { title: t("g_contact"), items: [it("https://eitaa.com/hoshmpn", "channel", QI.chat), ...(S.settings && S.settings.support ? [it(null, "supportTitle", QI.support, { act: "support" })] : []), it("#/updates", "updates", QI.news)] }
+  ];
+  if (S.isAdmin) {
+    const c = S.adminCounts || {};
+    g.push({ title: t("g_admin"), items: [it("#/admin/payments", "q_payments", QI.card, { badge: c.payments }), it("#/admin/orders", "q_deliver", QI.box, { badge: c.orders }),
+      ...(S.isOwner ? [it("#/admin/vendors", "q_vendor", QI.alert, { badge: c.vendors }), it("#/admin/affiliates", "q_aff", QI.hands, { badge: c.affiliates })] : []),
+      it("#/admin/regs", "q_regs", QI.form, { badge: c.courses }), it("#/admin", "allAdmin", QI.gear)] });
+  }
+  return g;
+}
+function menuHtml(compact, inDrawer) {
+  return menuGroups().map(gr => `<div class="qm-group">${compact ? "" : `<div class="qm-title">${esc(gr.title)}</div>`}
+    ${gr.items.map(i => { const ext = /^https?:/.test(i.href || "");
+      const inner = `${qicon(i.icon)}${compact ? "" : `<span class="qm-l">${esc(i.label)}</span>`}${i.badge ? `<span class="qm-b">${esc(num(i.badge))}</span>` : ""}`;
+      const tag = i.act ? `<button type="button" class="qm-i" data-act="${i.act}" title="${esc(i.label)}">${inner}</button>`
+        : `<a class="qm-i ${i.on ? "on" : ""}" href="${esc(i.href)}" title="${esc(i.label)}" ${ext ? 'target="_blank" rel="noopener"' : ""} ${inDrawer ? 'data-act="drawer-nav"' : ""}>${inner}</a>`;
+      return tag + (!compact && i.subs && i.subs.length && (i.on || inDrawer) ? `<div class="qm-subs">${i.subs.map(s => `<a href="${esc(s.href)}" ${inDrawer ? 'data-act="drawer-nav"' : ""}>${esc(s.label)}</a>`).join("")}</div>` : "");
+    }).join("")}</div>`).join("");
+}
+function renderQMenu() {
+  const q = document.getElementById("qmenu"); if (!q) return;
+  q.classList.toggle("compact", !S.qOpen);
+  q.innerHTML = `<button type="button" class="qm-i qm-toggle" data-act="qmenu-toggle" aria-label="${esc(S.qOpen ? "بستن منوی دسترسی سریع" : "باز کردن منوی دسترسی سریع")}" aria-expanded="${S.qOpen}">${qicon("M4 6h16M4 12h16M4 18h16")}${S.qOpen ? `<b class="qm-l">${esc(t("quickAccess"))}</b>` : ""}</button>` + menuHtml(!S.qOpen, false);
+  const d = document.getElementById("drawer");
+  if (d && !d.hidden) d.innerHTML = drawerHtml();
+}
+function drawerHtml() {
+  return `<div class="dr-head"><img src="${document.querySelector(".brand-logo")?.src || ""}" alt="" class="dr-logo"><div style="flex:1"><b>${esc(t("brand"))}</b>
+    ${S.session ? `<div class="hint">${esc(S.profile?.full_name || "")}${S.profile ? sep() + esc(money(S.profile.wallet_balance || 0)) : ""}</div>` : ""}</div>
+    <button type="button" class="dr-x" data-act="drawer-close" aria-label="${esc(t("close"))}">${qicon("M6 6l12 12M18 6L6 18")}</button></div>
+    <form class="dr-search" data-form="search"><input class="input" name="q" type="search" placeholder="${esc(t("searchPh"))}" aria-label="${esc(t("search"))}"></form>
+    <div class="dr-body">${menuHtml(false, true)}</div>`;
+}
+function openDrawer() { const d = document.getElementById("drawer"), b = document.getElementById("drawerBack"); d.innerHTML = drawerHtml(); d.hidden = false; b.hidden = false; document.body.classList.add("noscroll"); d.querySelector(".dr-x")?.focus(); }
+function closeDrawer() { const d = document.getElementById("drawer"), b = document.getElementById("drawerBack"); if (d) d.hidden = true; if (b) b.hidden = true; document.body.classList.remove("noscroll"); }
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
+Object.assign(ACT, {
+  "qmenu-toggle": () => { S.qOpen = !S.qOpen; try { localStorage.setItem("qmenu", S.qOpen ? "1" : "0"); } catch (e) {} renderQMenu(); },
+  "drawer-open": () => openDrawer(), "drawer-close": () => closeDrawer(), "drawer-nav": () => closeDrawer(),
+  support: async () => { await loadSettings(); closeDrawer(); openModal(t("supportTitle"), `<p style="white-space:pre-wrap">${esc(S.settings.support || "")}</p>`, `<button class="btn alt" data-act="copy" data-text="${esc(S.settings.support || "")}">${esc(t("copy"))}</button><button class="btn" data-act="close-modal">${esc(t("close"))}</button>`); }
+});
+const _notifsAct = ACT.notifs; ACT.notifs = (el, e) => { closeDrawer(); return _notifsAct(el, e); };
+
+/* ================= Header: hamburger, search, marketplace link ================= */
+(function wrapChrome3() {
+  const orig = window.renderChrome;
+  window.renderChrome = function () {
+    orig();
+    const top = document.querySelector(".top .wrap");
+    if (top && !document.getElementById("burger")) {
+      top.insertAdjacentHTML("afterbegin", `<button type="button" id="burger" class="burger" data-act="drawer-open" aria-label="${esc(t("menu"))}">${qicon("M4 6h16M4 12h16M4 18h16")}</button>`);
+    }
+    const te = document.getElementById("topEnd");
+    if (te && !te.querySelector(".hsearch")) te.insertAdjacentHTML("afterbegin", `<form class="hsearch" data-form="search" role="search"><input class="input" name="q" type="search" placeholder="${esc(t("search"))}…" aria-label="${esc(t("search"))}" value="${esc(S.searchQ || "")}"></form>`);
+    const nav = document.getElementById("nav");
+    if (nav && !nav.querySelector('[href="#/bazaar"]')) {
+      const c = nav.querySelector('[href="#/courses"]');
+      const a = `<a href="#/bazaar" class="${(location.hash || "").startsWith("#/bazaar") ? "on" : ""}">${esc(t("bazaar"))}</a>`;
+      c ? c.insertAdjacentHTML("afterend", a) : nav.insertAdjacentHTML("beforeend", a);
+    }
+    renderQMenu();
+    loadMenuData().then(renderQMenu);
+  };
+})();
+FORM.search = async (fd) => { const q = String(fd.get("q") || "").trim(); if (!q) return; closeDrawer(); S.searchQ = q; location.hash = "#/search/" + encodeURIComponent(q); };
+
+/* ================= Product cards with partner badge ================= */
+function pcard(p) {
+  const mp = minPrice(p);
+  return `<a class="pcard ${p.vendor_id ? "vendor" : ""}" href="#/products/${encodeURIComponent(p.slug)}">${p.vendor_id ? `<span class="vbadge">${qicon("M8 12l3 3 5-6M3 12a9 9 0 1018 0 9 9 0 10-18 0")}${esc(t("partnerSale"))}</span>` : ""}${thumb(p)}
+    <div class="pbody"><div class="pname">${esc(loc(p, "name"))}</div>
+    ${p.is_demo ? `<div><span class="tag warn">${esc(t("demo"))}</span></div>` : ""}
+    <div class="pprice">${mp !== null ? priceHtml(mp, "products") : "—"}</div></div></a>`;
+}
+function ccard(c) {
+  return `<a class="pcard" href="#/courses/${encodeURIComponent(c.slug)}">${courseThumb(c)}<div class="pbody"><div class="pname">${esc(loc(c, "title"))}</div>
+    ${c.schedule_text ? `<div class="hint">🗓 ${esc(c.schedule_text)}</div>` : ""}<div class="pprice">${esc(t("fee"))}: ${feeHtml(c)}</div></div></a>`;
+}
+const PSEL = "id,slug,name,name_i18n,image_url,is_demo,is_featured,category_id,vendor_id,sort,product_variants(price,is_active)";
+function rowSection(title, cards, href, extraCls) {
+  if (!cards.length) return "";
+  return `<section class="section hrow ${extraCls || ""}"><div class="row-head"><h2>${esc(title)}</h2>${href ? `<a class="link" href="${href}">${esc(t("allOf"))}</a>` : ""}</div><div class="prow">${cards.join("")}</div></section>`;
+}
+function groupByCat(list, cats) {
+  const out = cats.map(c => ({ c, items: list.filter(p => p.category_id === c.id) })).filter(x => x.items.length);
+  const rest = list.filter(p => !cats.some(c => c.id === p.category_id));
+  if (rest.length) out.push({ c: null, items: rest });
+  return out;
+}
+function bazaarBlock(vendorProducts, cats, full) {
+  const groups = groupByCat(vendorProducts, cats);
+  return `<section class="section bazaar" id="bazaar"><div class="row-head"><div><h2>🏪 ${esc(t("bazaarTitle"))}</h2><p class="hint" style="margin:4px 0 0;max-width:62ch">${esc(t("bazaarSub"))}</p></div>
+    ${full ? "" : `<a class="link" href="#/bazaar">${esc(t("allOf"))}</a>`}</div>
+    ${groups.length ? groups.map(g => `<div class="bz-cat"><h3>${esc(g.c ? loc(g.c, "name") : t("otherProducts"))}</h3><div class="prow">${(full ? g.items : g.items.slice(0, 8)).map(pcard).join("")}</div></div>`).join("")
+      : `<p class="hint">${esc(t("noBazaar"))}</p>`}</section>`;
+}
+
+/* ================= New home page ================= */
+V.home = async () => {
+  const [prods, cats, crs, upd, dash] = await Promise.all([
+    sb.from("products").select(PSEL).eq("is_active", true).order("sort").order("created_at", { ascending: false }),
+    sb.from("categories").select("*").eq("is_active", true).order("sort"),
+    sb.from("courses").select("*").eq("is_active", true).order("sort").order("created_at", { ascending: false }).limit(8),
+    sb.from("updates").select("*").eq("is_published", true).order("published_at", { ascending: false }).limit(3),
+    loadDash()]);
+  const P = prods.data || [], C = cats.data || [];
+  const store = P.filter(p => !p.vendor_id), vendor = P.filter(p => p.vendor_id && !p.is_demo);
+  let top;
+  if (S.session && dash) {
+    const prog = dash.next_level_min ? Math.min(100, Math.round(dash.total_spent / dash.next_level_min * 100)) : 100;
+    const levelName = (S.lang !== "fa" && dash.level_name_i18n && dash.level_name_i18n[S.lang]) || dash.level_name || "—";
+    top = `<h1>${esc(t("welcome"))}${S.profile?.full_name ? esc((RTL[S.lang] ? "، " : ", ") + S.profile.full_name) : ""}</h1><p class="sub">${esc(t("guestSub"))}</p>
+      <section class="wallet-card"><div class="wc-top"><div><div class="wc-label">${esc(t("balance"))}</div><div class="wc-amount">${esc(num(dash.wallet_balance))}<small>${esc(t("toman"))}</small></div></div>
+      <span class="level-badge">★ ${esc(levelName)}${Number(dash.discount_percent) > 0 ? " · " + esc(pct(dash.discount_percent)) : ""}</span></div>
+      <div class="progress"><span style="width:${prog}%"></span></div>
+      <div class="wc-foot"><span>${esc(t("totalSpent"))}: ${esc(money(dash.total_spent))}</span><span>${dash.next_level_name ? esc(money(dash.next_level_min - dash.total_spent)) + " " + esc(t("toNext", { n: dash.next_level_name })) : esc(t("maxLevel"))}</span></div>
+      <div class="wc-actions"><button class="btn" data-act="topup">${esc(t("topUp"))}</button><a class="btn ghost" href="#/orders">${esc(t("orders"))}</a></div></section>`;
+  } else {
+    top = `<section class="hero-guest"><div><h1>${esc(t("guestTitle"))}</h1><p class="sub" style="max-width:52ch">${esc(t("guestSub"))}</p>
+      <div class="btnrow"><a class="btn" href="#/login">${esc(t("startNow"))}</a><a class="btn alt" href="#/products">${esc(t("browse"))}</a><a class="btn alt" href="#/bazaar">${esc(t("bazaarTitle"))}</a></div></div>
+      <img src="${window.HERO_IMG}" alt="${esc(t("brand"))}"></section>`;
+  }
+  const search = `<form class="home-search" data-form="search" role="search"><input class="input" name="q" type="search" placeholder="${esc(t("searchPh"))}" aria-label="${esc(t("search"))}"><button class="btn" type="submit">${esc(t("search"))}</button></form>`;
+  const featured = store.filter(p => p.is_featured);
+  const catRows = groupByCat(store, C).map(g => rowSection(g.c ? loc(g.c, "name") : t("otherProducts"), g.items.slice(0, 8).map(pcard), g.c ? "#/category/" + encodeURIComponent(g.c.slug) : "#/products"));
+  const updates = upd.data || [];
+  return top + search +
+    rowSection(t("featuredTitle"), featured.slice(0, 8).map(pcard), null, "featured") +
+    catRows.join("") +
+    rowSection("🎓 " + t("courses"), (crs.data || []).map(ccard), "#/courses") +
+    (updates.length ? `<section class="section"><div class="row-head"><h2>${esc(t("latest"))}</h2><a class="link" href="#/updates">${esc(t("seeAll"))}</a></div>${updates.map(updCard).join("")}</section>` : "") +
+    bazaarBlock(vendor, C, false);
+};
+
+/* ================= Products page, category page, marketplace, search ================= */
+V.products = async () => {
+  const [prods, cats] = await Promise.all([sb.from("products").select(PSEL).eq("is_active", true).order("sort"), sb.from("categories").select("*").eq("is_active", true).order("sort")]);
+  const P = prods.data || [], C = cats.data || [];
+  const store = P.filter(p => !p.vendor_id), vendor = P.filter(p => p.vendor_id && !p.is_demo);
+  if (!P.length) return `<h1>${esc(t("products"))}</h1><div class="empty"><p>${esc(t("noProducts"))}</p></div>`;
+  return `<h1>${esc(t("products"))}</h1><p class="sub"></p>` + groupByCat(store, C).map(g => `<section class="section"><div class="row-head"><h2>${esc(g.c ? loc(g.c, "name") : t("otherProducts"))}</h2>
+      ${g.c ? `<a class="link" href="#/category/${encodeURIComponent(g.c.slug)}">${esc(t("allOf"))}</a>` : ""}</div><div class="pgrid">${g.items.map(pcard).join("")}</div></section>`).join("") +
+    (vendor.length ? bazaarBlock(vendor, C, true) : "");
+};
+V.category = async (slug) => {
+  const { data: c } = await sb.from("categories").select("*").eq("slug", decodeURIComponent(slug)).maybeSingle();
+  if (!c) return `<div class="empty"><p>${esc(t("notFound"))}</p></div>`;
+  const { data } = await sb.from("products").select(PSEL).eq("is_active", true).eq("category_id", c.id).order("sort");
+  const P = data || [], store = P.filter(p => !p.vendor_id), vendor = P.filter(p => p.vendor_id && !p.is_demo);
+  return `<p><a class="link" href="#/products">${RTL[S.lang] ? "→" : "←"} ${esc(t("products"))}</a></p><h1>${esc(loc(c, "name"))}</h1><p class="sub"></p>` +
+    (store.length ? `<div class="pgrid">${store.map(pcard).join("")}</div>` : (vendor.length ? "" : `<div class="empty"><p>${esc(t("noProducts"))}</p></div>`)) +
+    (vendor.length ? `<section class="section bazaar"><h2>🏪 ${esc(t("bazaarTitle"))}</h2><div class="pgrid">${vendor.map(pcard).join("")}</div></section>` : "");
+};
+V.bazaar = async () => {
+  const [prods, cats] = await Promise.all([sb.from("products").select(PSEL).eq("is_active", true).not("vendor_id", "is", null).order("sort"), sb.from("categories").select("*").eq("is_active", true).order("sort")]);
+  return bazaarBlock((prods.data || []).filter(p => !p.is_demo), cats.data || [], true);
+};
+V.search = async (q) => {
+  q = decodeURIComponent(q || "").trim(); S.searchQ = q;
+  const safe = q.replace(/[,()%*\\]/g, " ").trim();
+  if (!safe) return `<div class="empty"><p>${esc(t("noResults"))}</p></div>`;
+  const [prods, crs] = await Promise.all([
+    sb.from("products").select(PSEL).eq("is_active", true).or(`name.ilike.%${safe}%,description.ilike.%${safe}%`).limit(60),
+    sb.from("courses").select("*").eq("is_active", true).or(`title.ilike.%${safe}%,description.ilike.%${safe}%`).limit(30)]);
+  const P = prods.data || [], C = crs.data || [];
+  const head = `<h1>${esc(t("searchResults", { q }))}</h1><form class="home-search" data-form="search" role="search"><input class="input" name="q" type="search" value="${esc(q)}" aria-label="${esc(t("search"))}"><button class="btn" type="submit">${esc(t("search"))}</button></form>`;
+  if (!P.length && !C.length) return head + `<div class="empty"><p>${esc(t("noResults"))}</p></div>`;
+  return head + (P.length ? `<section class="section"><h2>${esc(t("products"))}</h2><div class="pgrid">${P.map(pcard).join("")}</div></section>` : "") +
+    (C.length ? `<section class="section"><h2>${esc(t("courses"))}</h2><div class="pgrid">${C.map(ccard).join("")}</div></section>` : "");
+};
+(function wrapProduct() {
+  const orig = V.product;
+  V.product = async (slug) => {
+    let html = await orig(slug);
+    if (S.current && S.current.product && S.current.product.vendor_id)
+      html = html.replace('<h1 style="margin-top:20px">', `<span class="vbadge inline">${qicon("M8 12l3 3 5-6M3 12a9 9 0 1018 0 9 9 0 10-18 0")}${esc(t("partnerSale"))}</span><h1 style="margin-top:12px">`);
+    return html;
+  };
+})();
+for (const r of ROUTES) {
+  const s = r[0].source;
+  if (s === "^#?\\/?$") r[1] = V.home;
+  else if (s.startsWith("^#\\/products\\/?$")) r[1] = V.products;
+  else if (s.startsWith("^#\\/products\\/(")) r[1] = V.product;
+}
+ROUTES.push([/^#\/category\/([^/?]+)$/, V.category], [/^#\/bazaar\/?$/, V.bazaar], [/^#\/search\/(.*)$/, V.search]);
+window.addEventListener("hashchange", closeDrawer);
 </script>
 
 </body>
