@@ -1,0 +1,43 @@
+Fonts are licensed under the SIL Open Font License 1.1 (https://openfontlicense.org): Vazirmatn (Saber Rastikerdar), Aref Ruqaa, Amiri. Packaged by Fontsource.
+
+== vazirmatn ==
+Copyright 2015 The Vazirmatn Project Authors (https://github.com/rastikerdar/vazirmatn)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+
+== aref-ruqaa ==
+Copyright 2015-2021 The Aref Ruqaa Project Authors (https://github.com/alif-type/aref-ruqaa), with Reserved Font Name EURM10. ArefRuqaa-Bold.ttf: Copyright 2015-2021 The Aref Ruqaa Project Authors (https://github.com/alif-type/aref-ruqaa), with Reserved Font Name EURM10.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+
+== amiri ==
+Copyright 2010-2022 The Amiri Project Authors (https://github.com/aliftype/amiri). Amiri-Italic.ttf: Copyright 2010-2022 The Amiri Project Authors (https://github.com/aliftype/amiri). Amiri-Bold.ttf: Copyright 2010-2022 The Amiri Project Authors (https://github.com/aliftype/amiri). Amiri-BoldItalic.ttf: Copyright 2010-2022 The Amiri Project Authors (https://github.com/aliftype/amiri).
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
