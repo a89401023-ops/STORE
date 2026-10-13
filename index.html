@@ -563,6 +563,46 @@ table{width:100%;table-layout:auto}th,td{white-space:normal!important;word-break
   .table-wrap{border:0!important;background:transparent!important}
 }
 @media (prefers-reduced-motion:reduce){.pc,.pc:hover,.p-art,.lrow{transition:none;transform:none}.pc:hover .zone::after{animation:none}}
+/* ===== admin nav: tabs (default) ===== */
+.atabs{margin-bottom:18px}
+.atabs-toggle{display:none}
+.atabs-list{display:flex;flex-wrap:wrap;gap:6px}
+.atabs-list a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--text);font-size:.9rem;white-space:nowrap}
+.atabs-list a svg{width:16px;height:16px;opacity:.75}
+.atabs-list a.on{background:var(--lapis);color:var(--on-lapis);border-color:var(--lapis)}.atabs-list a .badge{margin:0}
+@media (max-width:700px){
+  .atabs-toggle{display:flex;width:100%;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--text)}
+  .atabs-toggle span{margin-inline-start:auto;color:var(--muted);font-size:.85rem}
+  .atabs-list{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+  .atabs.open .atabs-list{display:grid}
+  .atabs-list a{flex-direction:column;border-radius:12px;padding:10px 4px;font-size:.78rem;white-space:normal;text-align:center;position:relative}
+  .atabs-list a .badge{position:absolute;top:4px;inset-inline-end:4px}
+}
+/* ===== admin nav: group menu ===== */
+.mega{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin-bottom:6px;position:relative;z-index:20}
+.mega-g{position:relative}
+.mega-b{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:9px 6px;cursor:pointer;font-weight:700;color:var(--text);white-space:nowrap}
+.mega-b i{font-style:normal;color:var(--muted);font-size:.75rem}.mega-b .badge{margin:0}
+.mega-b.on{border-color:var(--lapis);background:var(--firoozeh-soft);color:var(--lapis-2)}
+.mega-p{display:none;position:absolute;top:calc(100% + 6px);inset-inline-start:0;min-width:240px;z-index:30;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.14);padding:6px;flex-direction:column}
+.mega-g.open .mega-p{display:flex}
+.mega-p a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;text-decoration:none;color:var(--text)}.mega-p a:hover{background:var(--paper)}.mega-p a.on{background:var(--firoozeh-soft);color:var(--lapis-2);font-weight:800}
+.mega-p a .badge{margin-inline-start:auto}
+.crumb{font-size:.85rem;color:var(--muted);margin-bottom:16px}.crumb b{color:var(--text)}
+@media (max-width:700px){.mega{grid-template-columns:repeat(3,minmax(0,1fr))}.mega-g{position:static}.mega-p{top:calc(100% + 6px);inset-inline:0;min-width:0}}
+/* ===== quick search & nav-mode picker ===== */
+.adm-head kbd{font-family:inherit;font-size:.7rem;border:1px solid var(--line);border-radius:5px;padding:0 5px;color:var(--muted)}
+@media (max-width:700px){.adm-head kbd,.adm-head .qs-hint{display:none}}
+.qs-list{display:flex;flex-direction:column;gap:2px;margin-top:10px;max-height:52vh;overflow-y:auto}
+.qs-item{display:flex;align-items:center;gap:10px;border:0;background:transparent;border-radius:10px;padding:9px 10px;cursor:pointer;text-align:start;color:var(--text)}
+.qs-item small{margin-inline-start:auto;color:var(--muted);font-size:.78rem}.qs-item.on,.qs-item:hover{background:var(--firoozeh-soft)}
+.navpick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}@media (max-width:560px){.navpick{grid-template-columns:minmax(0,1fr)}}
+.navpick label{border:2px solid var(--line);border-radius:14px;padding:10px;cursor:pointer;display:flex;flex-direction:column;gap:6px;position:relative}
+.navpick label:has(input:checked){border-color:var(--firoozeh);background:var(--firoozeh-soft)}.navpick input{position:absolute;opacity:0}.navpick small{color:var(--muted)}
+.np-art{height:54px;border-radius:8px;background:var(--paper);border:1px solid var(--line);display:flex;gap:4px;padding:6px;flex-wrap:wrap;align-content:flex-start}
+.np-art i{display:block;background:var(--line);border-radius:99px}
+.np-tabs i{height:8px;width:26%}.np-side{flex-direction:column;align-items:flex-end}.np-side i{width:30%;height:7px}
+.np-mega i{height:10px;width:20%;border-radius:4px}
 </style>
 </head>
 <body>
@@ -5276,7 +5316,7 @@ const ADMIN_BADGE = { payments: "payments", orders: "orders", tickets: "tickets"
 (function adminMenu() {
   const orig = window.menuGroups;
   window.menuGroups = function () {
-    if (!/^#\/admin/.test(location.hash || "") || !S.isAdmin) return orig();
+    if (!/^#\/admin/.test(location.hash || "") || !S.isAdmin || (window.adminNavMode && adminNavMode() !== "side")) return orig();
     const cur = ((location.hash || "").split("/")[2] || "dashboard"), c = S.adminCounts || {};
     const allowed = x => S.isOwner || !OWNER_TABS.includes(x);
     const groups = ADMIN_GROUPS.map(([title, ids]) => ({ title, items: ids.filter(allowed).map(id => ({ href: "#/admin/" + id, label: t("a_" + id), icon: ADMIN_ICONS[id] || QI.gear, badge: c[ADMIN_BADGE[id]] || 0, on: cur === id })) })).filter(g => g.items.length);
@@ -5432,6 +5472,108 @@ function labelTables(root) {
   });
 }
 (function patchModalTables() { const orig = window.openModal; window.openModal = function () { orig.apply(this, arguments); const m = document.getElementById("modalIn"); labelTables(m); checkArtFrames(m); }; })();
+</script>
+<script>
+/* =====================================================================
+   Admin navigation: three styles (top tabs = default, side menu, group menu)
+   + quick search (Ctrl+K) available in every style
+   ===================================================================== */
+const ADMIN_NAV_MODES = [["tabs", "تب‌های بالا", "همان حالت قبلی؛ اگر جا نشود دوخطی می‌شود"], ["side", "منوی کناری گروه‌بندی‌شده", "بخش‌ها در منوی سمت راست، به تفکیک گروه"], ["mega", "منوی گروهی بالا", "شش دکمه گروه در یک خط، با پنل کشویی"]];
+function adminNavMode() { const m = S.profile && S.profile.ui_prefs && S.profile.ui_prefs.admin_nav; return ADMIN_NAV_MODES.some(x => x[0] === m) ? m : "tabs"; }
+function allowedTabs() { return ADMIN_TABS.filter(x => S.isOwner || !OWNER_TABS.includes(x)); }
+function tabBadge(id) { const n = (S.adminCounts || {})[ADMIN_BADGE[id]]; return n ? `<span class="badge">${esc(num(n))}</span>` : ""; }
+function groupOf(id) { const g = ADMIN_GROUPS.find(([, ids]) => ids.includes(id)); return g ? g[0] : ""; }
+
+function tabsNav(tab) {
+  const tabs = allowedTabs();
+  return `<nav class="atabs ${S.tabsOpen ? "open" : ""}" aria-label="بخش‌های مدیریت">
+    <button type="button" class="atabs-toggle" data-act="atabs-toggle" aria-expanded="${!!S.tabsOpen}">${qicon(ADMIN_ICONS[tab] || QI.gear)}<b>${esc(t("a_" + tab))}</b><span>همه بخش‌ها ▾</span></button>
+    <div class="atabs-list">${tabs.map(x => `<a href="#/admin/${x}" class="${x === tab ? "on" : ""}">${qicon(ADMIN_ICONS[x] || QI.gear)}<span>${esc(t("a_" + x))}</span>${tabBadge(x)}</a>`).join("")}</div></nav>`;
+}
+function megaNav(tab) {
+  const tabs = allowedTabs(), c = S.adminCounts || {};
+  const groups = ADMIN_GROUPS.map(([title, ids]) => [title, ids.filter(i => tabs.includes(i))]).filter(g => g[1].length);
+  return `<nav class="mega" aria-label="بخش‌های مدیریت">${groups.map(([title, ids], gi) => {
+      const total = ids.reduce((a, i) => a + Number(c[ADMIN_BADGE[i]] || 0), 0), on = ids.includes(tab);
+      return `<div class="mega-g ${S.megaOpen === gi ? "open" : ""}"><button type="button" class="mega-b ${on ? "on" : ""}" data-act="mega-open" data-g="${gi}" aria-expanded="${S.megaOpen === gi}">${esc(title)}${total ? `<span class="badge">${esc(num(total))}</span>` : ""}<i aria-hidden="true">▾</i></button>
+        <div class="mega-p">${ids.map(i => `<a href="#/admin/${i}" class="${i === tab ? "on" : ""}">${qicon(ADMIN_ICONS[i] || QI.gear)}<span>${esc(t("a_" + i))}</span>${tabBadge(i)}</a>`).join("")}</div></div>`;
+    }).join("")}</nav><div class="crumb">${esc(groupOf(tab))} › <b>${esc(t("a_" + tab))}</b></div>`;
+}
+V.admin = async (tab) => {
+  const tabs = allowedTabs();
+  tab = tabs.includes(tab) ? tab : "dashboard";
+  const [body, cnt] = await Promise.all([A[tab](), sb.rpc("admin_counts")]);
+  S.adminCounts = cnt.data || S.adminCounts; S._acAt = Date.now();
+  const mode = adminNavMode();
+  const head = `<div class="row-head adm-head"><h1>${esc(t("a_" + tab))} <span class="tag info" style="vertical-align:middle">${esc(t("r_" + S.role))}</span></h1>
+    <div class="btnrow" style="align-items:center"><button type="button" class="btn alt sm" data-act="qs-open" aria-label="جستجوی سریع بخش‌ها" title="جستجوی سریع (Ctrl+K)">${qicon(QI.search)}<span class="qs-hint">جستجو</span><kbd>Ctrl K</kbd></button>
+    <button type="button" class="btn alt sm" data-act="nav-mode" aria-label="شکل منوی مدیریت" title="شکل منوی مدیریت">${qicon("M3 3h18v18H3zM3 9h18M9 21V9")}</button>
+    ${mode === "side" ? `<button type="button" class="btn alt sm adm-sections" data-act="drawer-open">${qicon("M4 6h16M4 12h16M4 18h16")}بخش‌ها</button>` : ""}</div></div>`;
+  const nav = mode === "tabs" ? tabsNav(tab) : mode === "mega" ? megaNav(tab) : "";
+  S.tabsOpen = false; S.megaOpen = null;
+  return head + nav + body;
+};
+for (const r of ROUTES) if (r[0].source.includes("admin")) r[1] = V.admin;
+ACT["atabs-toggle"] = el => { const n = el.closest(".atabs"); const open = !n.classList.contains("open"); n.classList.toggle("open", open); el.setAttribute("aria-expanded", open); };
+ACT["mega-open"] = el => {
+  const g = el.closest(".mega-g"), was = g.classList.contains("open");
+  document.querySelectorAll(".mega-g.open").forEach(x => { x.classList.remove("open"); x.querySelector(".mega-b").setAttribute("aria-expanded", "false"); });
+  if (!was) { g.classList.add("open"); el.setAttribute("aria-expanded", "true"); }
+};
+document.addEventListener("click", e => { if (!e.target.closest(".mega-g")) document.querySelectorAll(".mega-g.open").forEach(x => x.classList.remove("open")); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".mega-g.open").forEach(x => x.classList.remove("open")); });
+
+/* choose the menu style (saved per admin account) */
+ACT["nav-mode"] = () => {
+  const cur = adminNavMode();
+  openModal("شکل منوی مدیریت", `<div class="navpick">${ADMIN_NAV_MODES.map(([k, l, d], i) => `<label><input type="radio" name="navmode" value="${k}" ${k === cur ? "checked" : ""}>
+    <span class="np-art np-${k}" aria-hidden="true"><i></i><i></i><i></i><i></i></span><b>${esc(l)}${i === 0 ? " (پیش‌فرض)" : ""}</b><small>${esc(d)}</small></label>`).join("")}</div>
+    <p class="hint">این انتخاب فقط برای حساب شما ذخیره می‌شود.</p>`,
+    `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" data-act="nav-mode-save">${esc(t("save"))}</button>`);
+};
+ACT["nav-mode-save"] = async () => {
+  const v = document.querySelector('input[name="navmode"]:checked')?.value || "tabs";
+  const prefs = Object.assign({}, (S.profile && S.profile.ui_prefs) || {}, { admin_nav: v });
+  if (S.profile) S.profile.ui_prefs = prefs;
+  closeModal();
+  await sb.from("profiles").update({ ui_prefs: prefs }).eq("id", S.session.user.id);
+  toast("شکل منو ذخیره شد"); renderChrome(); render();
+};
+
+/* ----- quick search (Ctrl+K) ----- */
+const QS_ACTIONS = [["افزودن محصول جدید", "products", "a-product"], ["ساخت تخفیف مناسبتی", "discounts", "a-camp"], ["ساخت کد تخفیف", "discounts", "a-coupon"],
+  ["دوره جدید", "courses", "a-course"], ["بنر جدید", "banners", "bn-edit"], ["خبر جدید در تازه‌ها", "updates", "a-upd"], ["ورود کد به انبار", "stock", null], ["دانلود نسخه پشتیبان", "settings", null]];
+function qsItems(q) {
+  const tabs = allowedTabs(), n = s => toEn(String(s || "")).toLowerCase().replace(/ي/g, "ی").replace(/ك/g, "ک");
+  const all = tabs.map(id => ({ label: t("a_" + id), sub: groupOf(id), href: "#/admin/" + id, icon: ADMIN_ICONS[id] || QI.gear }))
+    .concat(QS_ACTIONS.filter(a => tabs.includes(a[1])).map(([l, tab, act]) => ({ label: l, sub: "اقدام سریع", href: "#/admin/" + tab, act, icon: "M12 5v14M5 12h14" })));
+  const k = n(q).trim();
+  return k ? all.filter(x => n(x.label + " " + x.sub).includes(k)) : all;
+}
+function qsList(q) {
+  const items = qsItems(q); S.qsItems = items; S.qsIdx = 0;
+  return items.length ? items.map((x, i) => `<button type="button" class="qs-item ${i === 0 ? "on" : ""}" data-act="qs-go" data-i="${i}">${qicon(x.icon)}<span>${esc(x.label)}</span><small>${esc(x.sub)}</small></button>`).join("") : `<p class="hint" style="padding:10px">چیزی پیدا نشد.</p>`;
+}
+ACT["qs-open"] = () => {
+  openModal("جستجوی سریع", `<input class="input" id="qsInput" placeholder="نام بخش یا کار… مثلاً «پرداخت» یا «کد تخفیف»" autocomplete="off" aria-label="جستجوی بخش‌ها"><div class="qs-list" id="qsList" role="listbox">${qsList("")}</div>`, "");
+  setTimeout(() => document.getElementById("qsInput")?.focus(), 30);
+};
+ACT["qs-go"] = el => { const it = S.qsItems[+el.dataset.i]; if (!it) return; closeModal(); S.pendingAct = it.act || null; if (location.hash === it.href) render(); else location.hash = it.href; };
+document.addEventListener("input", e => { if (e.target.id === "qsInput") document.getElementById("qsList").innerHTML = qsList(e.target.value); });
+document.addEventListener("keydown", e => {
+  if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "K" || e.key === "ل") && S.isAdmin) { e.preventDefault(); ACT["qs-open"](); return; }
+  if (e.target.id !== "qsInput") return;
+  const btns = [...document.querySelectorAll("#qsList .qs-item")]; if (!btns.length) return;
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); S.qsIdx = (S.qsIdx + (e.key === "ArrowDown" ? 1 : -1) + btns.length) % btns.length; btns.forEach((b, i) => b.classList.toggle("on", i === S.qsIdx)); btns[S.qsIdx].scrollIntoView({ block: "nearest" }); }
+  if (e.key === "Enter") { e.preventDefault(); btns[S.qsIdx].click(); }
+});
+(function runPendingAct() {
+  const orig = window.render;
+  window.render = async function () {
+    await orig();
+    if (S.pendingAct && ACT[S.pendingAct]) { const a = S.pendingAct; S.pendingAct = null; try { await ACT[a]({ dataset: { id: "" }, closest: () => null }); } catch (e) {} }
+  };
+})();
 </script>
 
 </body>
