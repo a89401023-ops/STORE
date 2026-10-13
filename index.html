@@ -4907,6 +4907,27 @@ document.addEventListener("change", e => {
   if (e.target.dataset && e.target.dataset.change === "rsCalc") { const b = document.getElementById("rsGo"); if (b) b.disabled = !document.querySelector('input[name="rs"]:checked'); }
 });
 </script>
+<script>
+/* ===== a deleted account still holding an old login is signed out with a clear message ===== */
+(function guardDeletedAccount() {
+  const orig = window.loadMe;
+  let checking = false;
+  window.loadMe = async function () {
+    await orig();
+    if (!S.session || S.profile || checking) return;
+    checking = true;
+    try {
+      const { error } = await sb.auth.getUser();
+      if (error) {
+        await sb.auth.signOut();
+        S.session = null; S.profile = null; S.isAdmin = false; S.isOwner = false; S.role = "user";
+        openModal("حساب شما دیگر وجود ندارد", `<p>حساب کاربری‌ای که با آن وارد شده بودید از سایت حذف شده است. لطفاً دوباره ثبت‌نام کنید یا با حساب دیگری وارد شوید.</p>`,
+          `<a class="btn" href="#/login" data-act="close-modal">ورود یا ثبت‌نام</a>`);
+      }
+    } finally { checking = false; }
+  };
+})();
+</script>
 
 </body>
 </html>
