@@ -78,7 +78,7 @@ h2{font-size:1.2rem;margin:0 0 14px;font-weight:700}
 .btn.alt{background:var(--surface);color:var(--text);border:1px solid var(--line)}
 .btn.alt:hover{border-color:var(--muted)}
 .btn.teal{background:var(--firoozeh)}
-.btn.danger{background:var(--danger)}
+.btn.danger{background:var(--danger);color:#fff}
 .btn.sm{padding:6px 12px;font-size:.88rem;border-radius:var(--r-sm)}
 .btn.block{width:100%}
 .btn[disabled]{opacity:.55;cursor:not-allowed}
@@ -349,6 +349,91 @@ body.noscroll{overflow:hidden}
 .bazaar h2{color:#6B4E12}.bz-cat{margin-top:16px}.bz-cat h3{margin:0 0 10px;color:#6B4E12;font-size:1.05rem}
 :root[data-theme="dark"] .bazaar{background:#2A2414;border-color:#5A4A22}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bazaar{background:#2A2414;border-color:#5A4A22}:root:not([data-theme="light"]) .bazaar h2,:root:not([data-theme="light"]) .bz-cat h3{color:#E6C46A}}
+/* ===== themes ===== */
+:root{--on-lapis:#fff;--font-head:var(--font)}
+h1,h2,h3,.brand-name,.wc-amount,.pname,.sl-body h2,.bb-text b{font-family:var(--font-head)}
+.btn{color:var(--on-lapis)}.btn.alt{color:var(--text)}
+:root[data-store-theme="night"]{--paper:#0D0E12;--surface:#16181F;--text:#F1EDE3;--muted:#ABA597;--line:#2A2D37;--lapis:#D4AF5A;--lapis-2:#E8CF8E;--firoozeh:#E8CF8E;--firoozeh-soft:#221F17;--saffron:#D4AF5A;--on-lapis:#15130D;color-scheme:dark}
+:root[data-store-theme="night"] .wallet-card{background:#121319;border:1px solid rgba(212,175,90,.45);box-shadow:inset 0 0 0 6px #121319,inset 0 0 0 7px rgba(212,175,90,.25)}
+:root[data-store-theme="night"] .wallet-card::before{opacity:.35}
+:root[data-store-theme="night"] .wc-amount{color:#E8CF8E}
+:root[data-store-theme="night"] .wc-actions .btn{background:#D4AF5A;color:#15130D}
+:root[data-store-theme="night"] .wc-actions .btn.ghost{background:transparent;color:#E8CF8E;border-color:rgba(212,175,90,.55)}
+:root[data-store-theme="night"] .bazaar,:root[data-theme="dark"] .bazaar{background:#15140F;border-color:#3A3220}
+:root[data-store-theme="night"] .bazaar h2,:root[data-store-theme="night"] .bz-cat h3,:root[data-theme="dark"] .bz-cat h3{color:#E8CF8E}
+:root[data-store-theme="night"] .notice,:root[data-theme="dark"] .notice{background:#2A2414;color:#F3D98F;border-color:#5A4A22}
+:root[data-store-theme="night"] .tag.warn,:root[data-theme="dark"] .tag.warn{background:#3A2E12;border-color:#6A5422;color:#F3D98F}
+:root[data-store-theme="night"] .tag.ok,:root[data-theme="dark"] .tag.ok{background:#12301F;border-color:#245A3A;color:#8FE0B5}
+:root[data-store-theme="night"] .tag.bad,:root[data-theme="dark"] .tag.bad{background:#3A1712;border-color:#6A2A20;color:#F4A79A}
+:root[data-store-theme="night"] .price-new{color:#E8CF8E}:root[data-store-theme="night"] .price-off{background:#D4AF5A;color:#15130D}
+:root[data-store-theme="night"] .hero-guest{background:var(--surface)}
+/* ===== glass header ===== */
+.top{background:color-mix(in srgb,var(--paper) 72%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px)}
+/* ===== cards: lift & zoom ===== */
+.pcard{transition:transform .25s ease,box-shadow .25s ease,border-color .25s}
+.pcard:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(15,40,50,.16);border-color:var(--firoozeh)}
+.pthumb img{transition:transform .5s ease}.pcard:hover .pthumb img{transform:scale(1.06)}
+/* ===== brand band ===== */
+.brand-band{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:22px;overflow:hidden}
+.bb-img{width:150px;height:96px;object-fit:cover;border-radius:12px;flex-shrink:0}
+.bb-text{display:flex;flex-direction:column;gap:4px}.bb-text b{font-size:1.25rem;line-height:1.4}.bb-text span{color:var(--muted);font-size:.92rem}
+@media (max-width:560px){.bb-img{width:92px;height:64px}.bb-text b{font-size:1.02rem}.bb-text span{font-size:.82rem}}
+/* ===== skeleton ===== */
+.sk{background:linear-gradient(90deg,var(--line) 0%,color-mix(in srgb,var(--line) 40%,var(--surface)) 45%,var(--line) 90%);background-size:220% 100%;animation:skm 1.3s ease-in-out infinite;border-radius:12px}
+@keyframes skm{from{background-position:120% 0}to{background-position:-120% 0}}
+.sk-hero{height:150px;border-radius:20px;margin-bottom:22px}.sk-title{height:26px;width:200px;margin:8px 0 16px}.sk-row{height:54px;margin-bottom:10px}
+.sk-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:0 0 12px;overflow:hidden}.sk-img{height:110px;border-radius:0;margin-bottom:10px}.sk-line{height:12px;margin:8px 12px}
+/* ===== slider ===== */
+.slider{position:relative;border-radius:22px;overflow:hidden;margin:20px 0 6px;min-height:230px;background:var(--lapis);outline-offset:4px;touch-action:pan-y}
+.sl-track{position:relative;min-height:230px}
+.sl-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility .6s;display:flex;align-items:flex-end}
+.sl-slide.on{opacity:1;visibility:visible;position:relative}
+.sl-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sl-img+.sl-body{background:linear-gradient(0deg,rgba(0,0,0,.62),rgba(0,0,0,0) 85%)}
+.sl-art{position:absolute;inset:0;background:var(--lapis)}
+.sl-art::after{content:"";position:absolute;inset:0;opacity:.18;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='62'%3E%3Cg fill='none' stroke='%23E6C46A' stroke-width='1.2'%3E%3Cpath d='M30 6l6.2 9.8L47 14l-1.8 10.8L55 31l-9.8 6.2L47 48l-10.8-1.8L30 56l-6.2-9.8L13 48l1.8-10.8L5 31l9.8-6.2L13 14l10.8 1.8z'/%3E%3Ccircle cx='30' cy='31' r='7'/%3E%3C/g%3E%3C/svg%3E")}
+.sl-body{position:relative;z-index:1;padding:30px 34px 44px;color:#fff;width:100%;box-sizing:border-box}
+:root[data-store-theme="night"] .sl-body{color:#F1EDE3}:root[data-store-theme="night"] .sl-art,:root[data-store-theme="night"] .slider{background:#121319}
+.sl-body h2{font-size:1.7rem;margin:6px 0;max-width:24ch;line-height:1.4}.sl-body p{margin:0 0 14px;opacity:.9;max-width:56ch}
+.sl-tag{display:inline-block;background:var(--saffron);color:#1b1b1b;border-radius:999px;padding:2px 12px;font-size:.8rem;font-weight:800}
+.sl-cta{background:#fff;color:var(--lapis)}:root[data-store-theme="night"] .sl-cta{background:#D4AF5A;color:#15130D}
+.sl-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px)}
+.sl-nav.prev{inset-inline-end:12px}.sl-nav.next{inset-inline-start:12px}.sl-nav:hover{background:rgba(255,255,255,.32)}
+.sl-dots{position:absolute;bottom:14px;inset-inline:0;display:flex;justify-content:center;gap:8px;z-index:2}
+.sl-dots button{width:10px;height:10px;border-radius:99px;border:0;background:rgba(255,255,255,.45);cursor:pointer;padding:0;transition:width .3s}
+.sl-dots button.on{width:26px;background:#fff}
+@media (max-width:640px){.slider,.sl-track{min-height:210px}.sl-body{padding:20px 18px 40px}.sl-body h2{font-size:1.25rem}.sl-nav{display:none}}
+/* ===== motion ===== */
+#app.enter>*{animation:fadeup .45s ease both}
+#app.enter>*:nth-child(2){animation-delay:.05s}#app.enter>*:nth-child(3){animation-delay:.1s}#app.enter>*:nth-child(4){animation-delay:.15s}
+@keyframes fadeup{from{opacity:0;transform:translateY(10px)}}
+dialog[open]{animation:dlg .22s ease}
+@keyframes dlg{from{opacity:0;transform:translateY(10px) scale(.98)}}
+/* ===== copy feedback ===== */
+.btn.copied,button.copied{background:var(--ok)!important;color:#fff!important;border-color:var(--ok)!important;transform:scale(1.04);transition:transform .15s}
+/* ===== bottom sheet on phones ===== */
+@media (max-width:640px){
+  .drawer{inset:auto 0 0 0;width:100%;max-height:86dvh;border-radius:22px 22px 0 0;animation:sheetup .28s ease}
+  .drawer::before{content:"";display:block;width:44px;height:5px;border-radius:99px;background:var(--line);margin:10px auto 2px}
+  @keyframes sheetup{from{transform:translateY(40%);opacity:.5}}
+}
+@media (max-width:520px){.top-end .lang{display:none}.top .wrap{gap:6px}.top-end{gap:6px}.top-end .btn.sm{padding:6px 10px}}
+.dr-lang{display:flex;align-items:center;gap:8px;padding:10px 14px 0}.dr-lang label{font-size:.85rem;color:var(--muted)}.dr-lang .lang{flex:1}
+/* ===== back to top ===== */
+.to-top{position:fixed;inset-inline-start:18px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:15;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,.15);cursor:pointer;display:grid;place-items:center}
+.to-top[hidden]{display:none}
+@media (max-width:1000px){.to-top{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+/* ===== tickets ===== */
+.thread{display:flex;flex-direction:column;gap:10px;max-height:46vh;overflow-y:auto;padding:4px;margin:10px 0}
+.msg{max-width:85%;border-radius:14px;padding:10px 12px;border:1px solid var(--line)}
+.msg.from-user{align-self:flex-start;background:var(--surface)}.msg.from-admin{align-self:flex-end;background:var(--firoozeh-soft)}
+.msg-h{display:flex;gap:10px;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:4px;font-weight:700}.msg-b{white-space:pre-wrap}
+/* ===== theme picker & danger zone ===== */
+.theme-pick{display:flex;gap:10px;flex-wrap:wrap}.tp{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer}
+.tp:has(input:checked){border-color:var(--firoozeh);background:var(--firoozeh-soft)}
+.tp-sw{width:34px;height:22px;border-radius:6px}.tp-teal .tp-sw{background:linear-gradient(90deg,#0F5157 60%,#C9A043 60%)}.tp-night .tp-sw{background:linear-gradient(90deg,#0D0E12 60%,#D4AF5A 60%)}
+.danger-zone{border-color:#E9B4AA}.danger-zone h2{color:var(--danger)}.rs-steps{padding-inline-start:20px;line-height:2}
+@media (prefers-reduced-motion:reduce){.pcard,.pcard:hover,.pthumb img{transition:none;transform:none}.sk{animation:none}#app.enter>*{animation:none}.sl-slide{transition:none}}
 </style>
 </head>
 <body>
@@ -2039,7 +2124,7 @@ async function render() {
   if (!fn) { app.innerHTML = `<div class="empty"><p>${esc(t("notFound"))}</p><a class="btn" href="#/">${esc(t("home"))}</a></div>`; return; }
   if (guard && !S.session) { S.next = hash; location.hash = "#/login"; return; }
   if (guard === "admin" && !S.isAdmin) { location.hash = "#/"; return; }
-  app.innerHTML = `<div class="spin" aria-busy="true"></div>`;
+  app.innerHTML = (window.loadingHtml ? window.loadingHtml(hash) : `<div class="spin" aria-busy="true"></div>`);
   try {
     const html = await fn(match[1]);
     if (seq !== renderSeq) return;
@@ -4420,6 +4505,406 @@ Object.assign(ACT, {
     } catch (e) { toast(errMsg(e), true); }
     el.disabled = false;
   }
+});
+</script>
+<script>
+/* =====================================================================
+   Look & feel: themes, fonts, light/dark, glass header, brand band,
+   skeleton loading, slider, copy feedback, bottom sheet, back-to-top
+   ===================================================================== */
+const THEMES = { teal: "فیروزه و طلا", night: "شب طلایی" };
+const HEAD_FONTS = ["Vazirmatn", "Noto Kufi Arabic", "IBM Plex Sans Arabic", "Markazi Text", "Reem Kufi", "El Messiri", "Lalezar", "Noto Naskh Arabic", "Baloo Bhaijaan 2"];
+const BODY_FONTS = ["Vazirmatn", "IBM Plex Sans Arabic", "Noto Naskh Arabic"];
+const FONT_FA = { "Vazirmatn": "وزیرمتن", "Noto Kufi Arabic": "نوتو کوفی", "IBM Plex Sans Arabic": "آی‌بی‌ام پلکس", "Markazi Text": "مرکزی", "Reem Kufi": "ریم کوفی",
+  "El Messiri": "المسیری", "Lalezar": "لاله‌زار", "Noto Naskh Arabic": "نوتو نسخ", "Baloo Bhaijaan 2": "بالو بهایجان" };
+function userMode() { try { return localStorage.getItem("asan-mode") || "auto"; } catch (e) { return "auto"; } }
+function applyLook() {
+  const st = S.settings || {}, root = document.documentElement;
+  const theme = THEMES[st.theme] ? st.theme : "teal";
+  root.dataset.storeTheme = theme;
+  const mode = userMode();
+  if (theme === "night") delete root.dataset.theme;
+  else if (mode === "auto") delete root.dataset.theme; else root.dataset.theme = mode;
+  const fb = BODY_FONTS.includes(st.font_body) ? st.font_body : "Vazirmatn", fh = HEAD_FONTS.includes(st.font_head) ? st.font_head : (theme === "night" ? "Markazi Text" : "Vazirmatn");
+  root.style.setProperty("--font", `"${fb}","Vazirmatn","PingFang SC","Noto Sans SC",system-ui,sans-serif`);
+  root.style.setProperty("--font-head", `"${fh}","Vazirmatn",system-ui,sans-serif`);
+  const b = document.getElementById("modeBtn");
+  if (b) { b.hidden = theme === "night"; b.innerHTML = modeIcon(); b.setAttribute("aria-label", mode === "dark" ? "حالت روشن" : "حالت تیره"); }
+}
+function modeIcon() {
+  const dark = document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+  return dark ? qicon("M12 4V2M12 22v-2M4 12H2M22 12h-2M5 5L3.6 3.6M20.4 20.4L19 19M5 19l-1.4 1.4M20.4 3.6L19 5M12 17a5 5 0 100-10 5 5 0 000 10z")
+              : qicon("M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z");
+}
+ACT["mode-toggle"] = () => {
+  const r = document.documentElement, dark = r.dataset.theme === "dark" || (!r.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+  try { localStorage.setItem("asan-mode", dark ? "light" : "dark"); } catch (e) {}
+  applyLook();
+};
+loadSettings().then(applyLook);
+(function wrapLoadSettings() { const orig = window.loadSettings; window.loadSettings = async function () { const r = await orig(); applyLook(); return r; }; })();
+
+/* ----- header: light/dark button ----- */
+(function wrapChrome4() {
+  const orig = window.renderChrome;
+  window.renderChrome = function () {
+    orig();
+    const te = document.getElementById("topEnd");
+    if (te && !document.getElementById("modeBtn")) te.insertAdjacentHTML("afterbegin", `<button type="button" id="modeBtn" class="bell" data-act="mode-toggle"></button>`);
+    applyLook();
+    if (!document.getElementById("toTop")) document.body.insertAdjacentHTML("beforeend", `<button type="button" id="toTop" class="to-top" aria-label="بازگشت به بالای صفحه" data-act="to-top" hidden>${qicon("M12 19V5M5 12l7-7 7 7")}</button>`);
+    const tabs = document.getElementById("tabs");
+    if (tabs && !tabs.querySelector('[data-act="drawer-open"]')) {
+      const last = tabs.lastElementChild;
+      if (last) last.outerHTML = `<a href="#/" data-act="drawer-open" class="">${qicon("M4 6h16M4 12h16M4 18h16")}<span>منو</span></a>`;
+    }
+  };
+})();
+(function wrapDrawer() {
+  const orig = window.drawerHtml;
+  window.drawerHtml = function () {
+    const langSel = `<div class="dr-lang"><label for="drLang">${esc(t("language"))}</label><select id="drLang" class="lang" data-change="lang">${[["fa", "فارسی"], ["en", "English"], ["ar", "العربية"], ["zh", "简体中文"]].map(([v, l]) => `<option value="${v}" ${v === S.lang ? "selected" : ""}>${l}</option>`).join("")}</select>
+      <button type="button" class="btn sm alt" data-act="mode-toggle">${modeIcon()}</button></div>`;
+    return orig().replace('<div class="dr-body">', langSel + '<div class="dr-body">');
+  };
+})();
+ACT["to-top"] = () => window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+window.addEventListener("scroll", () => { const b = document.getElementById("toTop"); if (b) b.hidden = window.scrollY < 600; }, { passive: true });
+(function patchDrawerOpen() { const o = ACT["drawer-open"]; ACT["drawer-open"] = (el, e) => { if (e) e.preventDefault(); o(el, e); }; })();
+
+/* ----- skeleton loading ----- */
+window.loadingHtml = function (hash) {
+  const card = `<div class="sk-card"><div class="sk sk-img"></div><div class="sk sk-line" style="width:70%"></div><div class="sk sk-line" style="width:45%"></div></div>`;
+  if (/^#\/admin/.test(hash)) return `<div aria-busy="true" aria-label="در حال بارگذاری"><div class="sk sk-title"></div>${Array.from({ length: 6 }, () => `<div class="sk sk-row"></div>`).join("")}</div>`;
+  return `<div aria-busy="true" aria-label="در حال بارگذاری"><div class="sk sk-hero"></div><div class="sk sk-title"></div><div class="prow">${card.repeat(4)}</div></div>`;
+};
+
+/* ----- brand band on every customer page (not admin) + entrance animation ----- */
+(function wrapRender() {
+  const orig = window.render;
+  window.render = async function () {
+    await orig();
+    const hash = location.hash || "#/", app = document.getElementById("app");
+    if (!app || app.querySelector("[aria-busy]")) return;
+    const isAdmin = /^#\/admin/.test(hash), guestHome = (hash === "#/" || hash === "") && !S.session;
+    if (!isAdmin && !guestHome && !app.querySelector(".brand-band")) {
+      app.insertAdjacentHTML("afterbegin", `<section class="brand-band" aria-label="${esc(t("brand"))}"><img src="${window.HERO_IMG}" alt="" class="bb-img">
+        <div class="bb-text"><b>${esc(t("guestTitle"))}</b><span>${esc(t("guestSub"))}</span></div></section>`);
+    }
+    app.classList.remove("enter"); void app.offsetWidth; app.classList.add("enter");
+    if (hash === "#/" || hash === "") mountSlider();
+  };
+})();
+
+/* ----- home slider (managed in Admin → Banners) ----- */
+S.banners = null;
+async function loadBanners() { const { data } = await sb.from("banners").select("*").eq("is_active", true).order("sort").order("created_at"); S.banners = data || []; return S.banners; }
+function defaultSlides() {
+  return [
+    { tag: t("bazaarTitle"), title: "محصولات همکاران، با پرداخت امن فروشگاه", subtitle: t("bazaarSub"), link: "#/bazaar", cta: "دیدن بازارچه" },
+    { tag: t("courses"), title: "دوره‌های آموزشی هوش مصنوعی و پژوهش", subtitle: "ثبت‌نام آنلاین، پرداخت آسان و دسترسی به آموزش‌ها", link: "#/courses", cta: "دیدن دوره‌ها" },
+    { tag: t("wallet"), title: "یک بار شارژ کنید، هر وقت خواستید بخرید", subtitle: t("guestSub"), link: "#/wallet", cta: "شارژ کیف پول" }];
+}
+async function mountSlider() {
+  const app = document.getElementById("app"); if (!app || app.querySelector(".slider")) return;
+  const slides = (S.banners || await loadBanners()).length ? S.banners : defaultSlides();
+  const anchor = app.querySelector(".home-search"); if (!anchor) return;
+  anchor.insertAdjacentHTML("beforebegin", `<section class="slider" aria-roledescription="carousel" aria-label="بنرهای ویژه" tabindex="0">
+    <div class="sl-track">${slides.map((s, i) => `<div class="sl-slide ${i === 0 ? "on" : ""}" role="group" aria-roledescription="slide" aria-label="${i + 1} از ${slides.length}" ${i ? 'aria-hidden="true"' : ""}>
+      ${s.image_url ? `<img src="${esc(s.image_url)}" alt="" class="sl-img" loading="${i ? "lazy" : "eager"}">` : `<div class="sl-art" aria-hidden="true"></div>`}
+      <div class="sl-body">${s.tag ? `<span class="sl-tag">${esc(s.tag)}</span>` : ""}<h2>${esc(s.title)}</h2>${s.subtitle ? `<p>${esc(s.subtitle)}</p>` : ""}
+      ${s.link ? `<a class="btn sl-cta" href="${esc(s.link)}" ${/^https?:/.test(s.link) ? 'target="_blank" rel="noopener"' : ""}>${esc(s.cta || "مشاهده")}</a>` : ""}</div></div>`).join("")}</div>
+    ${slides.length > 1 ? `<button type="button" class="sl-nav prev" data-act="sl-go" data-d="-1" aria-label="اسلاید قبلی">${qicon("M9 6l6 6-6 6")}</button>
+      <button type="button" class="sl-nav next" data-act="sl-go" data-d="1" aria-label="اسلاید بعدی">${qicon("M15 6l-6 6 6 6")}</button>
+      <div class="sl-dots">${slides.map((_, i) => `<button type="button" data-act="sl-to" data-i="${i}" aria-label="اسلاید ${i + 1}" class="${i === 0 ? "on" : ""}"></button>`).join("")}</div>` : ""}</section>`);
+  const sl = app.querySelector(".slider"); S.slIdx = 0;
+  clearInterval(S.slTimer);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (slides.length > 1 && !reduce) S.slTimer = setInterval(() => { if (!sl.matches(":hover,:focus-within") && document.body.contains(sl)) slideTo(S.slIdx + 1); }, 6000);
+  let x0 = null;
+  sl.addEventListener("pointerdown", e => { x0 = e.clientX; });
+  sl.addEventListener("pointerup", e => { if (x0 === null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 50) slideTo(S.slIdx + (dx > 0 ? 1 : -1)); });
+  sl.addEventListener("keydown", e => { if (e.key === "ArrowLeft") slideTo(S.slIdx + 1); if (e.key === "ArrowRight") slideTo(S.slIdx - 1); });
+}
+function slideTo(i) {
+  const sl = document.querySelector(".slider"); if (!sl) return;
+  const s = [...sl.querySelectorAll(".sl-slide")], d = [...sl.querySelectorAll(".sl-dots button")], n = s.length;
+  S.slIdx = ((i % n) + n) % n;
+  s.forEach((x, k) => { x.classList.toggle("on", k === S.slIdx); x.toggleAttribute("aria-hidden", k !== S.slIdx); });
+  d.forEach((x, k) => x.classList.toggle("on", k === S.slIdx));
+}
+ACT["sl-go"] = el => slideTo(S.slIdx + Number(el.dataset.d));
+ACT["sl-to"] = el => slideTo(Number(el.dataset.i));
+
+/* ----- admin: banners tab ----- */
+ADMIN_I18N.fa.a_banners = "بنرها"; ADMIN_I18N.en.a_banners = "Banners";
+ADMIN_I18N.fa.a_tickets = "تیکت‌ها"; ADMIN_I18N.en.a_tickets = "Tickets";
+ADMIN_TABS.splice(ADMIN_TABS.indexOf("updates"), 0, "banners");
+ADMIN_TABS.splice(2, 0, "tickets");
+A.banners = async () => {
+  const { data } = await sb.from("banners").select("*").order("sort").order("created_at");
+  S.adminBanners = data || [];
+  return `<div class="toolbar"><button class="btn" data-act="bn-edit" data-id="">+ بنر جدید</button><span class="hint">اگر هیچ بنری نسازید، سه بنر پیش‌فرض (بازارچه، دوره‌ها، کیف پول) نمایش داده می‌شود.</span></div>` +
+    (S.adminBanners.length ? `<div class="list">${S.adminBanners.map(b => `<div class="li"><div class="grow"><div class="t">${esc(b.title)}</div><div class="m">${esc(b.tag || "")}${b.link ? sep() + esc(b.link) : ""}${sep()}ترتیب ${esc(num(b.sort))}</div></div>
+      ${b.is_active ? `<span class="tag ok">فعال</span>` : `<span class="tag">غیرفعال</span>`}<button class="btn sm alt" data-act="bn-edit" data-id="${b.id}">${esc(t("a_edit"))}</button></div>`).join("")}</div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`);
+};
+ACT["bn-edit"] = el => {
+  const b = (S.adminBanners || []).find(x => x.id === el.dataset.id) || { is_active: true, sort: 0 };
+  S.editBanner = b;
+  openModal(b.id ? "ویرایش بنر" : "بنر جدید", `<form data-form="bn-save" id="bnform">
+    <div class="field"><label>برچسب کوچک (اختیاری)</label><input class="input" name="tag" value="${esc(b.tag || "")}" placeholder="مثلاً: جدید"></div>
+    <div class="field"><label>عنوان</label><input class="input" name="title" required maxlength="120" value="${esc(b.title || "")}"></div>
+    <div class="field"><label>توضیح</label><input class="input" name="subtitle" maxlength="220" value="${esc(b.subtitle || "")}"></div>
+    <div class="field"><label>تصویر (پهن، مثلاً ۱۶۰۰×۶۰۰)</label>${b.image_url ? `<img class="imgprev" id="imgPrev" src="${esc(b.image_url)}" alt="">` : `<img class="imgprev" id="imgPrev" alt="" hidden>`}
+      <input class="input" type="file" name="image_file" accept="image/*" data-change="imgPreview"><input class="input" name="image_url" dir="ltr" value="${esc(b.image_url || "")}" placeholder="یا آدرس تصویر https://…" style="margin-top:6px"></div>
+    <div class="grid2"><div class="field"><label>لینک (مثلاً #/bazaar)</label><input class="input" name="link" dir="ltr" value="${esc(b.link || "")}"></div>
+      <div class="field"><label>متن دکمه</label><input class="input" name="cta" value="${esc(b.cta || "")}" placeholder="مشاهده"></div></div>
+    <div class="grid2"><div class="field"><label>ترتیب</label><input class="input" name="sort" type="number" value="${esc(b.sort ?? 0)}" dir="ltr"></div>
+      <div class="field" style="display:flex;align-items:flex-end"><label class="check"><input type="checkbox" name="is_active" ${b.is_active ? "checked" : ""}> فعال</label></div></div></form>`,
+    (b.id ? `<button class="btn danger" data-act="bn-del" data-id="${b.id}" style="margin-inline-end:auto">${esc(t("a_delete"))}</button>` : "") +
+    `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" type="submit" form="bnform">${esc(t("save"))}</button>`);
+};
+ACT["bn-del"] = async el => { if (!confirm(t("a_deleteConfirm"))) return; const { error } = await sb.from("banners").delete().eq("id", el.dataset.id); if (error) return toast(errMsg(error), true); closeModal(); S.banners = null; render(); };
+FORM["bn-save"] = async fd => {
+  const b = S.editBanner || {};
+  const payload = { tag: (fd.get("tag") || "").trim() || null, title: fd.get("title").trim(), subtitle: (fd.get("subtitle") || "").trim() || null,
+    link: (fd.get("link") || "").trim() || null, cta: (fd.get("cta") || "").trim() || null, sort: parseInt(fd.get("sort") || "0", 10) || 0, is_active: fd.has("is_active"),
+    image_url: (fd.get("image_url") || "").trim() || null };
+  const img = fd.get("image_file");
+  if (img && img.size) payload.image_url = publicUrl("product-images", await uploadTo("product-images", `banners/${rid()}.${extOf(img.name)}`, img, 5));
+  const { error } = b.id ? await sb.from("banners").update(payload).eq("id", b.id) : await sb.from("banners").insert(payload);
+  if (error) throw error; closeModal(); S.banners = null; toast(t("saved")); render();
+};
+
+/* ----- copy buttons: visible reaction ----- */
+(function patchCopy() {
+  ACT.copy = async (el) => {
+    const text = el.dataset.text || "";
+    let ok = true;
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) { const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select(); try { ok = document.execCommand("copy"); } catch (x) { ok = false; } ta.remove(); }
+    if (!ok) return toast("کپی نشد؛ لطفاً دستی انتخاب کنید", true);
+    if (!el.dataset.orig) el.dataset.orig = el.innerHTML;
+    el.classList.add("copied"); el.innerHTML = "✓ کپی شد";
+    clearTimeout(el._ct); el._ct = setTimeout(() => { el.classList.remove("copied"); el.innerHTML = el.dataset.orig; delete el.dataset.orig; }, 1800);
+    toast("✓ کپی شد");
+  };
+})();
+
+/* ----- settings: theme & fonts (owner) ----- */
+(function patchSettingsLook() {
+  const orig = A.settings;
+  A.settings = async () => {
+    const base = await orig(); const st = S.settings || {};
+    const theme = THEMES[st.theme] ? st.theme : "teal";
+    const opt = (list, cur, def) => list.map(f => `<option value="${esc(f)}" ${f === (cur || def) ? "selected" : ""} style="font-family:'${esc(f)}'">${esc(FONT_FA[f] || f)}${f === "Vazirmatn" ? " (پیش‌فرض)" : ""}</option>`).join("");
+    return `<div class="panel" style="max-width:620px;margin-bottom:20px"><h2>🎨 ظاهر سایت</h2><form data-form="look-save">
+      <div class="field"><label>تم</label><div class="theme-pick">${Object.entries(THEMES).map(([k, l]) => `<label class="tp tp-${k}"><input type="radio" name="theme" value="${k}" ${k === theme ? "checked" : ""}><span class="tp-sw" aria-hidden="true"></span><b>${esc(l)}${k === "teal" ? " (پیش‌فرض)" : ""}</b></label>`).join("")}</div></div>
+      <div class="grid2"><div class="field"><label>فونت تیترها</label><select class="input" name="font_head">${opt(HEAD_FONTS, st.font_head, theme === "night" ? "Markazi Text" : "Vazirmatn")}</select></div>
+      <div class="field"><label>فونت متن</label><select class="input" name="font_body">${opt(BODY_FONTS, st.font_body, "Vazirmatn")}</select></div></div>
+      <p class="hint">مشتری‌ها در تم «فیروزه و طلا» با دکمه ☾ بالای صفحه می‌توانند حالت روشن یا تیره را برای خودشان انتخاب کنند.</p>
+      <div class="btnrow"><button type="button" class="btn alt" data-act="look-preview">پیش‌نمایش</button><button class="btn" type="submit">ذخیره برای همه</button></div></form></div>` + base;
+  };
+})();
+function readLook(form) { const fd = new FormData(form); return { theme: fd.get("theme"), font_head: fd.get("font_head"), font_body: fd.get("font_body") }; }
+ACT["look-preview"] = el => { const f = el.closest("form"); Object.assign(S.settings, readLook(f)); applyLook(); toast("پیش‌نمایش اعمال شد؛ برای همه ذخیره نشده است"); };
+FORM["look-save"] = async (fd, form) => {
+  const cur = await loadSettings(), data = Object.assign({}, cur, readLook(form));
+  const { error } = await sb.from("store_settings").update({ data, updated_at: new Date().toISOString() }).eq("id", 1);
+  if (error) throw error; S.settings = data; applyLook(); toast("ظاهر سایت ذخیره شد");
+};
+</script>
+<script>
+/* ================= Tickets: customer side ================= */
+const TK_ST = { open: ["در انتظار پاسخ", "warn"], answered: ["پاسخ داده شد", "ok"], closed: ["بسته شده", ""] };
+function tkTag(s) { const x = TK_ST[s] || [s, ""]; return `<span class="tag ${x[1]}">${esc(x[0])}</span>`; }
+V.support = async () => {
+  const { data } = await sb.from("tickets").select("*").order("last_message_at", { ascending: false });
+  S.myTickets = data || [];
+  return `<div class="row-head"><h1>💬 پشتیبانی و تیکت‌ها</h1><button class="btn teal" data-act="tk-new">+ تیکت جدید</button></div>
+    <p class="sub">سؤال یا مشکلتان را برای مدیر فروشگاه بنویسید؛ اگر درباره خرید است، سفارش مربوط را انتخاب کنید.</p>` +
+    (S.myTickets.length ? `<div class="list">${S.myTickets.map(tk => `<div class="li click" data-act="tk-open" data-id="${tk.id}" role="button" tabindex="0"><div class="grow">
+      <div class="t">#${esc(num(tk.ticket_number))} — ${esc(tk.subject)}</div><div class="m">${esc(fdate(tk.last_message_at))}</div></div>${tkTag(tk.status)}</div>`).join("")}</div>`
+      : `<div class="empty"><p>هنوز تیکتی ثبت نکرده‌اید.</p><button class="btn" data-act="tk-new">ارسال پیام به مدیر</button></div>`);
+};
+ROUTES.push([/^#\/support\/?$/, V.support, "auth"]);
+async function ticketForm(orderId) {
+  if (!S.session) { S.next = "#/support"; closeModal(); location.hash = "#/login"; return; }
+  const { data: orders } = await sb.from("orders").select("id,order_number,product_name,variant_name,created_at").order("created_at", { ascending: false }).limit(100);
+  const o = (orders || []).find(x => x.id === orderId);
+  openModal("ارسال پیام به مدیر", `<form data-form="tk-create" id="tkform">
+    <div class="field"><label>درباره کدام سفارش؟</label><select class="input" name="order_id"><option value="">سؤال عمومی (بدون سفارش)</option>
+      ${(orders || []).map(x => `<option value="${x.id}" ${x.id === orderId ? "selected" : ""}>#${esc(num(x.order_number))} — ${esc(x.product_name)}${x.variant_name ? " / " + esc(x.variant_name) : ""} — ${esc(fday(x.created_at))}</option>`).join("")}</select></div>
+    <div class="field"><label>موضوع</label><input class="input" name="subject" required maxlength="150" value="${o ? esc("مشکل در سفارش #" + num(o.order_number)) : ""}"></div>
+    <div class="field"><label>پیام شما</label><textarea class="input" name="body" required minlength="3" style="min-height:120px" placeholder="مشکل یا سؤالتان را کامل بنویسید…"></textarea></div>
+    <div class="field"><label>پیوست (تصویر یا PDF، اختیاری)</label><input class="input" type="file" name="file" accept="image/*,application/pdf"></div></form>`,
+    `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" type="submit" form="tkform">ارسال پیام</button>`);
+}
+async function ticketThread(id, admin) {
+  const [{ data: tk }, { data: msgs }] = await Promise.all([sb.from("tickets").select("*").eq("id", id).maybeSingle(), sb.from("ticket_messages").select("*").eq("ticket_id", id).order("created_at")]);
+  if (!tk) return;
+  let order = null; if (tk.order_id) { const { data } = await sb.from("orders").select("id,order_number,product_name,variant_name,total,status,created_at").eq("id", tk.order_id).maybeSingle(); order = data; }
+  let who = ""; if (admin) { const u = (await profileMap([tk.user_id]))[tk.user_id] || {}; who = `${u.full_name || ""} — <span dir="ltr">${esc(u.email || "")}</span>`; }
+  S.openTicket = tk; S.ticketOrder = order;
+  openModal(`تیکت #${num(tk.ticket_number)} — ${tk.subject}`, `<p>${tkTag(tk.status)} ${admin ? `<span class="hint">${who}</span>` : ""}</p>
+    ${order ? `<div class="notice">سفارش مربوط: <b>#${esc(num(order.order_number))}</b> — ${esc(order.product_name)}${order.variant_name ? " / " + esc(order.variant_name) : ""} — ${esc(money(order.total))} — ${statusTag(order.status)}
+      ${admin ? "" : ` <button class="btn sm alt" data-act="tk-order">مشاهده سفارش</button>`}</div>` : ""}
+    <div class="thread">${(msgs || []).map(m => `<div class="msg ${m.is_admin ? "from-admin" : "from-user"}"><div class="msg-h">${m.is_admin ? "پشتیبانی فروشگاه" : (admin ? "مشتری" : "شما")}<span>${esc(fdate(m.created_at))}</span></div>
+      <div class="msg-b">${esc(m.body)}</div>${m.attachment_path ? `<a class="btn sm alt" target="_blank" rel="noopener" data-sb="ticket-files" data-sp="${esc(m.attachment_path)}" data-sattr="href">📎 پیوست</a>` : ""}</div>`).join("")}</div>
+    ${tk.status !== "closed" || admin ? `<form data-form="tk-reply" id="tkrep" data-admin="${admin ? 1 : 0}"><div class="field"><label>${admin ? "پاسخ شما" : "پیام جدید"}</label><textarea class="input" name="body" style="min-height:90px"></textarea></div>
+      <div class="field"><input class="input" type="file" name="file" accept="image/*,application/pdf" aria-label="پیوست"></div></form>` : `<p class="hint">این تیکت بسته شده است. برای موضوع جدید، تیکت تازه ثبت کنید.</p>`}`,
+    `${tk.status !== "closed" ? `<button class="btn alt" data-act="tk-close">بستن تیکت</button>` : ""}<button class="btn alt" data-act="close-modal">${esc(t("close"))}</button>
+     ${tk.status !== "closed" || admin ? `<button class="btn teal" type="submit" form="tkrep">ارسال</button>` : ""}`);
+  hydrateSigned(document.getElementById("modalIn"));
+  const th = document.querySelector("#modalIn .thread"); if (th) th.scrollTop = th.scrollHeight;
+}
+async function ticketFile(fd) {
+  const f = fd.get("file"); if (!f || !f.size) return null;
+  return uploadTo("ticket-files", `${S.session.user.id}/${rid()}.${extOf(f.name)}`, f, 5);
+}
+Object.assign(ACT, {
+  "tk-new": () => ticketForm(null),
+  "tk-order-support": el => ticketForm(el.dataset.id),
+  "tk-open": el => ticketThread(el.dataset.id, false),
+  "tk-admin-open": el => ticketThread(el.dataset.id, true),
+  "tk-order": async () => { const o = S.ticketOrder; if (!o) return; const { data } = await sb.from("orders").select("*").eq("id", o.id).maybeSingle(); if (data) orderModal(data); },
+  "tk-close": async () => {
+    if (!confirm("این تیکت بسته شود؟")) return;
+    const { error } = await sb.rpc("reply_ticket", { _ticket_id: S.openTicket.id, _body: "", _attachment: null, _close: true });
+    if (error) return toast(errMsg(error), true); closeModal(); toast(t("a_done")); render();
+  }
+});
+Object.assign(FORM, {
+  "tk-create": async fd => {
+    const path = await ticketFile(fd);
+    const { data, error } = await sb.rpc("create_ticket", { _subject: fd.get("subject"), _body: fd.get("body"), _order_id: fd.get("order_id") || null, _attachment: path });
+    if (error) throw error; closeModal(); toast(`✅ پیام شما ثبت شد (تیکت #${num(data.ticket_number)})`);
+    if (location.hash === "#/support") render(); else location.hash = "#/support";
+  },
+  "tk-reply": async (fd, form) => {
+    const body = (fd.get("body") || "").trim(); if (!body) throw new Error("متن پیام را بنویسید.");
+    const path = await ticketFile(fd);
+    const { error } = await sb.rpc("reply_ticket", { _ticket_id: S.openTicket.id, _body: body, _attachment: path, _close: false });
+    if (error) throw error; toast("ارسال شد"); ticketThread(S.openTicket.id, form.dataset.admin === "1"); if ((location.hash || "").match(/support|tickets/)) render();
+  }
+});
+/* support button on every order / delivery sheet */
+(function wrapOrderModalSupport() {
+  const orig = window.orderModal;
+  window.orderModal = async function (o) {
+    await orig(o);
+    const acts = document.querySelector("#modal .modal-actions");
+    if (acts && !acts.querySelector('[data-act="tk-order-support"]')) acts.insertAdjacentHTML("afterbegin", `<button class="btn alt" data-act="tk-order-support" data-id="${o.id}">💬 پشتیبانی این سفارش</button>`);
+  };
+})();
+/* quick menu & drawer: tickets first under contact */
+(function patchMenu() {
+  const orig = window.menuGroups;
+  window.menuGroups = function () {
+    const g = orig(), c = g.find(x => x.title === t("g_contact"));
+    if (c) c.items.unshift({ href: "#/support", label: "تیکت و پیام به مدیر", icon: QI.chat, badge: 0, on: (location.hash || "").startsWith("#/support") });
+    const a = g.find(x => x.title === t("g_admin"));
+    if (a) a.items.splice(2, 0, { href: "#/admin/tickets", label: "تیکت‌های باز", icon: QI.chat, badge: (S.adminCounts || {}).tickets || 0, on: false });
+    return g;
+  };
+})();
+
+/* ================= Tickets: admin tab ================= */
+A.tickets = async () => {
+  const f = S.tkFilter ?? "open";
+  let q = sb.from("tickets").select("*").order("last_message_at", { ascending: false }).limit(300);
+  if (f) q = q.eq("status", f);
+  const { data } = await q; const L = data || [];
+  const u = await profileMap(L.map(x => x.user_id));
+  return `<div class="toolbar"><select class="input" data-change="tkFilter" style="width:auto">${[["open", "در انتظار پاسخ"], ["answered", "پاسخ داده شده"], ["closed", "بسته شده"], ["", "همه"]].map(([v, l]) => `<option value="${v}" ${v === f ? "selected" : ""}>${l}</option>`).join("")}</select></div>` +
+    (L.length ? `<div class="list">${L.map(tk => `<div class="li click" data-act="tk-admin-open" data-id="${tk.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(num(tk.ticket_number))} — ${esc(tk.subject)}</div>
+      <div class="m">${esc((u[tk.user_id] || {}).full_name || "")} <span dir="ltr">${esc((u[tk.user_id] || {}).email || "")}</span>${sep()}${esc(fdate(tk.last_message_at))}${tk.order_id ? sep() + "دارای سفارش" : ""}</div></div>${tkTag(tk.status)}</div>`).join("")}</div>`
+      : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`);
+};
+document.addEventListener("change", e => { if (e.target.dataset && e.target.dataset.change === "tkFilter") { S.tkFilter = e.target.value; render(); } });
+
+/* ================= Remove a sales partner (stays a normal user) ================= */
+Object.assign(ADMIN_I18N.fa, { as_removed: "حذف‌شده از همکاری" }); Object.assign(ADMIN_I18N.en, { as_removed: "Removed" });
+(function patchAffModalRemove() {
+  const orig = window.affModal;
+  window.affModal = async function (a) {
+    await orig(a);
+    const acts = document.querySelector("#modal .modal-actions");
+    if (acts && a.status !== "removed") acts.insertAdjacentHTML("afterbegin", `<button class="btn danger" data-act="aff-remove" data-id="${a.id}" style="margin-inline-end:auto">حذف از همکاران</button>`);
+  };
+})();
+ACT["aff-remove"] = async el => {
+  const a = (S.adminAffs || []).find(x => x.id === el.dataset.id) || {}, s = (S.affTotals || {})[a.id] || {}, vs = (S.vendorSum || {})[a.id] || {};
+  const bal = Number(s.earned || 0) - Number(s.paid || 0) + Number(vs.earned || 0) - Number(vs.paid || 0);
+  const msg = `«${a.full_name || ""}» از همکاران فروش حذف شود؟\n\n• حساب کاربری او حذف نمی‌شود و مشتری عادی باقی می‌ماند.\n• کد معرف او از کار می‌افتد و محصولات بازارچه‌اش غیرفعال می‌شوند.\n• سوابق فروش و پورسانت برای گزارش‌ها حفظ می‌شود.` + (bal > 0 ? `\n\n⚠️ هنوز ${money(bal)} مانده تسویه‌نشده دارد. بهتر است قبل از حذف، تسویه کنید.` : "");
+  if (!confirm(msg)) return;
+  const note = prompt("توضیح برای همکار (اختیاری):", "") ?? null;
+  const { data, error } = await sb.rpc("admin_remove_affiliate", { _aff_id: a.id, _note: note || null });
+  if (error) return toast(errMsg(error), true);
+  closeModal(); toast(`حذف شد${data && data.products_deactivated ? sep() + num(data.products_deactivated) + " محصول غیرفعال شد" : ""}`); render();
+};
+
+/* ================= Safe reset (Settings, owner) ================= */
+const RESET_SECTIONS = [
+  ["sales", "سفارش‌ها، پرداخت‌ها و کیف پول‌ها", "همه سفارش‌ها، فیش‌ها، تراکنش‌ها، پورسانت‌ها و نظرها؛ موجودی کیف پول همه صفر می‌شود"],
+  ["catalog", "محصولات و دسته‌ها", "محصولات، پلن‌ها، انبار کد و آموزش‌ها"],
+  ["courses", "دوره‌ها و ثبت‌نام‌ها", "همه دوره‌ها و ثبت‌نام‌ها و مدارک"],
+  ["partners", "همکاران فروش", "همکاران، پیشنهادها، قراردادها و حساب‌هایشان"],
+  ["users", "کاربران", "همه کاربران به جز شما و ادمین‌ها"],
+  ["marketing", "تخفیف‌ها، بنرها و تازه‌ها", "تخفیف‌های مناسبتی، کدهای تخفیف، بنرها و اخبار"],
+  ["messages", "تیکت‌ها و اعلان‌ها", "همه تیکت‌ها، پیام‌ها و اعلان‌ها"]];
+const RESET_BUCKETS = { sales: ["receipts", "deliveries"], courses: ["course-files"], partners: ["signatures"], messages: ["ticket-files"], catalog: ["tutorials"] };
+(function patchSettingsReset() {
+  const orig = A.settings;
+  A.settings = async () => {
+    const base = await orig(); if (!S.isOwner) return base;
+    const { data: c } = await sb.rpc("admin_reset_counts"); S.resetCounts = c || {}; S.resetBackupDone = false;
+    return base + `<div class="panel danger-zone" style="max-width:620px;margin-top:20px"><h2>⚠️ منطقه خطر — پاک‌سازی و ریست اطلاعات</h2>
+      <p class="hint">بخش‌هایی را که می‌خواهید پاک شوند انتخاب کنید. حساب شما، نقش مدیر کل، ادمین‌ها، سطح‌ها و تنظیمات فروشگاه همیشه حفظ می‌شوند.</p>
+      <div class="list" style="margin-bottom:12px">${RESET_SECTIONS.map(([k, l, d]) => `<label class="li" style="cursor:pointer"><input type="checkbox" name="rs" value="${k}" data-change="rsCalc">
+        <div class="grow"><div class="t">${esc(l)}</div><div class="m">${esc(d)}</div></div><span class="tag">${esc(num((S.resetCounts || {})[k] || 0))} رکورد</span></label>`).join("")}</div>
+      <ol class="rs-steps"><li><b>نسخه پشتیبان:</b> <button type="button" class="btn sm alt" data-act="rs-backup">گرفتن نسخه پشتیبان (الزامی)</button> <span id="rsBk" class="hint"></span></li>
+      <li><b>تأیید:</b> عبارت <code>حذف اطلاعات</code> را تایپ کنید و رمز حساب مدیر را وارد کنید.<div class="grid2" style="margin-top:8px"><input class="input" id="rsPhrase" placeholder="حذف اطلاعات" autocomplete="off"><input class="input" id="rsPass" type="password" placeholder="رمز عبور شما" autocomplete="current-password" dir="ltr"></div></li></ol>
+      <button class="btn danger" data-act="rs-go" id="rsGo" disabled>پاک کردن بخش‌های انتخاب‌شده</button></div>`;
+  };
+})();
+ACT["rs-backup"] = async el => {
+  el.disabled = true; const s = document.getElementById("rsBk"); if (s) s.textContent = "در حال آماده‌سازی…";
+  try { await ACT["bk-schema"](el); await ACT["bk-data"](el); S.resetBackupDone = true; if (s) s.textContent = "✓ schema.sql و data.json دانلود شدند"; }
+  catch (e) { if (s) s.textContent = "خطا در پشتیبان‌گیری"; }
+  el.disabled = false;
+};
+ACT["rs-go"] = async el => {
+  const secs = [...document.querySelectorAll('input[name="rs"]:checked')].map(x => x.value);
+  if (!secs.length) return toast("حداقل یک بخش را انتخاب کنید", true);
+  if (!S.resetBackupDone) return toast("اول نسخه پشتیبان بگیرید", true);
+  if ((document.getElementById("rsPhrase").value || "").trim() !== "حذف اطلاعات") return toast("عبارت تأیید را دقیق تایپ کنید", true);
+  const pass = document.getElementById("rsPass").value;
+  const ver = await sb.auth.signInWithPassword({ email: S.session.user.email, password: pass });
+  if (ver.error) return toast("رمز عبور درست نیست", true);
+  const names = secs.map(k => RESET_SECTIONS.find(x => x[0] === k)[1]).join("، ");
+  if (!confirm(`آخرین هشدار: این بخش‌ها برای همیشه پاک می‌شوند:\n${names}\n\nاین کار برگشت‌پذیر نیست. ادامه می‌دهید؟`)) return;
+  el.disabled = true;
+  for (let n = 5; n > 0; n--) { el.textContent = `پاک‌سازی تا ${num(n)} ثانیه دیگر…`; await new Promise(r => setTimeout(r, 1000)); }
+  const { data, error } = await sb.rpc("admin_reset_data", { _sections: secs, _confirm: "حذف اطلاعات" });
+  if (error) { el.disabled = false; el.textContent = "پاک کردن بخش‌های انتخاب‌شده"; return toast(errMsg(error), true); }
+  for (const k of secs) for (const b of (RESET_BUCKETS[k] || [])) await emptyBucket(b);
+  toast("✓ پاک‌سازی انجام شد"); S.banners = null; S.cats = null; await refresh();
+};
+async function emptyBucket(bucket) {
+  const all = [];
+  async function walk(prefix) {
+    for (let off = 0; ; off += 100) {
+      const { data, error } = await sb.storage.from(bucket).list(prefix, { limit: 100, offset: off });
+      if (error || !data || !data.length) break;
+      for (const it of data) { const p = prefix ? prefix + "/" + it.name : it.name; if (it.id) all.push(p); else await walk(p); }
+      if (data.length < 100) break;
+    }
+  }
+  try { await walk(""); for (let i = 0; i < all.length; i += 100) await sb.storage.from(bucket).remove(all.slice(i, i + 100)); } catch (e) {}
+}
+document.addEventListener("change", e => {
+  if (e.target.dataset && e.target.dataset.change === "rsCalc") { const b = document.getElementById("rsGo"); if (b) b.disabled = !document.querySelector('input[name="rs"]:checked'); }
 });
 </script>
 
