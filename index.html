@@ -394,15 +394,15 @@ h1{font-weight:900}h2,h3,.brand-name,.sl-body h2{font-weight:800}
 /* ===== slider ===== */
 .slider{position:relative;border-radius:22px;overflow:hidden;margin:20px 0 6px;min-height:230px;background:var(--lapis);outline-offset:4px;touch-action:pan-y}
 .sl-track{position:relative;min-height:230px}
-.sl-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility .6s;display:flex;align-items:flex-end}
+.sl-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility .6s;display:flex;align-items:center}
 .sl-slide.on{opacity:1;visibility:visible;position:relative}
 .sl-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .sl-img+.sl-body{background:linear-gradient(0deg,rgba(0,0,0,.62),rgba(0,0,0,0) 85%)}
 .sl-art{position:absolute;inset:0;background:var(--lapis)}
 .sl-art::after{content:"";position:absolute;inset:0;opacity:.18;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='62'%3E%3Cg fill='none' stroke='%23E6C46A' stroke-width='1.2'%3E%3Cpath d='M30 6l6.2 9.8L47 14l-1.8 10.8L55 31l-9.8 6.2L47 48l-10.8-1.8L30 56l-6.2-9.8L13 48l1.8-10.8L5 31l9.8-6.2L13 14l10.8 1.8z'/%3E%3Ccircle cx='30' cy='31' r='7'/%3E%3C/g%3E%3C/svg%3E")}
-.sl-body{position:relative;z-index:1;padding:30px 34px 44px;color:#fff;width:100%;box-sizing:border-box}
+.sl-body{position:relative;z-index:1;padding:30px 84px 50px;color:#fff;width:100%;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;text-align:center}
 :root[data-store-theme="night"] .sl-body{color:#F1EDE3}:root[data-store-theme="night"] .sl-art,:root[data-store-theme="night"] .slider{background:#121319}
-.sl-body h2{font-size:1.7rem;margin:6px 0;max-width:24ch;line-height:1.4}.sl-body p{margin:0 0 14px;opacity:.9;max-width:56ch}
+.sl-body h2{font-size:1.7rem;margin:8px 0 6px;max-width:30ch;line-height:1.5;text-wrap:balance}.sl-body p{margin:0 0 16px;opacity:.92;max-width:60ch;text-wrap:balance}
 .sl-tag{display:inline-block;background:var(--saffron);color:#1b1b1b;border-radius:999px;padding:2px 12px;font-size:.8rem;font-weight:800}
 .sl-cta{background:#fff;color:var(--lapis)}:root[data-store-theme="night"] .sl-cta{background:#D4AF5A;color:#15130D}
 .sl-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px)}
@@ -410,13 +410,20 @@ h1{font-weight:900}h2,h3,.brand-name,.sl-body h2{font-weight:800}
 .sl-dots{position:absolute;bottom:14px;inset-inline:0;display:flex;justify-content:center;gap:8px;z-index:2}
 .sl-dots button{width:10px;height:10px;border-radius:99px;border:0;background:rgba(255,255,255,.45);cursor:pointer;padding:0;transition:width .3s}
 .sl-dots button.on{width:26px;background:#fff}
-@media (max-width:640px){.slider,.sl-track{min-height:210px}.sl-body{padding:20px 18px 40px}.sl-body h2{font-size:1.25rem}.sl-nav{display:none}}
+@media (max-width:640px){.slider,.sl-track{min-height:210px}.sl-body{padding:22px 18px 42px}.sl-body h2{font-size:1.2rem}.sl-body p{font-size:.88rem}.sl-nav{display:none}}
 /* ===== motion ===== */
 #app.enter>*{animation:fadeup .45s ease both}
 #app.enter>*:nth-child(2){animation-delay:.05s}#app.enter>*:nth-child(3){animation-delay:.1s}#app.enter>*:nth-child(4){animation-delay:.15s}
 @keyframes fadeup{from{opacity:0;transform:translateY(10px)}}
 dialog[open]{animation:dlg .22s ease}
 @keyframes dlg{from{opacity:0;transform:translateY(10px) scale(.98)}}
+/* ===== tidy prices on cards ===== */
+.pcard .pprice{margin-top:auto}
+.pcard .price-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px}
+.pcard .price-old{order:1}.pcard .price-off{order:2}
+.pcard .price-new{order:3;flex-basis:100%;white-space:nowrap;font-size:1.02em}
+.variant .vp .price-wrap{flex-direction:column;align-items:flex-end;gap:0}.variant .vp .price-new{white-space:nowrap}
+@media (max-width:640px){.pgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.pgrid .pthumb{aspect-ratio:4/3}.pgrid .pbody{padding:10px}}
 /* ===== copy feedback ===== */
 .btn.copied,button.copied{background:var(--ok)!important;color:#fff!important;border-color:var(--ok)!important;transform:scale(1.04);transition:transform .15s}
 /* ===== bottom sheet on phones ===== */
