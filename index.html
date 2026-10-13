@@ -353,8 +353,13 @@ body.noscroll{overflow:hidden}
 :root{--on-lapis:#fff;--font-head:var(--font)}
 h1,h2,h3,.brand-name,.wc-amount,.pname,.sl-body h2,.bb-text b{font-family:var(--font-head)}
 h1{font-weight:900}h2,h3,.brand-name,.sl-body h2{font-weight:800}
-.site-hero{margin-bottom:26px}
-@media (max-width:760px){.site-hero img{max-height:200px;object-fit:cover}.site-hero h1{font-size:1.45rem}}
+.site-hero{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;margin-bottom:24px;overflow:hidden}
+.site-hero h1{font-size:clamp(1.05rem,2.1vw,1.55rem);white-space:nowrap;margin:0 0 4px;line-height:1.5}
+.site-hero p{margin:0 0 10px;color:var(--muted);font-size:.9rem;line-height:1.8}
+.site-hero img{width:100%;height:118px;object-fit:cover;border-radius:12px}
+@media (max-width:760px){.site-hero{grid-template-columns:minmax(0,1fr) 84px;gap:10px;padding:12px}.site-hero .sh-text{display:contents}
+  .site-hero h1{grid-column:1/-1;font-size:clamp(.8rem,3.7vw,1.1rem);margin:0}.site-hero p{display:none}
+  .site-hero .btnrow{gap:6px;align-self:center}.site-hero .btn.sm{padding:6px 10px;font-size:.8rem}.site-hero img{height:58px}}
 .btn{color:var(--on-lapis)}.btn.alt{color:var(--text)}
 :root[data-store-theme="night"]{--paper:#0D0E12;--surface:#16181F;--text:#F1EDE3;--muted:#ABA597;--line:#2A2D37;--lapis:#D4AF5A;--lapis-2:#E8CF8E;--firoozeh:#E8CF8E;--firoozeh-soft:#221F17;--saffron:#D4AF5A;--on-lapis:#15130D;color-scheme:dark}
 :root[data-store-theme="night"] .wallet-card{background:#121319;border:1px solid rgba(212,175,90,.45);box-shadow:inset 0 0 0 6px #121319,inset 0 0 0 7px rgba(212,175,90,.25)}
@@ -4590,12 +4595,12 @@ window.loadingHtml = function (hash) {
     const hash = location.hash || "#/", app = document.getElementById("app");
     if (!app || app.querySelector("[aria-busy]")) return;
     const isAdmin = /^#\/admin/.test(hash), guestHome = (hash === "#/" || hash === "") && !S.session;
-    if (!isAdmin && !guestHome && !app.querySelector(".hero-guest")) {
+    if (!isAdmin && !guestHome && !app.querySelector(".hero-guest,.site-hero")) {
       const btns = S.session
         ? `<a class="btn" href="#/products">${esc(t("browse"))}</a><a class="btn alt" href="#/bazaar">${esc(t("bazaarTitle"))}</a><a class="btn alt" href="#/orders">${esc(t("orders"))}</a>`
         : `<a class="btn" href="#/login">${esc(t("startNow"))}</a><a class="btn alt" href="#/products">${esc(t("browse"))}</a><a class="btn alt" href="#/bazaar">${esc(t("bazaarTitle"))}</a>`;
-      app.insertAdjacentHTML("afterbegin", `<section class="hero-guest site-hero"><div><h1>${esc(t("guestTitle"))}</h1><p class="sub" style="max-width:52ch">${esc(t("guestSub"))}</p>
-        <div class="btnrow">${btns}</div></div><img src="${window.HERO_IMG}" alt="${esc(t("brand"))}"></section>`);
+      app.insertAdjacentHTML("afterbegin", `<section class="site-hero"><div class="sh-text"><h1>${esc(t("guestTitle"))}</h1><p>${esc(t("guestSub"))}</p>
+        <div class="btnrow">${btns.replace(/class="btn( alt)?"/g, 'class="btn sm$1"')}</div></div><img src="${window.HERO_IMG}" alt="${esc(t("brand"))}"></section>`);
     }
     app.classList.remove("enter"); void app.offsetWidth; app.classList.add("enter");
     if (hash === "#/" || hash === "") mountSlider();
