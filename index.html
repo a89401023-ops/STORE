@@ -683,6 +683,29 @@ table{width:100%;table-layout:auto}th,td{white-space:normal!important;word-break
 @media (max-width:560px){.pk-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.pk-row>input[name="pk_name"]{grid-column:1/-1}}
 .admin-tabs-inline{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}.admin-tabs-inline a{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--text);font-size:.9rem}
 .admin-tabs-inline a.on{background:var(--lapis);color:var(--on-lapis);border-color:var(--lapis)}
+/* ===== pinned action bar ===== */
+.ab{position:sticky;top:calc(62px + env(safe-area-inset-top,0px));z-index:9;background:linear-gradient(135deg,#FFE9A8,#FFD46E);color:#3A2A05;border-bottom:2px solid #D9A93A;box-shadow:0 6px 18px rgba(120,80,0,.15)}
+.ab.min{background:#FFE9A8}
+.ab-in{padding-top:10px;padding-bottom:10px}
+.ab-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}.ab-head b{font-size:1rem}
+.ab-x,.ab-open,.ab-more{border:0;background:rgba(255,255,255,.55);color:#3A2A05;border-radius:9px;padding:5px 12px;cursor:pointer;font-weight:700;font-size:.84rem}
+.ab-x{margin-inline-start:auto}.ab-open{width:100%;text-align:start;background:transparent;padding:4px 0}.ab-more{margin-top:6px}
+.ab-list{display:flex;flex-direction:column;gap:6px}
+.ab-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.72);border-radius:12px;padding:8px 12px;border-inline-start:5px solid #C9A043}
+.ab-item.urgent{border-inline-start-color:#C2412D;background:#FFF7F2}
+.ab-txt{flex:1;min-width:0}.ab-t{font-weight:800;line-height:1.5}.ab-b{font-size:.86rem;line-height:1.6}
+.ab-flag{background:#C2412D;color:#fff;border-radius:99px;padding:0 8px;font-size:.72rem;margin-inline-end:6px}
+.ab-role{background:#3A2A05;color:#FFE9A8;border-radius:99px;padding:0 8px;font-size:.72rem;margin-inline-end:6px}
+.ab-d{font-weight:800;color:#8A3A10;white-space:nowrap}
+.ab-go{background:#0F5157;color:#fff;white-space:nowrap;flex-shrink:0}
+@media (max-width:640px){.ab{position:relative;top:auto}.ab.min{position:sticky;top:calc(56px + env(safe-area-inset-top,0px))}.ab-item{flex-direction:column;align-items:stretch;gap:6px}.ab-go{width:100%}.ab-head b{font-size:.9rem}}
+:root[data-store-theme="night"] .ab,:root[data-theme="dark"] .ab{background:linear-gradient(135deg,#4A3A10,#5A4512);color:#FFE9A8;border-color:#8A6A22}
+:root[data-store-theme="night"] .ab-item,:root[data-theme="dark"] .ab-item{background:rgba(0,0,0,.25)}
+/* ===== downloads ===== */
+.dl-box{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.dl-row{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:6px 10px;background:var(--surface)}
+.dl-ic{font-size:1.2rem}.dl-n{flex:1;min-width:0;font-weight:700}.dl-n small{color:var(--muted);font-weight:500}
+.purge-note{background:#FBE7E3!important;border-color:#E9B4AA!important;color:#7A2414!important}
 </style>
 </head>
 <body>
@@ -5846,7 +5869,7 @@ async function svUpload(prefix, fileList) {
   for (const f0 of [...(fileList || [])].slice(0, 10)) { if (!f0.size) continue; const f = await stripImage(f0); out.push(await uploadTo("service-files", `${prefix}/${rid()}.${extOf(f.name)}`, f, 50)); }
   return out;
 }
-const fileLinks = files => (files || []).length ? `<div class="btnrow">${files.map((p, i) => `<a class="btn sm alt" target="_blank" rel="noopener" data-sb="service-files" data-sp="${esc(p)}" data-sattr="href">📎 فایل ${esc(num(i + 1))}</a>`).join("")}</div>` : "";
+let fileLinks = files => (files || []).length ? `<div class="btnrow">${files.map((p, i) => `<a class="btn sm alt" target="_blank" rel="noopener" data-sb="service-files" data-sp="${esc(p)}" data-sattr="href">📎 فایل ${esc(num(i + 1))}</a>`).join("")}</div>` : "";
 
 /* ----- contracts ----- */
 const SV_ANON_CLAUSE = "ارائه‌دهنده متعهد است در هیچ متن، فایل، تصویر یا محصولی، هیچ‌گونه شماره تماس، لینک، آی‌دی، نشانی سایت یا شبکه اجتماعی، نام، امضا، لوگو یا واترمارک خود یا دیگران را قرار ندهد و به هیچ طریقی برای شناسایی یا ارتباط مستقیم با مشتری اقدام نکند. در صورت مشاهده، بار نخست اخطار رسمی داده می‌شود و در صورت تکرار، همکاری او به‌طور دائم قطع و از ارائه خدمات محروم خواهد شد.";
@@ -5884,7 +5907,7 @@ function svOrderContract(o) {
       <li><b>مهلت تحویل:</b> ${esc(due)}.</li>
       <li><b>اصلاحات:</b> مشتری حداکثر ${esc(num(o.revisions_allowed))} بار می‌تواند درخواست اصلاح ثبت کند.</li>
       <li><b>جریمه تأخیر:</b> برای هر روز تأخیر در تحویل، ${esc(pct(o.penalty_rate))} مبلغ سفارش تا سقف ${esc(pct(o.penalty_cap))} از سهم ارائه‌دهنده کسر و به کیف پول مشتری بازگردانده می‌شود.</li>
-      <li><b>تحویل و تأیید:</b> کار در سامانه بارگذاری می‌شود. اگر مشتری ظرف ۳ روز تأیید، درخواست اصلاح یا شکایت ثبت نکند، تحویل تأییدشده تلقی می‌شود.</li>
+      <li><b>تحویل و تأیید:</b> کار در سامانه بارگذاری می‌شود. اگر مشتری ظرف ۳ روز تأیید، درخواست اصلاح یا شکایت ثبت نکند، تحویل تأییدشده تلقی می‌شود. فایل‌ها تا ۷ روز پس از تأیید نهایی قابل دانلودند و سپس به‌طور خودکار حذف می‌شوند؛ مشتری مسئول ذخیره آن‌هاست.</li>
       <li><b>لغو:</b> پیش از شروع کار، لغو بدون هزینه است. پس از شروع، تصمیم با داور است.</li>
       <li class="red"><b>ناشناس ماندن و منع ارتباط:</b> طرفین هویت یکدیگر را نمی‌شناسند و هرگونه درج یا درخواست شماره، لینک، آی‌دی، نشانی یا راه ارتباط مستقیم ممنوع است. ارائه‌دهنده حق قرار دادن هیچ نام، امضا، لوگو یا واترمارکی روی کار را ندارد؛ تخلف بار نخست اخطار و بار دوم محرومیت از همکاری را در پی دارد.</li>
       <li class="red"><b>داوری:</b> ${SV_ARB_CLAUSE}</li>
@@ -6375,6 +6398,120 @@ ROUTES.push([/^#\/provider\/?$/, V.provider, "auth"]);
   const o = ACT["aff-tab"];
   ACT["aff-tab"] = (el, e) => { if ((location.hash || "").startsWith("#/provider") && el.dataset.tab !== "services") { e && e.preventDefault(); S.affTab = el.dataset.tab; location.hash = "#/affiliate"; return; } o(el, e); };
 })();
+</script>
+<script>
+/* =====================================================================
+   Pinned action bar · file downloads · automatic file clean-up
+   ===================================================================== */
+S.actionItems = []; S._aiAt = 0;
+async function loadActionItems(force) {
+  if (!S.session) { S.actionItems = []; return; }
+  if (!force && Date.now() - S._aiAt < 8000) return;
+  S._aiAt = Date.now();
+  const { data } = await sb.rpc("my_action_items"); S.actionItems = Array.isArray(data) ? data : [];
+}
+function timeLeft(d) {
+  if (!d) return ""; const ms = new Date(d) - Date.now();
+  if (ms <= 0) return "مهلت گذشته";
+  const h = Math.floor(ms / 36e5), dd = Math.floor(h / 24);
+  return dd ? `${num(dd)} روز و ${num(h % 24)} ساعت مانده` : `${num(h)} ساعت مانده`;
+}
+const AB_ROLE = { customer: "مشتری", vendor: "ارائه‌دهنده", admin: "مدیر" };
+function renderActionBar() {
+  let bar = document.getElementById("actionBar");
+  if (!bar) { bar = document.createElement("section"); bar.id = "actionBar"; bar.setAttribute("aria-label", "کارهای منتظر شما"); bar.setAttribute("aria-live", "polite");
+    const main = document.querySelector("main"); main.parentNode.insertBefore(bar, main); }
+  const L = (S.actionItems || []).slice().sort((a, b) => (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0));
+  if (!L.length) { bar.hidden = true; bar.innerHTML = ""; return; }
+  bar.hidden = false;
+  if (S.abMin) { bar.className = "ab min"; bar.innerHTML = `<div class="wrap ab-in"><button type="button" class="ab-open" data-act="ab-toggle">⚡ ${esc(num(L.length))} کار منتظر شماست — نمایش</button></div>`; return; }
+  const shown = S.abAll ? L : L.slice(0, 2);
+  bar.className = "ab";
+  bar.innerHTML = `<div class="wrap ab-in"><div class="ab-head"><b>⚡ ${esc(num(L.length))} کار منتظر اقدام شماست</b><button type="button" class="ab-x" data-act="ab-toggle" aria-label="کوچک کردن نوار">کوچک کن ▴</button></div>
+    <div class="ab-list">${shown.map((x, i) => `<div class="ab-item ${x.urgent ? "urgent" : ""}"><div class="ab-txt"><div class="ab-t">${x.urgent ? `<span class="ab-flag">فوری</span>` : ""}<span class="ab-role">${esc(AB_ROLE[x.role] || "")}</span>${esc(x.title)}</div>
+      <div class="ab-b">${esc(x.body || "")}${x.deadline ? ` <span class="ab-d">⏳ ${esc(timeLeft(x.deadline))}</span>` : ""}</div></div>
+      <button type="button" class="btn ab-go" data-act="ab-go" data-i="${L.indexOf(x)}">${esc(x.action || "مشاهده")} ←</button></div>`).join("")}</div>
+    ${L.length > 2 ? `<button type="button" class="ab-more" data-act="ab-all">${S.abAll ? "نمایش کمتر ▴" : `+ ${num(L.length - 2)} مورد دیگر ▾`}</button>` : ""}</div>`;
+}
+ACT["ab-toggle"] = () => { S.abMin = !S.abMin; renderActionBar(); };
+ACT["ab-all"] = () => { S.abAll = !S.abAll; renderActionBar(); };
+function goThen(hash, fn) { S.afterRender = fn; if (location.hash === hash) render(); else location.hash = hash; }
+ACT["ab-go"] = el => {
+  const x = S.actionItems.slice().sort((a, b) => (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0))[+el.dataset.i]; if (!x) return;
+  const id = x.id;
+  if (x.kind === "svc_order") return goThen("#/my-services", () => { S.svTab = "orders"; svCustomerModal(id); });
+  if (x.kind === "svc_request") { S.svTab = "req"; return goThen("#/my-services", () => ACT["sv-req-open"]({ dataset: { id } })); }
+  if (x.kind === "svc_vorder") return goThen("#/provider", () => svVendorModal(id));
+  if (x.kind === "svc_prop") return goThen("#/provider", () => { const p = (S.svProps || []).find(q => q.id === id); if (!p) return; p.status === "to_sign" ? svProviderSign(p) : ACT["sv-prop-diff"]({ dataset: { id } }); });
+  if (x.kind === "prod_prop") { S.affTab = "vendor"; return goThen("#/affiliate", () => { const p = (S.myProposals || []).find(q => q.id === id); if (!p) return; p.status === "to_sign" ? contractModal(p, true) : ACT["vp-diff"]({ dataset: { id } }); }); }
+  if (x.kind === "svc_aorder") { S.svAdmTab = "orders"; S.svOFilter = "action"; return goThen("#/admin/services", () => svAdminModal(id)); }
+  if (x.kind === "svc_aprop") { S.svAdmTab = "proposals"; return goThen("#/admin/services", () => ACT["sv-a-prop"]({ dataset: { id } })); }
+  if (x.kind === "prod_aprop") { S.vpFilter = "active"; return goThen("#/admin/vendors", () => ACT["vp-review"]({ dataset: { id } })); }
+};
+(function wrapRenderAB() {
+  const o = window.render;
+  window.render = async function () {
+    await o();
+    const fn = S.afterRender; S.afterRender = null;
+    if (fn) { try { await fn(); } catch (e) {} }
+    loadActionItems(!!fn).then(renderActionBar);
+    if (S.isOwner && /^#\/admin/.test(location.hash || "")) purgeServiceFiles();
+  };
+})();
+/* first paint after sign-in, and refresh after every form */
+setTimeout(() => loadActionItems(true).then(renderActionBar), 1200);
+(function afterLogin() { const o = window.loadMe; window.loadMe = async function () { await o(); loadActionItems(true).then(renderActionBar); }; })();
+(function refreshAfterChanges() {
+  document.addEventListener("submit", () => setTimeout(() => loadActionItems(true).then(renderActionBar), 1500), true);
+  setInterval(() => { if (S.session && document.visibilityState === "visible") loadActionItems(true).then(renderActionBar); }, 60000);
+})();
+
+/* ----- downloads: every file gets a real download button ----- */
+fileLinks = function (files, label) {
+  files = files || []; if (!files.length) return "";
+  const base = label || ("asan-" + (S.svO ? S.svO.order_number : "file"));
+  return `<div class="dl-box">${files.map((p, i) => { const ext = (String(p).split(".").pop() || "").toLowerCase(), name = `${base}-${i + 1}.${ext}`;
+      return `<div class="dl-row"><span class="dl-ic">${/^(jpe?g|png|webp|gif|heic)$/.test(ext) ? "🖼" : /^(pdf)$/.test(ext) ? "📄" : /^(zip|rar|7z)$/.test(ext) ? "🗜" : /^(mp4|mov|webm)$/.test(ext) ? "🎬" : "📎"}</span>
+      <span class="dl-n">فایل ${esc(num(i + 1))} <small>(${esc(ext.toUpperCase())})</small></span>
+      <a class="btn sm alt" target="_blank" rel="noopener" data-sb="service-files" data-sp="${esc(p)}" data-sattr="href">مشاهده</a>
+      <button type="button" class="btn sm teal" data-act="sv-dl" data-p="${esc(p)}" data-n="${esc(name)}">⬇ دانلود</button></div>`; }).join("")}
+    ${files.length > 1 ? `<button type="button" class="btn sm" data-act="sv-dl-all" data-ps="${esc(JSON.stringify(files))}" data-b="${esc(base)}">⬇ دانلود همه (${esc(num(files.length))} فایل)</button>` : ""}</div>`;
+};
+async function downloadPath(path, name) {
+  const { data, error } = await sb.storage.from("service-files").createSignedUrl(path, 300, { download: name });
+  if (error || !data) throw new Error("فایل در دسترس نیست؛ ممکن است حذف شده باشد.");
+  const a = document.createElement("a"); a.href = data.signedUrl; a.download = name; a.rel = "noopener"; document.body.appendChild(a); a.click(); a.remove();
+}
+ACT["sv-dl"] = async el => { try { el.disabled = true; await downloadPath(el.dataset.p, el.dataset.n); toast("⬇ دانلود شروع شد"); } catch (e) { toast(e.message, true); } finally { el.disabled = false; } };
+ACT["sv-dl-all"] = async el => {
+  const L = JSON.parse(el.dataset.ps); el.disabled = true;
+  try { for (let i = 0; i < L.length; i++) { const ext = (L[i].split(".").pop() || "").toLowerCase(); await downloadPath(L[i], `${el.dataset.b}-${i + 1}.${ext}`); await new Promise(r => setTimeout(r, 700)); } toast("⬇ همه فایل‌ها دانلود شد"); }
+  catch (e) { toast(e.message, true); } finally { el.disabled = false; }
+};
+
+/* ----- clear retention notice inside the customer's order ----- */
+(function retentionNotice() {
+  const o = window.svCustomerModal;
+  window.svCustomerModal = async function (id) {
+    await o(id);
+    const ord = S.svO; if (!ord) return;
+    const hasWork = (ord.messages || []).some(m => m.kind === "delivery" && (m.files || []).length);
+    let msg = "";
+    if (ord.files_purged_at) msg = `🗑 فایل‌های این سفارش طبق قرارداد در ${esc(fday(ord.files_purged_at))} حذف شده‌اند.`;
+    else if (ord.purge_at) msg = `⚠️ فایل‌ها فقط تا <b>${esc(fdate(ord.purge_at))}</b> قابل دانلودند و بعد از آن به‌طور خودکار حذف می‌شوند. همین حالا آن‌ها را دانلود و ذخیره کنید.`;
+    else if (hasWork && ["delivered", "revision", "disputed"].includes(ord.status)) msg = `⚠️ فایل‌های تحویلی ۷ روز پس از تأیید نهایی شما به‌طور خودکار حذف می‌شوند؛ حتماً آن‌ها را دانلود و ذخیره کنید.`;
+    if (msg) document.querySelector("#modalIn")?.insertAdjacentHTML("afterbegin", `<div class="notice purge-note">${msg}</div>`);
+  };
+})();
+
+/* ----- owner panel quietly removes files of orders finished more than 7 days ago ----- */
+async function purgeServiceFiles() {
+  try { const last = +localStorage.getItem("asan-purge-at") || 0; if (Date.now() - last < 36e5) return; localStorage.setItem("asan-purge-at", String(Date.now())); } catch (e) {}
+  const { data } = await sb.rpc("admin_svc_purge_list"); const L = Array.isArray(data) ? data : []; if (!L.length) return;
+  const ids = [];
+  for (const o of L) { const paths = (o.paths || []).filter(Boolean); try { for (let i = 0; i < paths.length; i += 100) await sb.storage.from("service-files").remove(paths.slice(i, i + 100)); ids.push(o.id); } catch (e) {} }
+  if (ids.length) await sb.rpc("admin_svc_mark_purged", { _ids: ids });
+}
 </script>
 
 </body>
