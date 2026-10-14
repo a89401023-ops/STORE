@@ -706,6 +706,79 @@ table{width:100%;table-layout:auto}th,td{white-space:normal!important;word-break
 .dl-row{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:6px 10px;background:var(--surface)}
 .dl-ic{font-size:1.2rem}.dl-n{flex:1;min-width:0;font-weight:700}.dl-n small{color:var(--muted);font-weight:500}
 .purge-note{background:#FBE7E3!important;border-color:#E9B4AA!important;color:#7A2414!important}
+/* ===== books: store ===== */
+.bk-tools{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.bk-shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:22px}
+@media (max-width:640px){.bk-shelf{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+.bk-card{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;transition:transform .3s,box-shadow .3s}
+.bk-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(15,81,87,.16)}
+.bk-cover{height:220px;display:grid;place-items:center;perspective:900px}.bk-cover.big{height:340px}
+.bk-cv{width:140px;height:205px;border-radius:4px 12px 12px 4px;transform:rotateY(-18deg);box-shadow:-14px 18px 30px rgba(0,0,0,.28);transition:transform .5s;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:14px;text-align:center;color:#fff;background-size:cover;background-position:center}
+.bk-cover.big .bk-cv{width:210px;height:310px}
+.bk-card:hover .bk-cv,.bk-detail:hover .bk-cv{transform:rotateY(-6deg) translateY(-4px)}
+.bk-cv::before{content:"";position:absolute;inset:0 auto 0 0;width:12px;background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(255,255,255,.15));border-radius:4px 0 0 4px}
+.bk-cv b{font-size:1.1rem;font-weight:900;line-height:1.4}.bk-cv i{width:44px;height:2px;margin:10px 0;opacity:.85}.bk-cv small{opacity:.85;font-size:.72rem}
+.bk-info{display:flex;flex-direction:column;gap:2px}.bk-info span,.bk-info small{color:var(--muted);font-size:.84rem}.bk-price{font-weight:900;color:var(--lapis-2);margin-top:4px}
+.bk-prog{height:5px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:6px}.bk-prog i{display:block;height:100%;background:var(--saffron)}
+.bk-detail{display:grid;grid-template-columns:280px minmax(0,1fr);gap:26px;align-items:start}@media (max-width:760px){.bk-detail{grid-template-columns:minmax(0,1fr)}}
+.bk-meta{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin:10px 0}.bk-meta div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 10px;display:flex;flex-direction:column}.bk-meta span{font-size:.75rem;color:var(--muted)}
+.bk-buy{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.bk-opt{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--surface);flex-wrap:wrap}.bk-opt small{display:block;color:var(--muted)}.bk-opt.own{border-color:#B9E2CC}
+.bk-toc{padding-inline-start:20px;line-height:2}.bk-toc li{display:block}.bk-toc li>span{font-weight:700}.bk-toc small{color:var(--muted);margin-inline-start:8px}.bk-toc ul{padding-inline-start:18px;color:var(--muted)}
+/* ===== books: protected reader (full screen layer) ===== */
+body.reading{overflow:hidden}
+#readerRoot{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;background:var(--rd-bg);color:var(--rd-ink);--rd-bg:#FBFAF6;--rd-ink:#22201B;--rd-muted:#6B655A;--rd-line:#E8E2D4;--rd-paper:#FFFDF8;font-family:Vazirmatn,Tahoma,sans-serif;user-select:none;-webkit-user-select:none}
+#readerRoot.t-night{--rd-bg:#111317;--rd-ink:#E6E1D6;--rd-muted:#9A958A;--rd-line:#2A2D33;--rd-paper:#191C21}
+#readerRoot.t-sepia{--rd-bg:#EFE3C8;--rd-ink:#3B2F1E;--rd-muted:#7A6A4E;--rd-line:#D9C9A6;--rd-paper:#F6ECD6}
+#readerRoot.t-teal{--rd-bg:#E3F0EF;--rd-ink:#14302F;--rd-muted:#4F6B6A;--rd-line:#C5DCDA;--rd-paper:#F4FAF9}
+#readerRoot,#readerRoot *{-webkit-user-drag:none}
+.rd-bar{display:flex;align-items:center;gap:6px;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0px));border-bottom:1px solid var(--rd-line);flex-wrap:wrap}
+.rd-title{font-weight:800;margin-inline-end:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px}
+.rd-ib{border:1px solid var(--rd-line);background:var(--rd-paper);color:var(--rd-ink);border-radius:9px;padding:5px 10px;cursor:pointer;font-size:.84rem;white-space:nowrap;font-family:inherit}.rd-ib.on{background:#0F5157;color:#fff;border-color:#0F5157}
+.rd-sel,.rd-in{border:1px solid var(--rd-line);background:var(--rd-paper);color:var(--rd-ink);border-radius:9px;padding:4px 6px;font-size:.84rem;font-family:inherit}.rd-in{width:100%;padding:6px 10px;user-select:text}
+.rd-body{flex:1;display:flex;min-height:0}
+.rd-stage{flex:1;position:relative;overflow:auto;display:flex;justify-content:center;align-items:flex-start;padding:24px 18px 80px}
+.rd-spread{display:flex;perspective:1600px}.flip-n{animation:flipn .45s ease}.flip-p{animation:flipp .45s ease}
+@keyframes flipn{from{transform:rotateY(-14deg) translateX(30px);opacity:.3}}@keyframes flipp{from{transform:rotateY(14deg) translateX(-30px);opacity:.3}}
+.rd-page{background:var(--rd-paper);border:1px solid var(--rd-line);border-radius:6px 14px 14px 6px;box-shadow:0 18px 40px rgba(0,0,0,.12);padding:46px 44px 56px;position:relative;width:min(560px,92vw);min-height:min(640px,78vh);overflow:hidden}
+.rd-spread .rd-page:first-child{border-radius:14px 6px 6px 14px}
+.rd-text{font-family:var(--rd-font),Vazirmatn,serif;font-size:var(--rd-size);line-height:2.05;text-align:justify;user-select:text;-webkit-user-select:text;position:relative;z-index:1}
+.rd-text p{margin:0 0 .8em}.rd-h2{font-size:1.35em;margin:.2em 0 .7em;text-align:center;color:#8A6A22}.rd-h3{font-size:1.12em;margin:.6em 0 .4em}
+.rd-chap{font-size:.76rem;color:var(--rd-muted);margin-bottom:12px}.rd-pno{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:.8rem;color:var(--rd-muted)}
+.rd-bm{position:absolute;top:-4px;left:28px;font-size:1.6rem}
+.rd-wm{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.07}
+#readerRoot.t-night .rd-wm{filter:invert(1);opacity:.09}
+.rd-text mark.h1{background:rgba(255,214,90,.55);color:inherit}.rd-text mark.h2{background:rgba(120,210,170,.5);color:inherit}.rd-text mark.h3{background:rgba(255,150,170,.45);color:inherit}
+.rd-text mark.nt{background:transparent;border-bottom:2px dotted #0F5157;color:inherit;cursor:help}
+.rd-pay{text-align:center;padding:60px 10px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.rd-col{display:flex;flex-direction:column;gap:22px;align-items:center;width:100%}
+.rd-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:6% 10%;background:radial-gradient(ellipse at 50% 30%,#1E3A3D,#0B1517);color:#F3EFE4;overflow:auto}
+.rd-slide .rd-text{font-size:clamp(20px,2.4vw,32px);line-height:2.1;text-align:center;max-width:1000px}.rd-slide .rd-h2{color:#E6C46A}
+.rd-sc{position:absolute;top:18px;left:0;right:0;text-align:center;font-size:.85rem;color:#C9A043}.rd-slide .rd-wm{filter:invert(1);opacity:.08}
+#readerRoot.focus .rd-text span.sn{opacity:.18;transition:opacity .3s;cursor:pointer}#readerRoot.focus .rd-text span.sn.cur{opacity:1;background:rgba(201,160,67,.16);border-radius:4px}
+.rd-fnav{position:fixed;bottom:48px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:var(--rd-paper);border:1px solid var(--rd-line);border-radius:99px;padding:6px 8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:6;font-size:.82rem;color:var(--rd-muted);white-space:nowrap}
+.rd-nav{position:fixed;top:50%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border-radius:50%;border:1px solid var(--rd-line);background:var(--rd-paper);color:var(--rd-ink);cursor:pointer;font-size:1.3rem}
+.rd-nav.prev{right:10px}.rd-nav.next{left:10px}
+.rd-foot{display:flex;gap:10px;align-items:center;padding:8px 14px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px));font-size:.78rem;color:var(--rd-muted);border-top:1px solid var(--rd-line)}
+.rd-fn{display:none}
+@media (max-width:860px){.rd-fn{display:inline-block}.rd-safe{display:none}}
+.rd-prog{flex:1;height:5px;background:var(--rd-line);border-radius:9px;overflow:hidden}.rd-prog i{display:block;height:100%;background:#C9A043}
+.rd-toc{width:280px;flex-shrink:0;border-inline-end:1px solid var(--rd-line);background:var(--rd-paper);display:flex;flex-direction:column;gap:8px;padding:10px;overflow:auto}
+.rd-toc.collapsed{width:40px;padding:0;overflow:visible}.rd-toc-tab{width:40px;height:100%;border:0;background:linear-gradient(180deg,var(--rd-paper),var(--rd-bg));color:var(--rd-ink);cursor:pointer;font-weight:800;font-family:inherit}
+.rd-toc-tab span{writing-mode:vertical-rl;letter-spacing:.06em;font-size:.86rem}.rd-toc-h{display:flex;align-items:center;justify-content:space-between}.rd-small{font-size:.76rem;color:var(--rd-muted)}
+.rd-toc-l,.rd-toc-l ul{list-style:none;margin:0;padding:0}.rd-toc-l ul{padding-inline-start:26px;border-inline-start:2px solid var(--rd-line);margin:2px 12px 6px 0}
+.rd-toc-l>li{border-radius:12px;padding:2px}.rd-toc-l>li.cur{background:rgba(201,160,67,.14)}
+.rd-tr{display:flex;align-items:center;gap:2px}.rd-car{width:24px;height:24px;border:0;background:transparent;color:var(--rd-muted);cursor:pointer;flex-shrink:0}
+.rd-go{flex:1;display:flex;justify-content:space-between;gap:8px;align-items:baseline;border:0;background:transparent;color:var(--rd-ink);text-align:start;padding:6px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.88rem;line-height:1.5;width:100%;font-family:inherit}
+.rd-go:hover:not(:disabled){background:var(--rd-bg)}.rd-go:disabled{opacity:.5;cursor:default}.rd-go small{color:var(--rd-muted);font-weight:500}.rd-go.sub{font-weight:500;font-size:.84rem}.rd-go.here{color:#0F5157;font-weight:800}
+.rd-tp{height:3px;background:var(--rd-line);border-radius:9px;margin:0 30px 4px 6px;overflow:hidden}.rd-tp i{display:block;height:100%;background:#C9A043}
+.rd-bms{border-top:1px solid var(--rd-line);padding-top:8px;font-size:.84rem}.rd-chip{border:0;background:#C9A043;color:#1B1405;border-radius:99px;padding:0 9px;margin:2px;cursor:pointer;font-size:.75rem;font-weight:800;font-family:inherit}
+@media (max-width:860px){.rd-toc:not(.collapsed){position:fixed;top:56px;bottom:40px;right:0;width:min(300px,86vw);z-index:9;box-shadow:-12px 0 30px rgba(0,0,0,.2)}.rd-toc.collapsed{width:28px}.rd-toc-tab{width:28px}.rd-page{padding:34px 22px 50px}.rd-nav{display:none}.rd-title{max-width:120px}}
+.rd-tool{position:fixed;z-index:210;background:#142326;color:#fff;border-radius:12px;padding:5px;display:flex;gap:3px;box-shadow:0 10px 30px rgba(0,0,0,.3);align-items:center}
+.rd-tool button{border:0;background:transparent;color:#fff;padding:6px 9px;border-radius:8px;cursor:pointer;font-size:.82rem;white-space:nowrap;font-family:Vazirmatn,Tahoma}.rd-tool button:hover{background:rgba(255,255,255,.15)}
+.rd-tool .c{width:20px;height:20px;padding:0;border-radius:50%;margin:5px 2px}.rd-tn{font-size:.8rem;padding:0 8px;max-width:260px}
+@media print{body.reading *{visibility:hidden!important}body.reading::after{content:"چاپ این محتوا مجاز نیست";visibility:visible;font-size:24px}}
+@media (prefers-reduced-motion:reduce){.flip-n,.flip-p{animation:none}.bk-cv{transition:none}}
 </style>
 </head>
 <body>
@@ -6512,6 +6585,467 @@ async function purgeServiceFiles() {
   for (const o of L) { const paths = (o.paths || []).filter(Boolean); try { for (let i = 0; i < paths.length; i += 100) await sb.storage.from("service-files").remove(paths.slice(i, i + 100)); ids.push(o.id); } catch (e) {} }
   if (ids.length) await sb.rpc("admin_svc_mark_purged", { _ids: ids });
 }
+</script>
+<script>
+/* =====================================================================
+   BOOKS · phase 1 — store, protected reader, purchases, publishers
+   ===================================================================== */
+Object.assign(I18N.fa, { books: "کتاب", bookStore: "کتاب‌فروشی", myLibrary: "کتابخانه من", err_BOOK_LOCKED: "این صفحه فقط برای خریداران کتاب باز است.",
+  err_RATE_LIMIT: "برای محافظت از کتاب، تعداد صفحه‌های قابل خواندن در هر ساعت محدود است. کمی بعد ادامه دهید.", err_DEVICE_LIMIT: "این حساب هم‌زمان روی دستگاه‌های زیادی باز است؛ ابتدا در یکی از دستگاه‌ها خواندن را ببندید و ۲۰ دقیقه بعد دوباره تلاش کنید.",
+  err_COMING_SOON: "پژوهشیار به‌زودی فعال می‌شود.", err_ALREADY_PAID: "این کتاب را قبلاً خریده‌اید." });
+Object.assign(I18N.en, { books: "Books", bookStore: "Bookstore", myLibrary: "My library" });
+const BK_DEV = (() => { try { let d = localStorage.getItem("asan-dev"); if (!d) { d = rid() + rid(); localStorage.setItem("asan-dev", d); } return d; } catch (e) { return "nodev"; } })();
+const bkMoney = n => Number(n) ? money(n) : "رایگان";
+
+/* ----- covers: uploaded image, or an elegant generated cover ----- */
+const BK_COLORS = [["#0F5157", "#C9A043"], ["#6A1430", "#F1C6A6"], ["#1C3F94", "#E3A22B"], ["#3D2B6B", "#E2B652"], ["#1F4D2E", "#D9C27A"], ["#3A3A40", "#D4AF5A"]];
+function bkCover(b, big) {
+  const c = BK_COLORS[hashStr(b.id || b.title) % BK_COLORS.length];
+  return `<div class="bk-cover ${big ? "big" : ""}"><div class="bk-cv" style="${b.cover_url ? `background-image:url('${esc(b.cover_url)}')` : `background:linear-gradient(160deg,${c[0]},${c[0]}CC)`}">
+    ${b.cover_url ? "" : `<b>${esc(b.title)}</b><i style="background:${c[1]}"></i><small>${esc(b.author || "")}</small>`}</div></div>`;
+}
+
+/* ===================== STORE ===================== */
+V.books = async () => {
+  const { data } = await sb.rpc("public_books"); const L = data || []; S.bkList = L;
+  const cats = [...new Set(L.map(b => b.category).filter(Boolean))], f = S.bkCat || "", q = norm2(S.bkQ || "");
+  const shown = L.filter(b => (!f || b.category === f) && (!q || norm2([b.title, b.author, b.subtitle, b.publisher_name].join(" ")).includes(q)));
+  return `<div class="row-head"><h1>📚 ${esc(t("bookStore"))}</h1><div class="btnrow">${S.session ? `<a class="btn alt" href="#/library">${esc(t("myLibrary"))}</a>` : ""}${S.partnerStatus === "approved" ? `<a class="btn alt" href="#/publisher">ثبت کتاب من</a>` : ""}</div></div>
+    <p class="sub">کتاب‌ها فقط داخل سایت و در کتاب‌خوان امن مطالعه می‌شوند. صفحه‌های نخست هر کتاب رایگان است.</p>
+    <div class="bk-tools"><input class="input" id="bkq" placeholder="جستجوی عنوان، نویسنده یا ناشر…" value="${esc(S.bkQ || "")}" aria-label="جستجوی کتاب">
+      <div class="chips-row">${["", ...cats].map(c => `<button class="btn sm ${f === c ? "" : "alt"}" data-act="bk-cat" data-c="${esc(c)}">${esc(c || "همه")}</button>`).join("")}</div></div>
+    ${shown.length ? `<div class="bk-shelf">${shown.map(b => `<a class="bk-card" href="#/books/${encodeURIComponent(b.slug)}">${bkCover(b)}<div class="bk-info"><b>${esc(b.title)}</b><span>${esc(b.author || "")}</span>
+      <div class="bk-price">${b.owned ? `<span class="tag ok">در کتابخانه شما</span>` : esc(bkMoney(b.price_read))}</div></div></a>`).join("")}</div>` : `<div class="empty"><p>کتابی پیدا نشد.</p></div>`}`;
+};
+function norm2(s) { return String(s || "").replace(/ي/g, "ی").replace(/ك/g, "ک").replace(/\u200c/g, " ").toLowerCase().trim(); }
+document.addEventListener("input", e => { if (e.target.id === "bkq") { S.bkQ = e.target.value; clearTimeout(S._bkt); S._bkt = setTimeout(async () => { const pos = e.target.selectionStart; await render(); const i = document.getElementById("bkq"); if (i) { i.focus(); i.setSelectionRange(pos, pos); } }, 350); } });
+ACT["bk-cat"] = el => { S.bkCat = el.dataset.c; render(); };
+V.book = async (slug) => {
+  const { data } = await sb.rpc("public_books", { _slug: decodeURIComponent(slug) }); const b = (data || [])[0];
+  if (!b) return `<div class="empty"><p>${esc(t("notFound"))}</p></div>`;
+  S.bkCur = b;
+  const toc = (b.toc || []).map(c => `<li><span>${esc(c.t)}</span><small>${c.p < b.sample_pages || b.owned || b.is_owner ? "ص " + num(c.p + 1) : "🔒"}</small>${(c.subs || []).length ? `<ul>${c.subs.map(s => `<li><span>${esc(s.t)}</span></li>`).join("")}</ul>` : ""}</li>`).join("");
+  return `<p><a class="link" href="#/books">→ ${esc(t("bookStore"))}</a></p>
+    <div class="bk-detail">${bkCover(b, true)}<div><h1 style="margin:0">${esc(b.title)}</h1>${b.subtitle ? `<p class="sub" style="margin:2px 0 8px">${esc(b.subtitle)}</p>` : ""}
+      <div class="bk-meta">${[["نویسنده", b.author], ["مترجم", b.translator], ["ناشر", b.publisher_name], ["سال", b.year], ["شابک", b.isbn], ["موضوع", b.category], ["تعداد صفحه", num(b.pages_count)]].filter(x => x[1]).map(x => `<div><span>${x[0]}</span><b>${esc(x[1])}</b></div>`).join("")}</div>
+      <div class="bk-buy"><div class="bk-opt ${b.owned ? "own" : ""}"><div><b>📖 مطالعه</b><small>خواندن کامل در کتاب‌خوان امن، روی همه دستگاه‌ها</small></div>
+        ${b.owned || b.is_owner ? `<a class="btn teal" href="#/read/${encodeURIComponent(b.slug)}">${b.owned ? "ادامه مطالعه" : "پیش‌نمایش (مالک)"}</a>` : `<button class="btn teal" data-act="bk-buy">${esc(bkMoney(b.price_read))} — خرید</button>`}</div>
+        <div class="bk-opt"><div><b>🔬 پژوهشیار</b><small>فیش‌برداری، جستجوی پیشرفته و گفتگو با کتاب</small></div><span class="tag info">به‌زودی${b.price_research ? " · " + esc(money(b.price_research)) : ""}</span></div>
+        ${b.owned ? "" : `<a class="btn alt" href="#/read/${encodeURIComponent(b.slug)}">خواندن ${esc(num(b.sample_pages))} صفحه نمونه رایگان</a>`}</div>
+      ${b.description ? `<h2>درباره کتاب</h2><p style="white-space:pre-wrap">${esc(b.description)}</p>` : ""}${toc ? `<h2>فهرست</h2><ol class="bk-toc">${toc}</ol>` : ""}</div></div>`;
+};
+ACT["bk-buy"] = async el => {
+  if (!S.session) { S.next = location.hash; location.hash = "#/login"; return; }
+  const b = S.bkCur; if (!confirm(`خرید «${b.title}» برای مطالعه — ${bkMoney(b.price_read)} از کیف پول؟`)) return;
+  el.disabled = true; const { error } = await sb.rpc("buy_book", { _book_id: b.id, _kind: "read" }); el.disabled = false;
+  if (error) { if (/INSUFFICIENT/.test(error.message) && confirm("موجودی کیف پول کافی نیست. شارژ کنید؟")) ACT.topup(); else toast(errMsg(error), true); return; }
+  await loadMe(); toast("✅ کتاب به کتابخانه شما اضافه شد"); location.hash = "#/read/" + encodeURIComponent(b.slug);
+};
+V.library = async () => {
+  const { data } = await sb.rpc("my_books"); const L = data || [];
+  return `<div class="row-head"><h1>📖 ${esc(t("myLibrary"))}</h1><a class="btn alt" href="#/books">${esc(t("bookStore"))}</a></div><p class="sub">کتاب‌های خریداری‌شده شما؛ مطالعه از همان صفحه‌ای که ماندید ادامه پیدا می‌کند.</p>` +
+    (L.length ? `<div class="bk-shelf">${L.map(b => { const pr = b.pages_count ? Math.round((b.pos + 1) / b.pages_count * 100) : 0;
+      return `<a class="bk-card" href="#/read/${encodeURIComponent(b.slug)}">${bkCover(b)}<div class="bk-info"><b>${esc(b.title)}</b><span>${esc(b.author || "")}</span><div class="bk-prog"><i style="width:${pr}%"></i></div><small>${esc(num(pr))}٪ خوانده شده</small></div></a>`; }).join("")}</div>`
+      : `<div class="empty"><p>هنوز کتابی نخریده‌اید.</p><a class="btn" href="#/books">رفتن به کتاب‌فروشی</a></div>`);
+};
+ROUTES.push([/^#\/books\/?$/, V.books], [/^#\/books\/([^/?]+)$/, V.book], [/^#\/library\/?$/, V.library, "auth"], [/^#\/read\/([^/?]+)$/, (s) => V.read(s)]);
+
+/* ===================== PROTECTED READER ===================== */
+const RD = { cache: new Map(), state: null, book: null };
+function rdState() { return RD.state || (RD.state = { pos: 0, bm: [], marks: [], idx: [] }); }
+async function rdLoadState(b) {
+  RD.state = null; if (!S.session) return;
+  const { data } = await sb.from("reader_state").select("data").eq("book_id", b.id).maybeSingle();
+  RD.state = Object.assign({ pos: 0, bm: [], marks: [], idx: [] }, (data && data.data) || {});
+}
+function rdSave() { if (!S.session || !RD.book) return; clearTimeout(RD._st); RD._st = setTimeout(() => sb.from("reader_state").upsert({ user_id: S.session.user.id, book_id: RD.book.id, data: rdState(), updated_at: new Date().toISOString() }), 900); }
+async function rdPage(i) {
+  const b = RD.book; if (i < 0 || i >= b.pages_count) return null;
+  const key = b.id + ":" + i; if (RD.cache.has(key)) return RD.cache.get(key);
+  const p = sb.rpc("book_page", { _book_id: b.id, _page: i, _device: BK_DEV }).then(({ data, error }) => { if (error) { RD.cache.delete(key); return { error: error.message }; } RD.wm = data.wm; return data; });
+  RD.cache.set(key, p); return p;
+}
+V.read = async (slug) => {
+  const { data } = await sb.rpc("public_books", { _slug: decodeURIComponent(slug) }); const b = (data || [])[0];
+  if (!b) return `<div class="empty"><p>${esc(t("notFound"))}</p></div>`;
+  if (!RD.book || RD.book.id !== b.id) { RD.cache.clear(); RD.book = b; await rdLoadState(b); RD.page = Math.min(rdState().pos || 0, b.pages_count - 1); RD.sent = 0; }
+  RD.book = b;
+  Object.assign(RD, { mode: RD.mode || "flip", theme: RD.theme || (localStorage.getItem("asan-rtheme") || "paper"), font: RD.font || "Vazirmatn", size: RD.size || 19, toc: RD.toc ?? (localStorage.getItem("asan-toc") !== "0") });
+  setTimeout(rdMount, 0);
+  return `<div class="empty"><p>در حال باز کردن کتاب‌خوان…</p></div>`;
+};
+async function rdMount() {
+  let root = document.getElementById("readerRoot");
+  if (!root) { root = document.createElement("div"); root.id = "readerRoot"; document.body.appendChild(root); document.body.classList.add("reading"); }
+  await rdRender();
+}
+function rdUnmount() { document.getElementById("readerRoot")?.remove(); document.body.classList.remove("reading"); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); }
+window.addEventListener("hashchange", () => { if (!/^#\/read\//.test(location.hash || "")) rdUnmount(); });
+function rdBody(text) {
+  return String(text || "").split(/\n{2,}/).map(par => { const s = par.trim(); if (!s) return "";
+    if (s.startsWith("## ")) return `<h3 class="rd-h3">${esc(s.slice(3))}</h3>`; if (s.startsWith("# ")) return `<h2 class="rd-h2">${esc(s.slice(2))}</h2>`;
+    return `<p>${esc(s).replace(/\n/g, "<br>")}</p>`; }).join("");
+}
+function rdApplyMarks(el, i) {
+  const ms = (rdState().marks || []).filter(m => m.p === i).sort((a, b) => a.s - b.s); if (!ms.length) return;
+  const nodes = []; const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n, off = 0; while ((n = tw.nextNode())) { nodes.push([n, off]); off += n.length; }
+  for (const m of ms.reverse()) for (const [node, start] of nodes.slice().reverse()) {
+    const a = Math.max(m.s, start), z = Math.min(m.e, start + node.length); if (a >= z || !node.parentNode) continue;
+    const r = document.createRange(); r.setStart(node, a - start); r.setEnd(node, z - start);
+    const mk = document.createElement("mark"); mk.className = m.c; mk.dataset.mid = m.id; if (m.note) mk.title = m.note; try { r.surroundContents(mk); } catch (e) {}
+  }
+}
+function rdTocHtml() {
+  const b = RD.book, st = rdState(), cur = RD.page, n = b.pages_count, T = (b.toc && b.toc.length) ? b.toc : [{ t: b.title, p: 0 }];
+  if (!RD.toc) return `<aside class="rd-toc collapsed"><button class="rd-toc-tab" data-act="rd-toc" aria-label="باز کردن فهرست"><span>☰ فهرست</span></button></aside>`;
+  const can = p => b.owned || b.is_owner || p < b.sample_pages, q = norm2(RD.tocQ || "");
+  const chEnd = i => (T[i + 1] ? T[i + 1].p : n) - 1;
+  return `<aside class="rd-toc" aria-label="فهرست کتاب"><div class="rd-toc-h"><b>☰ فهرست</b><button class="rd-ib" data-act="rd-toc" aria-label="بستن فهرست">«</button></div>
+    <input class="rd-in" id="rdtq" placeholder="جستجو در فهرست…" value="${esc(RD.tocQ || "")}"><div class="rd-small">${esc(num(Math.round((cur + 1) / n * 100)))}٪ · صفحه ${esc(num(cur + 1))} از ${esc(num(n))}</div>
+    <ol class="rd-toc-l">${T.map((c, i) => { const subs = (c.subs || []).filter(s => !q || norm2(s.t).includes(q)); if (q && !norm2(c.t).includes(q) && !subs.length) return "";
+      const inCh = cur >= c.p && cur <= chEnd(i), pc = Math.max(0, Math.min(100, Math.round((cur - c.p + 1) / (chEnd(i) - c.p + 1) * 100))), shut = RD.shut && RD.shut[i];
+      return `<li class="${inCh ? "cur" : ""}"><div class="rd-tr">${(c.subs || []).length ? `<button class="rd-car" data-act="rd-tx" data-i="${i}" aria-label="زیربخش‌ها">${shut ? "◂" : "▾"}</button>` : `<span class="rd-car"></span>`}
+        <button class="rd-go" data-act="rd-goto" data-p="${c.p}" ${can(c.p) ? "" : "disabled"}><span>${esc(c.t)}</span><small>${can(c.p) ? num(c.p + 1) : "🔒"}</small></button></div>
+        ${inCh ? `<div class="rd-tp"><i style="width:${pc}%"></i></div>` : ""}${subs.length && !shut ? `<ul>${subs.map(s => `<li><button class="rd-go sub ${cur === s.p ? "here" : ""}" data-act="rd-goto" data-p="${s.p}" ${can(s.p) ? "" : "disabled"}><span>${esc(s.t)}</span><small>${num(s.p + 1)}</small></button></li>`).join("")}</ul>` : ""}</li>`; }).join("")}</ol>
+    ${(st.bm || []).length ? `<div class="rd-bms"><b>🔖 نشانه‌ها</b>${st.bm.slice().sort((a, c) => a - c).map(p => `<button class="rd-chip" data-act="rd-goto" data-p="${p}">ص ${num(p + 1)}</button>`).join("")}</div>` : ""}
+    ${(st.idx || []).length ? `<div class="rd-bms"><b>🏷 نمایه‌های من</b>${[...new Set(st.idx.map(x => x.term))].map(term => `<div>${esc(term)} ${st.idx.filter(x => x.term === term).map(x => `<button class="rd-chip" data-act="rd-goto" data-p="${x.p}">${num(x.p + 1)}</button>`).join("")}</div>`).join("")}</div>` : ""}</aside>`;
+}
+async function rdPageHtml(i) {
+  const b = RD.book; if (i >= b.pages_count) return `<div class="rd-page end"><div class="rd-pay"><b>پایان کتاب</b></div></div>`;
+  const d = await rdPage(i);
+  if (!d || d.error) { const locked = d && /BOOK_LOCKED/.test(d.error);
+    return `<div class="rd-page"><div class="rd-pay">${locked ? `<b>🔒 پایان بخش رایگان</b><p>برای ادامه مطالعه، کتاب را بخرید.</p><a class="btn teal" href="#/books/${encodeURIComponent(b.slug)}">خرید — ${esc(bkMoney(b.price_read))}</a>` : `<b>⚠️</b><p>${esc(errMsg({ message: d ? d.error : "" }))}</p>`}</div></div>`; }
+  const bm = (rdState().bm || []).includes(i);
+  return `<div class="rd-page" data-p="${i}">${bm ? `<span class="rd-bm" aria-label="نشانه‌گذاری‌شده">🔖</span>` : ""}<div class="rd-chap">${esc(b.title)}</div><div class="rd-text" data-p="${i}">${RD.mode === "focus" ? rdFocus(d.content) : rdBody(d.content)}</div><div class="rd-pno">${esc(num(i + 1))}</div><div class="rd-wm" style="--wm:'${esc(d.wm || RD.wm || "")}'" data-wm="${esc(d.wm || "")}"></div></div>`;
+}
+function rdSentences(text) { return String(text || "").replace(/^#+ /gm, "").split(/(?<=[.؟!؛])\s+|\n{2,}/).map(s => s.trim()).filter(Boolean); }
+function rdFocus(text) { const L = rdSentences(text); RD.sentN = L.length; return `<p>${L.map((s, j) => `<span class="sn ${j === RD.sent ? "cur" : ""}" data-j="${j}">${esc(s)}</span>`).join(" ")}</p>`; }
+async function rdRender() {
+  const root = document.getElementById("readerRoot"); if (!root || !RD.book) return;
+  const b = RD.book, i = RD.page, wide = innerWidth > 980, st = rdState();
+  let stage;
+  if (RD.mode === "scroll") { const end = Math.min(b.pages_count, i + 6); const pages = []; for (let k = Math.max(0, i - 1); k < end; k++) pages.push(await rdPageHtml(k)); stage = `<div class="rd-col">${pages.join("")}${end < b.pages_count ? `<button class="btn alt" data-act="rd-more">ادامه صفحه‌ها ▾</button>` : ""}</div>`; }
+  else if (RD.mode === "slide") { const d = await rdPage(i); stage = `<div class="rd-slide"><div class="rd-sc">${esc(b.title)} · ${esc(num(i + 1))} از ${esc(num(b.pages_count))}</div>${d && !d.error ? `<div class="rd-text" data-p="${i}">${rdBody(d.content)}</div>` : await rdPageHtml(i)}<div class="rd-wm" data-wm="${esc((d && d.wm) || "")}"></div></div>`; }
+  else stage = `<div class="rd-spread ${RD.anim || ""}">${await rdPageHtml(i)}${wide && RD.mode === "flip" ? await rdPageHtml(i + 1) : ""}</div>`;
+  RD.anim = "";
+  root.className = `rd t-${RD.theme} ${RD.mode === "focus" ? "focus" : ""}`; root.style.setProperty("--rd-font", `'${RD.font}'`); root.style.setProperty("--rd-size", RD.size + "px");
+  root.innerHTML = `<div class="rd-bar"><button class="rd-ib" data-act="rd-close">→ بستن</button><span class="rd-title">${esc(b.title)}</span>
+      <select class="rd-sel" data-rd="mode" aria-label="حالت مطالعه">${[["flip", "📖 ورق‌زدن"], ["scroll", "📜 اسکرول"], ["slide", "🖥 اسلاید"], ["focus", "🎯 جمله‌به‌جمله"]].map(([k, l]) => `<option value="${k}" ${RD.mode === k ? "selected" : ""}>${l}</option>`).join("")}</select>
+      <select class="rd-sel" data-rd="theme" aria-label="پوسته">${[["paper", "روز"], ["sepia", "کاغذی"], ["teal", "فیروزه‌ای"], ["night", "شب"]].map(([k, l]) => `<option value="${k}" ${RD.theme === k ? "selected" : ""}>${l}</option>`).join("")}</select>
+      <select class="rd-sel" data-rd="font" aria-label="قلم">${[["Vazirmatn", "وزیرمتن"], ["Noto Naskh Arabic", "نسخ"], ["Amiri", "امیری"]].map(([k, l]) => `<option value="${k}" ${RD.font === k ? "selected" : ""}>${l}</option>`).join("")}</select>
+      <button class="rd-ib" data-act="rd-fs" data-d="-1" aria-label="کوچک‌تر">آ−</button><button class="rd-ib" data-act="rd-fs" data-d="1" aria-label="بزرگ‌تر">آ+</button>
+      <button class="rd-ib ${st.bm.includes(i) ? "on" : ""}" data-act="rd-bm" aria-label="نشانه‌گذاری">🔖</button><button class="rd-ib ${RD.toc ? "on" : ""}" data-act="rd-toc">☰ فهرست</button>
+      <button class="rd-ib" data-act="rd-full">${document.fullscreenElement ? "⤡ خروج" : "⛶ تمام‌صفحه"}</button></div>
+    <div class="rd-body">${rdTocHtml()}<div class="rd-stage">${stage}
+      ${RD.mode === "focus" ? `<div class="rd-fnav"><button class="rd-ib" data-act="rd-turn" data-d="-1">→ جمله قبلی</button><span>جمله ${esc(num(RD.sent + 1))} از ${esc(num(RD.sentN || 1))} · صفحه ${esc(num(i + 1))}</span><button class="rd-ib on" data-act="rd-turn" data-d="1">جمله بعدی ←</button></div>`
+        : RD.mode !== "scroll" ? `<button class="rd-nav prev" data-act="rd-turn" data-d="-1" aria-label="صفحه قبل">›</button><button class="rd-nav next" data-act="rd-turn" data-d="1" aria-label="صفحه بعد">‹</button>` : ""}</div></div>
+    <div class="rd-foot">${RD.mode !== "focus" && RD.mode !== "scroll" ? `<button class="rd-ib rd-fn" data-act="rd-turn" data-d="-1" aria-label="صفحه قبل">› قبلی</button>` : ""}<span>صفحه ${esc(num(i + 1))} از ${esc(num(b.pages_count))}</span><div class="rd-prog"><i style="width:${(i + 1) / b.pages_count * 100}%"></i></div><span class="rd-safe">🛡 محتوای محافظت‌شده</span>${RD.mode !== "focus" && RD.mode !== "scroll" ? `<button class="rd-ib rd-fn on" data-act="rd-turn" data-d="1" aria-label="صفحه بعد">بعدی ‹</button>` : ""}</div>`;
+  if (RD.mode !== "focus") root.querySelectorAll(".rd-text").forEach(el => rdApplyMarks(el, +el.dataset.p));
+  root.querySelectorAll(".rd-wm").forEach(w => w.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='280' height='170'><text x='14' y='95' transform='rotate(-24 140 85)' font-family='Tahoma' font-size='15' fill='#000'>${w.dataset.wm || RD.wm || ""} · آسان دیجیتال</text></svg>`)}")`);
+  if (!(b.owned || b.is_owner) || i + 2 < b.pages_count) rdPage(i + (wide && RD.mode === "flip" ? 2 : 1));   // quiet prefetch of the next page
+  st.pos = i; rdSave();
+}
+async function rdTurn(d) {
+  const b = RD.book;
+  if (RD.mode === "focus") { const ns = RD.sent + d; if (ns >= 0 && ns < (RD.sentN || 1)) { RD.sent = ns; return rdRender(); } }
+  const step = RD.mode === "flip" && innerWidth > 980 ? 2 : 1, np = RD.page + d * step;
+  if (np < 0 || np >= b.pages_count) return;
+  RD.page = np; RD.anim = d > 0 ? "flip-n" : "flip-p";
+  if (RD.mode === "focus") { RD.sent = 0; if (d < 0) { const p = await rdPage(np); RD.sent = p && !p.error ? rdSentences(p.content).length - 1 : 0; } }
+  rdRender();
+}
+Object.assign(ACT, {
+  "rd-close": () => { history.length > 1 ? history.back() : (location.hash = "#/library"); setTimeout(() => { if (/^#\/read\//.test(location.hash)) location.hash = "#/library"; }, 200); },
+  "rd-turn": el => rdTurn(+el.dataset.d), "rd-goto": el => { RD.page = +el.dataset.p; RD.sent = 0; rdRender(); },
+  "rd-toc": () => { RD.toc = !RD.toc; try { localStorage.setItem("asan-toc", RD.toc ? "1" : "0"); } catch (e) {} rdRender(); },
+  "rd-tx": el => { RD.shut = RD.shut || {}; RD.shut[el.dataset.i] = !RD.shut[el.dataset.i]; rdRender(); },
+  "rd-fs": el => { RD.size = Math.max(14, Math.min(32, RD.size + +el.dataset.d)); rdRender(); },
+  "rd-bm": () => { if (!S.session) return toast("برای نشانه‌گذاری وارد شوید", true); const L = rdState().bm, k = L.indexOf(RD.page); k < 0 ? L.push(RD.page) : L.splice(k, 1); rdSave(); rdRender(); toast(k < 0 ? "🔖 نشانه‌گذاری شد" : "نشانه برداشته شد"); },
+  "rd-full": () => { const r = document.getElementById("readerRoot"); if (document.fullscreenElement) document.exitFullscreen(); else (r.requestFullscreen ? r.requestFullscreen() : Promise.reject()).catch(() => toast("مرورگر اجازه تمام‌صفحه نداد", true)); },
+  "rd-more": () => { RD.page = Math.min(RD.book.pages_count - 1, RD.page + 5); rdRender(); },
+  "rd-hl": el => { const st = rdState(); st.marks.push({ id: Date.now(), p: RD.sel.p, s: RD.sel.s, e: RD.sel.e, c: el.dataset.c }); rdSave(); getSelection().removeAllRanges(); document.querySelector(".rd-tool")?.remove(); rdRender(); },
+  "rd-note": () => { const n = prompt("یادداشت شما برای این بخش:"); if (!n) return; rdState().marks.push({ id: Date.now(), p: RD.sel.p, s: RD.sel.s, e: RD.sel.e, c: "nt", note: n.slice(0, 1000) }); rdSave(); document.querySelector(".rd-tool")?.remove(); rdRender(); toast("✏️ یادداشت ثبت شد"); },
+  "rd-index": () => { const term = prompt("عنوان نمایه (مثلاً: تعریف فیش):"); if (!term) return; rdState().idx.push({ p: RD.sel.p, term: term.slice(0, 80) }); rdSave(); document.querySelector(".rd-tool")?.remove(); rdRender(); toast("🏷 نمایه ثبت شد"); },
+  "rd-unmark": el => { const st = rdState(); st.marks = st.marks.filter(m => String(m.id) !== el.dataset.id); rdSave(); document.querySelector(".rd-tool")?.remove(); rdRender(); }
+});
+document.addEventListener("change", e => { const k = e.target.dataset && e.target.dataset.rd; if (!k) return; RD[k] = e.target.value; if (k === "theme") try { localStorage.setItem("asan-rtheme", RD.theme); } catch (x) {} if (k === "mode") RD.sent = 0; rdRender(); });
+document.addEventListener("input", e => { if (e.target.id === "rdtq") { RD.tocQ = e.target.value; const pos = e.target.selectionStart; rdRender().then(() => { const q = document.getElementById("rdtq"); if (q) { q.focus(); q.setSelectionRange(pos, pos); } }); } });
+document.addEventListener("click", e => { if (!document.body.classList.contains("reading") || RD.mode !== "focus") return; const sn = e.target.closest && e.target.closest(".rd-text span.sn"); if (!sn || !getSelection().isCollapsed) return; const j = +sn.dataset.j; if (j === RD.sent) rdTurn(1); else { RD.sent = j; rdRender(); } });
+document.addEventListener("keydown", e => {
+  if (!document.body.classList.contains("reading")) return;
+  if ((e.ctrlKey || e.metaKey) && ["c", "x", "p", "s", "a", "u"].includes(e.key.toLowerCase())) { e.preventDefault(); toast("🛡 این کار در کتاب‌خوان مجاز نیست", true); return; }
+  if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName) || document.getElementById("modal")?.open) return;
+  if (e.key === "ArrowLeft") rdTurn(1); if (e.key === "ArrowRight") rdTurn(-1);
+});
+/* protection: copy, cut, right-click, dragging text out, printing */
+["copy", "cut"].forEach(ev => document.addEventListener(ev, e => { if (!document.body.classList.contains("reading")) return; e.preventDefault(); if (e.clipboardData) e.clipboardData.setData("text/plain", "کپی از محتوای محافظت‌شده آسان دیجیتال مجاز نیست."); toast("🛡 کپی متن کتاب مجاز نیست", true); }, true));
+document.addEventListener("contextmenu", e => { if (document.body.classList.contains("reading") && e.target.closest && e.target.closest("#readerRoot")) { e.preventDefault(); toast("🛡 منوی راست‌کلیک در کتاب‌خوان غیرفعال است", true); } }, true);
+document.addEventListener("dragstart", e => { if (!document.body.classList.contains("reading")) return; const n = e.target && e.target.nodeType === 3 ? e.target.parentElement : e.target; if (n && n.closest && n.closest("#readerRoot")) { e.preventDefault(); e.stopPropagation(); getSelection().removeAllRanges(); toast("🛡 کشیدن متن کتاب به بیرون مجاز نیست", true); } }, true);
+window.addEventListener("beforeprint", () => { if (document.body.classList.contains("reading")) toast("🛡 چاپ کتاب مجاز نیست", true); });
+let rdX = null; document.addEventListener("pointerdown", e => { if (e.target.closest && e.target.closest(".rd-stage") && !e.target.closest(".rd-text,button")) rdX = e.clientX; });
+document.addEventListener("pointerup", e => { if (rdX === null) return; const dx = e.clientX - rdX; rdX = null; if (Math.abs(dx) > 60) rdTurn(dx > 0 ? 1 : -1); });
+/* selection toolbar: highlight, note, index (no copy) */
+document.addEventListener("mouseup", e => { if (e.target.closest && e.target.closest(".rd-tool")) return; rdTool(); });
+document.addEventListener("touchend", e => { if (e.target.closest && e.target.closest(".rd-tool")) return; setTimeout(rdTool, 60); });
+function rdTool() {
+  document.querySelector(".rd-tool")?.remove(); if (!document.body.classList.contains("reading") || !S.session) return;
+  const sel = getSelection(); if (!sel || sel.isCollapsed) return;
+  const tx = sel.anchorNode && (sel.anchorNode.nodeType === 3 ? sel.anchorNode.parentElement : sel.anchorNode).closest(".rd-text"); if (!tx || RD.mode === "focus") return;
+  const r = sel.getRangeAt(0), pre = document.createRange(); pre.selectNodeContents(tx); pre.setEnd(r.startContainer, r.startOffset);
+  const s = pre.toString().length, len = r.toString().length; if (!len) return;
+  RD.sel = { p: +tx.dataset.p, s, e: s + len };
+  const rc = r.getBoundingClientRect(), t = document.createElement("div"); t.className = "rd-tool";
+  t.style.top = Math.max(60, rc.top - 52) + "px"; t.style.left = Math.max(8, Math.min(innerWidth - 300, rc.left)) + "px";
+  t.innerHTML = `<button class="c" style="background:#FFD65A" data-act="rd-hl" data-c="h1" aria-label="هایلایت زرد"></button><button class="c" style="background:#78D2AA" data-act="rd-hl" data-c="h2" aria-label="هایلایت سبز"></button><button class="c" style="background:#FF96AA" data-act="rd-hl" data-c="h3" aria-label="هایلایت صورتی"></button>
+    <button data-act="rd-note">✏️ یادداشت</button><button data-act="rd-index">🏷 نمایه</button>`;
+  t.addEventListener("mousedown", ev => ev.preventDefault()); document.body.appendChild(t);
+}
+document.addEventListener("click", e => { const mk = e.target.closest && e.target.closest("#readerRoot mark[data-mid]"); if (!mk || !getSelection().isCollapsed) return;
+  document.querySelector(".rd-tool")?.remove(); const rc = mk.getBoundingClientRect(), t = document.createElement("div"); t.className = "rd-tool"; t.style.top = Math.max(60, rc.top - 52) + "px"; t.style.left = Math.max(8, rc.left) + "px";
+  t.innerHTML = `${mk.title ? `<span class="rd-tn">✏️ ${esc(mk.title)}</span>` : ""}<button data-act="rd-unmark" data-id="${mk.dataset.mid}">🗑 حذف</button>`; document.body.appendChild(t); });
+addEventListener("resize", () => { if (document.getElementById("readerRoot")) { clearTimeout(RD._rz); RD._rz = setTimeout(rdRender, 250); } });
+document.addEventListener("fullscreenchange", () => { if (document.getElementById("readerRoot")) rdRender(); });
+
+/* ===================== CONVERTER (manuscript → protected pages) ===================== */
+async function bkParse(file) {
+  const ext = (file.name.split(".").pop() || "").toLowerCase();
+  if (ext === "txt" || file.type === "text/plain") { const t0 = await file.text(); return t0.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean).map(s => /^##\s/.test(s) ? { h: 2, t: s.replace(/^##\s*/, "") } : /^#\s/.test(s) ? { h: 1, t: s.replace(/^#\s*/, "") } : { t: s }); }
+  let html = "";
+  if (ext === "html" || ext === "htm") html = await file.text();
+  else if (ext === "docx") { await loadScriptChain(["https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js", "https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"], () => window.mammoth, "Word reader failed to load");
+    html = (await mammoth.convertToHtml({ arrayBuffer: await file.arrayBuffer() })).value; }
+  else if (ext === "epub") { await loadScriptChain(["https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js", "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"], () => window.JSZip, "EPUB reader failed to load");
+    const z = await JSZip.loadAsync(await file.arrayBuffer()), cont = await z.file("META-INF/container.xml").async("string"), opfPath = /full-path="([^"]+)"/.exec(cont)[1], base = opfPath.includes("/") ? opfPath.replace(/[^/]+$/, "") : "";
+    const opf = new DOMParser().parseFromString(await z.file(opfPath).async("string"), "application/xml"), man = {}; opf.querySelectorAll("manifest item").forEach(it => man[it.getAttribute("id")] = it.getAttribute("href"));
+    for (const ir of opf.querySelectorAll("spine itemref")) { const f = z.file(base + decodeURIComponent(man[ir.getAttribute("idref")] || "")); if (f) html += await f.async("string"); } }
+  else throw new Error("قالب فایل پشتیبانی نمی‌شود (Word، EPUB، HTML یا TXT).");
+  const doc = new DOMParser().parseFromString(html, "text/html"), out = [];
+  doc.body.querySelectorAll("h1,h2,h3,p,li,blockquote,pre").forEach(el => { const t = el.textContent.replace(/\s+/g, " ").trim(); if (!t) return; if (el.closest("li") && el.tagName !== "LI") return;
+    out.push(/^H1$/.test(el.tagName) ? { h: 1, t } : /^H[23]$/.test(el.tagName) ? { h: 2, t } : { t: el.tagName === "LI" ? "• " + t : t }); });
+  if (!out.length) out.push({ t: doc.body.textContent.replace(/\s+/g, " ").trim() });
+  return out;
+}
+function bkPaginate(blocks, per = 1500) {
+  const pages = [], toc = []; let cur = [], len = 0;
+  const flush = () => { if (cur.length) { pages.push(cur.join("\n\n")); cur = []; len = 0; } };
+  for (const b of blocks) {
+    if (b.h === 1) { flush(); toc.push({ t: b.t.slice(0, 120), p: pages.length, subs: [] }); cur.push("# " + b.t); len += b.t.length; continue; }
+    if (b.h === 2) { if (len > per * .7) flush(); const tgt = toc[toc.length - 1]; const ent = { t: b.t.slice(0, 120), p: pages.length }; if (tgt) tgt.subs.push(ent); else toc.push(Object.assign(ent, { subs: [] })); cur.push("## " + b.t); len += b.t.length; continue; }
+    let t = b.t;
+    while (t.length) { const room = per - len; if (t.length <= room) { cur.push(t); len += t.length; t = ""; }
+      else { let cut = t.lastIndexOf(" ", room); if (cut < room * .5) cut = room; if (room < 200) { flush(); continue; } cur.push(t.slice(0, cut)); flush(); t = t.slice(cut).trim(); } }
+    if (len >= per) flush();
+  }
+  flush(); toc.forEach(c => { if (!c.subs.length) delete c.subs; });
+  return { pages, toc };
+}
+async function bkPublishText(bookId, file, el) {
+  const blocks = await bkParse(file), { pages, toc } = bkPaginate(blocks);
+  if (!pages.length) throw new Error("متنی در فایل پیدا نشد.");
+  for (let i = 0; i < pages.length; i += 40) {
+    if (el) el.textContent = `در حال ذخیره ${num(Math.min(pages.length, i + 40))} از ${num(pages.length)} صفحه…`;
+    const { error } = await sb.rpc("admin_book_set_pages", { _book_id: bookId, _start: i, _pages: pages.slice(i, i + 40), _final: i + 40 >= pages.length, _toc: toc });
+    if (error) throw error;
+  }
+  return pages.length;
+}
+
+/* ===================== PUBLISHER CONTRACT ===================== */
+function bkContract(p, sigUrl) {
+  const T = p.terms || p.data || {};
+  return `<article class="sheet contract"><header class="sh-head"><div class="sh-bism">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>${ORNAMENT}<h2 class="sh-title">قرارداد عرضه دیجیتال کتاب</h2>
+    <p class="hint" style="margin:4px 0 0">شماره: ${esc(onum(T.proposal_number || p.proposal_number))} — تاریخ توافق: ${esc(T.agreed_at ? shamsi(T.agreed_at) : "—")}</p></header>
+    <p><b>طرف اول (فروشگاه):</b> ${esc(T.store_name || t("brand"))}<br><b>طرف دوم (ناشر / مؤلف):</b> ${esc(T.vendor_name || "")}${T.vendor_phone ? "، تلفن " + esc(T.vendor_phone) : ""}</p>
+    <ol class="clauses">
+      <li><b>موضوع:</b> عرضه نسخه دیجیتال کتاب «${esc(T.title || "")}»${T.author ? " اثر " + esc(T.author) : ""}${T.publisher_name ? "، " + esc(T.publisher_name) : ""} برای مطالعه در کتاب‌خوان امن فروشگاه. این قرارداد هیچ حقی برای دانلود یا تکثیر به خریداران نمی‌دهد.</li>
+      <li><b>قیمت و سهم:</b> مطالعه ${esc(bkMoney(T.price_read))}${T.price_research ? "، پژوهشیار " + esc(money(T.price_research)) : ""}. از مبلغ هر فروش، ${esc(pct(100 - (T.site_share_percent ?? 40)))} سهم ناشر و ${esc(pct(T.site_share_percent ?? 40))} سهم فروشگاه است.</li>
+      <li><b>دریافت و تسویه:</b> همه وجوه به حساب فروشگاه پرداخت و سهم ناشر پس از هر فروش در حساب او ثبت و طبق دوره تسویه پرداخت می‌شود.</li>
+      <li><b>حفاظت از اثر:</b> فروشگاه کتاب را فقط صفحه‌به‌صفحه و پس از احراز خرید نمایش می‌دهد؛ کپی، دانلود، چاپ و کشیدن متن را مسدود می‌کند، روی هر صفحه نشانه آشکار و نشانه نامرئی منحصربه‌فرد خریدار قرار می‌دهد، سقف خواندن و تعداد دستگاه را اعمال می‌کند و دسترسی‌ها را ثبت می‌کند. سقف نقل‌قول پژوهشی ${esc(pct(T.quote_percent ?? 10))} و صفحات نمونه رایگان ${esc(num(T.sample_pages ?? 2))} صفحه است که ناشر می‌تواند بعداً تغییر دهد.</li>
+      <li class="red"><b>تضمین مالکیت حقوق:</b> ناشر/مؤلف اعلام و تضمین می‌کند که مالک یا دارنده مجوز قانونی همه حقوق مادی و معنوی اثر (متن، ترجمه، تصاویر و جلد) است و مسئولیت هرگونه ادعای اشخاص ثالث کاملاً بر عهده اوست. در صورت اثبات ادعای نقض حقوق، فروشگاه حق دارد اثر را فوراً از دسترس خارج و وجوه مربوط را تا روشن شدن موضوع نگه دارد.</li>
+      <li><b>هوش مصنوعی:</b> ${T.ai_consent ? "ناشر با استفاده از قابلیت‌های جستجوی معنایی و گفتگو با کتاب (با نقل‌های کوتاه و محدود و بدون خروج متن کامل) موافق است." : "قابلیت‌های هوش مصنوعی برای این کتاب غیرفعال است مگر با رضایت بعدی ناشر."}</li>
+      <li><b>نشت و پیگیری:</b> در صورت مشاهده انتشار غیرمجاز، فروشگاه با ابزار ردیابی، حساب منشأ را شناسایی، مسدود و اطلاعات لازم را برای پیگیری قانونی در اختیار ناشر قرار می‌دهد.</li>
+      <li><b>خاتمه:</b> هر طرف می‌تواند با اطلاع قبلی همکاری را پایان دهد؛ عرضه کتاب متوقف می‌شود ولی خریداران پیشین دسترسی مطالعه خود را حفظ می‌کنند.</li>
+      <li class="red"><b>داوری:</b> در صورت اختلاف، مدیر سایت داور است و رأی او برای طرفین لازم‌الاجراست.</li>
+      ${(T.extra_terms || p.extra_terms || []).map(x => `<li><b>شرط اختصاصی:</b> ${esc(x)}</li>`).join("")}
+      <li><b>اعتبار:</b> این قرارداد با امضای الکترونیکی ناشر در سامانه معتبر و لازم‌الاجراست.</li></ol>
+    <div class="signs"><div><span>امضای ناشر / مؤلف</span>${sigUrl ? `<img src="${esc(sigUrl)}" alt="امضا">` : `<div class="sig-empty">هنوز امضا نشده</div>`}<b>${esc(T.vendor_name || "")}</b><small>${p.signed_at ? esc(shamsi(p.signed_at)) : ""}</small></div>
+      <div><span>تأیید فروشگاه</span><div class="seal">✓ ثبت در سامانه</div><b>${esc(T.store_name || t("brand"))}</b><small>${esc(T.agreed_at ? shamsi(T.agreed_at) : "")}</small></div></div></article>`;
+}
+async function bkContractModal(p, canSign) {
+  let sig = null; if (p.signature_path) try { sig = await signed("signatures", p.signature_path); } catch (e) {}
+  openModal("قرارداد عرضه دیجیتال کتاب", bkContract(p, sig) + (canSign ? sigPadHtml() : ""),
+    canSign ? `<button class="btn alt" data-act="close-modal">بعداً</button><button class="btn teal" data-act="bk-sign" data-id="${p.id}">✍️ امضا و تأیید قرارداد</button>` : `<button class="btn alt" data-act="print-sheet">🖨️ چاپ</button><button class="btn" data-act="close-modal">${esc(t("close"))}</button>`);
+  if (canSign) initSigPad();
+}
+
+/* ===================== PUBLISHER PANEL ===================== */
+const BK_ST = { submitted: ["در انتظار بررسی مدیر", "warn"], countered: ["ویرایش‌شده — منتظر پاسخ شما", "info"], to_sign: ["تأییدشده — منتظر امضا", "info"], live: ["قرارداد امضا شد", "ok"], rejected: ["رد شده", "bad"], declined: ["رد توسط شما", "bad"], withdrawn: ["انصراف", ""] };
+const BKS_ST = { draft: ["پیش‌نویس", ""], processing: ["آماده‌سازی متن", "warn"], live: ["در فروش", "ok"], paused: ["متوقف", ""] };
+V.publisher = async () => {
+  if (S.partnerStatus !== "approved") return `<h1>📚 ثبت کتاب</h1><div class="notice">برای عرضه کتاب، ابتدا از <a class="link" href="#/affiliate">همکاری در فروش</a> درخواست همکاری بدهید. پس از تأیید، از همین صفحه کتابتان را ثبت کنید.</div>`;
+  const [{ data: P }, { data: B }] = await Promise.all([sb.from("book_proposals").select("*").order("created_at", { ascending: false }), sb.from("books").select("id,slug,title,status,pages_count,quote_percent,sample_pages,price_read")]);
+  S.bkProps = P || []; S.bkMine = B || [];
+  return `<div class="row-head"><h1>📚 کتاب‌های من</h1><button class="btn teal" data-act="bk-prop-new">+ ثبت کتاب برای فروش</button></div>
+    <p class="sub">کتابتان را ثبت کنید؛ پس از تأیید مدیر و امضای قرارداد، فایل آماده‌سازی و در کتاب‌خوان امن عرضه می‌شود. فروش‌ها در صورت‌حساب «فروش محصولات من» ثبت می‌شود.</p>
+    ${S.bkMine.length ? `<section class="section"><h2>کتاب‌های منتشرشده</h2><div class="list">${S.bkMine.map(b => `<div class="li" style="flex-wrap:wrap"><div class="grow" style="min-width:200px"><div class="t">${esc(b.title)}</div>
+      <div class="m">${esc(num(b.pages_count))} صفحه${sep()}${esc(bkMoney(b.price_read))}${sep()}سقف نقل ${esc(pct(b.quote_percent))}${sep()}${esc(num(b.sample_pages))} صفحه نمونه</div></div>
+      <div class="btnrow" style="align-items:center">${svTag(BKS_ST, b.status)}<button class="btn sm alt" data-act="bk-vset" data-id="${b.id}">⚙️ سقف نقل و نمونه</button>${b.pages_count ? `<a class="btn sm alt" href="#/read/${encodeURIComponent(b.slug)}">پیش‌نمایش</a>` : ""}</div></div>`).join("")}</div></section>` : ""}
+    <section class="section"><h2>درخواست‌ها و قراردادها</h2>${S.bkProps.length ? `<div class="list">${S.bkProps.map(p => `<div class="li" style="flex-wrap:wrap"><div class="grow" style="min-width:200px"><div class="t">#${esc(onum(p.proposal_number))} — ${esc(p.data.title)}</div>
+      <div class="m">${esc(bkMoney(p.data.price_read))}${sep()}سهم شما ${esc(pct(100 - (p.data.site_share_percent ?? 40)))}${p.admin_note && ["countered", "rejected"].includes(p.status) ? sep() + "یادداشت مدیر: " + esc(p.admin_note) : ""}</div></div>
+      <div class="btnrow" style="align-items:center">${svTag(BK_ST, p.status)}${p.status === "countered" ? `<button class="btn sm teal" data-act="bk-diff" data-id="${p.id}">بررسی تغییرات</button>` : ""}
+      ${p.status === "to_sign" ? `<button class="btn sm teal" data-act="bk-contract" data-id="${p.id}">✍️ امضای قرارداد</button>` : ""}${p.status === "live" ? `<button class="btn sm alt" data-act="bk-contract" data-id="${p.id}">📜 قرارداد</button>` : ""}
+      ${p.status === "submitted" ? `<button class="btn sm alt" data-act="bk-withdraw" data-id="${p.id}">انصراف</button>` : ""}</div></div>`).join("")}</div>` : `<div class="empty"><p>هنوز کتابی ثبت نکرده‌اید.</p></div>`}</section>`;
+};
+ROUTES.push([/^#\/publisher\/?$/, V.publisher, "auth"]);
+function bkPropForm(p, admin) {
+  const d = (p && p.data) || { quote_percent: 10, sample_pages: 2, site_share_percent: 40, price_read: "", price_research: "" }; S.bkEdit = p;
+  const f = (k, l, type, extra) => `<div class="field"><label>${l}</label><input class="input" name="${k}" ${type ? `type="${type}" dir="ltr"` : ""} value="${esc(d[k] ?? "")}" ${extra || ""}></div>`;
+  openModal(admin ? `بررسی کتاب #${onum(p.proposal_number)}` : "ثبت کتاب برای فروش", `<form data-form="${admin ? "bk-counter" : "bk-submit"}" id="bkpf">
+    <div class="grid2">${f("title", "عنوان", "", "required")}${f("subtitle", "عنوان فرعی")}</div><div class="grid2">${f("author", "نویسنده")}${f("translator", "مترجم")}</div>
+    <div class="grid2">${f("publisher_name", "ناشر")}${f("year", "سال انتشار")}</div><div class="grid2">${f("isbn", "شابک (اختیاری)")}${f("category", "موضوع / دسته")}</div>
+    <div class="field"><label>معرفی کتاب</label><textarea class="input" name="description" style="min-height:90px">${esc(d.description || "")}</textarea></div>
+    <div class="grid2">${f("price_read", "قیمت مطالعه (تومان؛ ۰ = رایگان)", "number", 'min="0" required')}${f("price_research", "قیمت پژوهشیار (تومان)", "number", 'min="0"')}</div>
+    <div class="grid2">${f("quote_percent", "سقف نقل‌قول پژوهشی (٪ کل کتاب)", "number", 'min="0" max="100" step="0.5"')}${f("sample_pages", "صفحات نمونه رایگان", "number", 'min="0" max="50"')}</div>
+    ${f("site_share_percent", "سهم فروشگاه (٪) — پیش‌فرض ۴۰", "number", 'min="0" max="100"')}
+    ${admin ? `<div class="field"><label>منابع</label><div class="btnrow">${p.source_path ? `<button type="button" class="btn sm alt" data-act="bk-src" data-p="${esc(p.source_path)}">⬇ فایل کتاب</button>` : ""}${(p.rights_paths || []).map((x, i) => `<button type="button" class="btn sm alt" data-act="bk-src" data-p="${esc(x)}">⬇ مدرک ${num(i + 1)}</button>`).join("")}</div></div>
+      <div class="field"><label>شرایط اختصاصی (هر شرط در یک خط)</label><textarea class="input" name="terms" style="min-height:60px">${esc((p.extra_terms || []).join("\n"))}</textarea></div>
+      <div class="field"><label>یادداشت برای ناشر</label><input class="input" name="note" value="${esc(p.admin_note || "")}"></div><p class="hint">هوش مصنوعی: ${d.ai_consent ? "✓ ناشر موافق است" : "✗ موافقت نشده"}</p>`
+    : `<div class="field"><label>تصویر جلد</label><input class="input" type="file" name="cover" accept="image/*"></div>
+      <div class="field"><label>فایل کتاب (Word، EPUB، HTML یا TXT)</label><input class="input" type="file" name="source" accept=".docx,.epub,.html,.htm,.txt" required></div>
+      <div class="field"><label>مدارک مالکیت حقوق (مجوز نشر، قرارداد با مؤلف و…)</label><input class="input" type="file" name="rights" multiple accept="image/*,application/pdf"></div>
+      <label class="check"><input type="checkbox" name="ai_consent"> با قابلیت‌های جستجوی معنایی و گفتگو با کتاب (نقل‌های کوتاه و محدود) موافقم.</label>
+      <label class="check"><input type="checkbox" name="rights_ok" required> تأیید می‌کنم مالک یا دارنده مجوز قانونی همه حقوق این اثر هستم و مسئولیت ادعای اشخاص ثالث با من است.</label>`}</form>`,
+    admin ? `<button class="btn danger" data-act="bk-act" data-a="reject" style="margin-inline-end:auto">رد</button><button class="btn alt" type="submit" form="bkpf">ارسال ویرایش</button><button class="btn teal" data-act="bk-act" data-a="approve">تأیید</button>`
+      : `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" type="submit" form="bkpf">ارسال برای مدیر</button>`);
+}
+function bkReadForm(fd) { const o = {}; ["title", "subtitle", "author", "translator", "publisher_name", "year", "isbn", "category", "description"].forEach(k => o[k] = (fd.get(k) || "").trim());
+  ["price_read", "price_research", "sample_pages"].forEach(k => o[k] = parseInt(fd.get(k) || "0", 10) || 0); ["quote_percent", "site_share_percent"].forEach(k => o[k] = Number(fd.get(k) || 0)); return o; }
+FORM["bk-submit"] = async (fd, form) => {
+  const d = bkReadForm(fd); d.ai_consent = fd.has("ai_consent");
+  const src = form.querySelector('[name="source"]').files[0]; if (!src) throw new Error("فایل کتاب را انتخاب کنید.");
+  const uid = S.session.user.id, cover = form.querySelector('[name="cover"]').files[0];
+  if (cover) d.cover_url = publicUrl("product-images", await uploadTo("product-images", `vendor/${uid}/${rid()}.${extOf(cover.name)}`, cover, 5));
+  const sp = await uploadTo("book-sources", `${uid}/${rid()}.${extOf(src.name)}`, src, 50), rights = [];
+  for (const f of form.querySelector('[name="rights"]').files) rights.push(await uploadTo("book-sources", `${uid}/rights-${rid()}.${extOf(f.name)}`, f, 10));
+  const { error } = await sb.rpc("book_submit_proposal", { _data: d, _source_path: sp, _rights: rights }); if (error) throw error;
+  closeModal(); toast("✅ کتاب برای بررسی مدیر ارسال شد"); render();
+};
+Object.assign(ACT, {
+  "bk-prop-new": () => bkPropForm(null, false),
+  "bk-withdraw": async el => { if (!confirm("انصراف می‌دهید؟")) return; await sb.rpc("book_proposal_respond", { _id: el.dataset.id, _accept: false }); render(); },
+  "bk-diff": el => { const p = S.bkProps.find(x => x.id === el.dataset.id), o = p.vendor_offer || {}, d = p.data;
+    const keys = [["title", "عنوان"], ["price_read", "قیمت مطالعه"], ["price_research", "قیمت پژوهشیار"], ["quote_percent", "سقف نقل٪"], ["sample_pages", "صفحات نمونه"], ["site_share_percent", "سهم فروشگاه٪"], ["category", "دسته"], ["description", "معرفی"]];
+    openModal("تغییرات مدیر", (p.admin_note ? `<div class="notice">یادداشت مدیر: ${esc(p.admin_note)}</div>` : "") + `<div class="table-wrap"><table class="diff"><thead><tr><th>مورد</th><th>پیشنهاد شما</th><th>ویرایش مدیر</th></tr></thead><tbody>
+      ${keys.map(([k, l]) => `<tr class="${String(o[k] ?? "") !== String(d[k] ?? "") ? "changed" : ""}"><td>${l}</td><td>${esc(String(o[k] ?? "").slice(0, 120))}</td><td>${esc(String(d[k] ?? "").slice(0, 120))}</td></tr>`).join("")}</tbody></table></div>
+      ${(p.extra_terms || []).length ? `<h3>شرایط اختصاصی</h3><ul>${p.extra_terms.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}`,
+      `<button class="btn danger" data-act="bk-resp" data-id="${p.id}" data-ok="0">رد</button><button class="btn teal" data-act="bk-resp" data-id="${p.id}" data-ok="1">پذیرش</button>`); },
+  "bk-resp": async el => { const { error } = await sb.rpc("book_proposal_respond", { _id: el.dataset.id, _accept: el.dataset.ok === "1" }); if (error) return toast(errMsg(error), true); closeModal(); await render();
+    if (el.dataset.ok === "1") { const p = S.bkProps.find(x => x.id === el.dataset.id); if (p) bkContractModal(p, true); } },
+  "bk-contract": el => { const p = [...(S.bkProps || []), ...(S.bkAdmProps || [])].find(x => x.id === el.dataset.id); if (p) bkContractModal(p, p.status === "to_sign" && p.user_id === S.session?.user?.id); },
+  "bk-sign": async el => { if (!S.sigDirty) return toast("ابتدا امضا کنید.", true); el.disabled = true;
+    try { const blob = await new Promise(r => document.getElementById("sigPad").toBlob(r, "image/png"));
+      const path = await uploadTo("signatures", `${S.session.user.id}/book-${el.dataset.id}-${Date.now()}.png`, new File([blob], "sig.png", { type: "image/png" }), 2);
+      const { error } = await sb.rpc("book_sign_contract", { _id: el.dataset.id, _signature_path: path }); if (error) throw error;
+      closeModal(); toast("✅ قرارداد امضا شد؛ متن کتاب برای انتشار آماده‌سازی می‌شود"); render(); } catch (e) { el.disabled = false; toast(errMsg(e), true); } },
+  "bk-vset": el => { const b = S.bkMine.find(x => x.id === el.dataset.id);
+    openModal("سقف نقل‌قول و صفحات نمونه", `<form data-form="bk-vset" id="bkvs" data-id="${b.id}"><div class="grid2"><div class="field"><label>سقف نقل‌قول پژوهشی (٪)</label><input class="input" type="number" name="q" min="0" max="100" step="0.5" value="${esc(b.quote_percent)}" dir="ltr"></div>
+      <div class="field"><label>صفحات نمونه رایگان</label><input class="input" type="number" name="s" min="0" max="50" value="${esc(b.sample_pages)}" dir="ltr"></div></div></form>`,
+      `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" type="submit" form="bkvs">ذخیره</button>`); },
+  "bk-src": async el => { try { const { data, error } = await sb.storage.from("book-sources").createSignedUrl(el.dataset.p, 300, { download: true }); if (error) throw error; location.href = data.signedUrl; } catch (e) { toast(errMsg(e), true); } }
+});
+FORM["bk-vset"] = async (fd, form) => { const { error } = await sb.rpc("vendor_book_update", { _book_id: form.dataset.id, _quote: Number(fd.get("q")), _sample: parseInt(fd.get("s"), 10) }); if (error) throw error; closeModal(); toast(t("saved")); render(); };
+/* publisher tab inside «همکاری در فروش» */
+(function publisherTab() {
+  const o = V.affiliate;
+  V.affiliate = async () => { const h = await o(); return h.replace(/(<a href="#\/affiliate" data-act="aff-tab" data-tab="services"[^>]*>[^<]*<\/a>)/, `$1<a href="#/publisher">📚 کتاب‌های من</a>`); };
+  for (const r of ROUTES) if (r[0].source.includes("affiliate")) r[1] = V.affiliate;
+})();
+
+/* ===================== ADMIN ===================== */
+Object.assign(ADMIN_I18N.fa, { a_books: "کتاب‌ها" }); Object.assign(ADMIN_I18N.en, { a_books: "Books" });
+ADMIN_TABS.splice(ADMIN_TABS.indexOf("products") + 1, 0, "books"); OWNER_TABS.push("books");
+ADMIN_GROUPS.find(g => g[0] === "کالا")[1].splice(1, 0, "books");
+ADMIN_ICONS.books = "M4 4h6a2 2 0 012 2v14a2 2 0 00-2-2H4zM20 4h-6a2 2 0 00-2 2v14a2 2 0 012-2h6z";
+A.books = async () => {
+  const sub = S.bkAdmTab || "books";
+  const [{ data: B }, { data: P }, { data: AF }] = await Promise.all([sb.from("books").select("*").order("created_at", { ascending: false }), sb.from("book_proposals").select("*").order("created_at", { ascending: false }), sb.from("affiliates").select("id,full_name")]);
+  S.bkAdm = B || []; S.bkAdmProps = P || []; const aff = {}; (AF || []).forEach(a => aff[a.id] = a.full_name);
+  const pend = S.bkAdmProps.filter(p => p.status === "submitted").length, proc = S.bkAdm.filter(b => b.status === "processing").length;
+  let body = "";
+  if (sub === "books") body = `<div class="toolbar"><button class="btn" data-act="bka-edit" data-id="">+ کتاب جدید (فروشگاه)</button></div>` + (S.bkAdm.length ? `<div class="list">${S.bkAdm.map(b => `<div class="li" style="flex-wrap:wrap"><div class="grow" style="min-width:220px"><div class="t">${esc(b.title)}</div>
+      <div class="m">${b.vendor_id ? "ناشر: " + esc(aff[b.vendor_id] || "") : "فروشگاه"}${sep()}${esc(num(b.pages_count))} صفحه${sep()}${esc(bkMoney(b.price_read))}${sep()}نقل ${esc(pct(b.quote_percent))}</div></div>
+      <div class="btnrow" style="align-items:center">${svTag(BKS_ST, b.status)}<button class="btn sm alt" data-act="bka-edit" data-id="${b.id}">ویرایش</button><button class="btn sm ${b.status === "processing" ? "teal" : "alt"}" data-act="bka-text" data-id="${b.id}">📄 ${b.pages_count ? "جایگزینی متن" : "آماده‌سازی متن"}</button>
+      ${b.pages_count ? `<a class="btn sm alt" href="#/read/${encodeURIComponent(b.slug)}">پیش‌نمایش</a><button class="btn sm ${b.status === "live" ? "alt" : "teal"}" data-act="bka-live" data-id="${b.id}">${b.status === "live" ? "توقف فروش" : "انتشار"}</button>` : ""}</div></div>`).join("")}</div>` : `<div class="empty"><p>هنوز کتابی ثبت نشده.</p></div>`);
+  if (sub === "props") body = S.bkAdmProps.length ? `<div class="list">${S.bkAdmProps.map(p => `<div class="li click" data-act="bka-prop" data-id="${p.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(onum(p.proposal_number))} — ${esc(p.data.title)}</div>
+      <div class="m">${esc(aff[p.vendor_id] || "")}${sep()}${esc(bkMoney(p.data.price_read))}${sep()}${esc(fdate(p.created_at))}</div></div>${svTag(BK_ST, p.status)}</div>`).join("")}</div>` : `<div class="empty"><p>پیشنهادی نیست.</p></div>`;
+  if (sub === "security") { const { data: F } = await sb.rpc("admin_book_flags");
+    body = `<div class="panel"><h2>🔎 ردیابی متن نشت‌شده</h2><p class="hint">متنی را که از کتاب‌ها در جایی منتشر شده (مثلاً در یک کانال) اینجا بچسبانید. اگر نشانه نامرئی خریدار در آن مانده باشد، حساب منشأ مشخص می‌شود.</p>
+      <textarea class="input" id="bkTrace" style="min-height:110px"></textarea><div class="btnrow" style="margin-top:8px"><button class="btn" data-act="bka-trace">ردیابی</button></div><div id="bkTraceRes"></div></div>
+      <div class="panel" style="margin-top:14px"><h2>⚠️ حساب‌های مشکوک (۳۰ روز اخیر)</h2><p class="hint">حساب‌هایی که به سقف خواندن صفحه در ساعت برخورد کرده‌اند (رفتار شبیه جمع‌آوری خودکار).</p>
+      ${(F || []).length ? `<div class="list">${F.map(x => `<div class="li"><div class="grow"><div class="t">${esc(x.full_name || "")} <span dir="ltr">${esc(x.email || "")}</span></div><div class="m">${esc(num(x.hits))} بار برخورد با سقف${sep()}آخرین: ${esc(fdate(x.last))}</div></div></div>`).join("")}</div>` : `<p class="hint">موردی ثبت نشده.</p>`}
+      <p class="hint">سقف‌ها (در تنظیمات قابل تغییر در نسخه‌های بعد): ${esc(num(S.settings?.book_rate || 120))} صفحه در ساعت · ${esc(num(S.settings?.book_devices || 2))} دستگاه هم‌زمان.</p></div>`; }
+  return `<div class="mini-seg" style="margin-bottom:14px;flex-wrap:wrap">${[["books", "کتاب‌ها", proc], ["props", "پیشنهادهای ناشران", pend], ["security", "امنیت و ردیابی", 0]].map(([k, l, n]) => `<button class="${sub === k ? "on" : ""}" data-act="bka-tab" data-t="${k}">${l}${n ? ` <span class="badge">${esc(num(n))}</span>` : ""}</button>`).join("")}</div>` + body;
+};
+Object.assign(ACT, {
+  "bka-tab": el => { S.bkAdmTab = el.dataset.t; render(); },
+  "bka-edit": el => { const b = S.bkAdm.find(x => x.id === el.dataset.id) || { quote_percent: 10, sample_pages: 2, site_share_percent: 40, price_read: 0, price_research: 0, sort: 100 }; S.bkAE = b;
+    const f = (k, l, type, extra) => `<div class="field"><label>${l}</label><input class="input" name="${k}" ${type ? `type="${type}" dir="ltr"` : ""} value="${esc(b[k] ?? "")}" ${extra || ""}></div>`;
+    openModal(b.id ? "ویرایش کتاب" : "کتاب جدید", `<form data-form="bka-save" id="bkae"><div class="grid2">${f("title", "عنوان", "", "required")}${f("subtitle", "عنوان فرعی")}</div><div class="grid2">${f("author", "نویسنده")}${f("translator", "مترجم")}</div>
+      <div class="grid2">${f("publisher_name", "ناشر")}${f("year", "سال")}</div><div class="grid2">${f("isbn", "شابک")}${f("category", "دسته")}</div>
+      <div class="field"><label>معرفی</label><textarea class="input" name="description" style="min-height:80px">${esc(b.description || "")}</textarea></div>
+      <div class="grid2">${f("price_read", "قیمت مطالعه (۰ = رایگان)", "number", 'min="0"')}${f("price_research", "قیمت پژوهشیار", "number", 'min="0"')}</div>
+      <div class="grid2">${f("quote_percent", "سقف نقل‌قول (٪)", "number", 'min="0" max="100" step="0.5"')}${f("sample_pages", "صفحات نمونه", "number", 'min="0" max="50"')}</div>
+      <div class="grid2">${f("site_share_percent", "سهم فروشگاه از فروش ناشر (٪)", "number", 'min="0" max="100"')}${f("sort", "ترتیب", "number")}</div>
+      <div class="field"><label>تصویر جلد</label>${b.cover_url ? `<img class="imgprev" src="${esc(b.cover_url)}" alt="">` : ""}<input class="input" type="file" name="cover" accept="image/*"></div></form>`,
+      `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" type="submit" form="bkae">${esc(t("save"))}</button>`); },
+  "bka-live": async el => { const b = S.bkAdm.find(x => x.id === el.dataset.id); const { error } = await sb.rpc("admin_book_save", { _id: b.id, _data: { status: b.status === "live" ? "paused" : "live" } }); if (error) return toast(errMsg(error), true); toast(t("a_done")); render(); },
+  "bka-text": el => { const b = S.bkAdm.find(x => x.id === el.dataset.id), p = S.bkAdmProps.find(x => x.id === b.proposal_id); S.bkAE = b;
+    openModal(`آماده‌سازی متن «${b.title}»`, `<p class="hint">فایل به صفحه‌های جدا تبدیل و فهرست از عنوان‌های فایل ساخته می‌شود. فایل اصلی هرگز در اختیار خوانندگان قرار نمی‌گیرد.</p>
+      ${p && p.source_path ? `<button class="btn teal" data-act="bka-conv-src" data-p="${esc(p.source_path)}">تبدیل فایل ارسالی ناشر</button><p class="hint">یا فایل دیگری انتخاب کنید:</p>` : ""}
+      <input class="input" type="file" id="bkFile" accept=".docx,.epub,.html,.htm,.txt"><div class="btnrow" style="margin-top:8px"><button class="btn" data-act="bka-conv">تبدیل و ذخیره</button></div><p id="bkProg" class="hint"></p>
+      <p class="hint">نکته: در فایل Word از «Heading 1» برای فصل‌ها و «Heading 2» برای زیربخش‌ها استفاده شود تا فهرست کامل ساخته شود. در TXT خط‌های با «# » و «## » عنوان حساب می‌شوند.</p>`, `<button class="btn alt" data-act="close-modal">${esc(t("close"))}</button>`); },
+  "bka-conv": async el => { const f = document.getElementById("bkFile").files[0]; if (!f) return toast("فایلی انتخاب کنید", true); await bkConvert(f, el); },
+  "bka-conv-src": async el => { try { el.disabled = true; const { data, error } = await sb.storage.from("book-sources").download(el.dataset.p); if (error) throw error; await bkConvert(new File([data], el.dataset.p.split("/").pop()), el); } catch (e) { el.disabled = false; toast(errMsg(e), true); } },
+  "bka-prop": el => { const p = S.bkAdmProps.find(x => x.id === el.dataset.id); if (["submitted", "countered"].includes(p.status)) bkPropForm(p, true); else bkContractModal(p, false); },
+  "bka-trace": async () => { const txt = document.getElementById("bkTrace").value, box = document.getElementById("bkTraceRes");
+    const m = txt.match(/\uFEFF([\u200B\u2060]{32})\uFEFF/); if (!m) { box.innerHTML = `<p class="warn">نشانه‌ای در این متن پیدا نشد (ممکن است متن تایپ یا از تصویر بازنویسی شده باشد؛ در آن صورت از نشانه آشکار روی تصویر استفاده کنید).</p>`; return; }
+    const bits = [...m[1]].map(c => c === "\u200B" ? "0" : "1").join(""), code = bits.match(/.{4}/g).map(b => parseInt(b, 2).toString(16)).join("");
+    const { data, error } = await sb.rpc("admin_book_trace", { _code: code }); if (error) return toast(errMsg(error), true);
+    box.innerHTML = (data || []).length ? data.map(u => `<div class="notice" style="margin-top:8px">کد <b dir="ltr">C-${esc(code.slice(0, 6).toUpperCase())}</b> → <b>${esc(u.name || "")}</b> <span dir="ltr">${esc(u.email || "")}</span><br>آخرین دسترسی: ${esc(u.last_access ? fdate(u.last_access) : "—")} · کتاب‌ها: ${esc((u.books || []).join("، "))}</div>`).join("") : `<p class="warn">کد ${esc(code)} به حسابی تعلق ندارد.</p>`; }
+});
+async function bkConvert(file, el) {
+  const prog = document.getElementById("bkProg"); el.disabled = true;
+  try { if (prog) prog.textContent = "در حال خواندن فایل…"; const n = await bkPublishText(S.bkAE.id, file, prog); if (prog) prog.textContent = `✓ ${num(n)} صفحه ذخیره شد.`;
+    toast(`✓ متن کتاب آماده شد (${num(n)} صفحه). برای فروش «انتشار» را بزنید.`); closeModal(); render(); }
+  catch (e) { el.disabled = false; if (prog) prog.textContent = ""; toast(errMsg(e), true); }
+}
+FORM["bka-save"] = async (fd, form) => {
+  const d = bkReadForm(fd); d.sort = parseInt(fd.get("sort") || "100", 10) || 100;
+  const cover = form.querySelector('[name="cover"]').files[0]; if (cover) d.cover_url = publicUrl("product-images", await uploadTo("product-images", `books/${rid()}.${extOf(cover.name)}`, cover, 5));
+  const { error } = await sb.rpc("admin_book_save", { _id: S.bkAE.id || null, _data: d }); if (error) throw error; closeModal(); toast(t("saved")); render();
+};
+FORM["bk-counter"] = async (fd, form) => { const p = S.bkEdit, d = bkReadForm(fd);
+  const { error } = await sb.rpc("admin_book_proposal", { _id: p.id, _action: "counter", _changes: d, _extra_terms: String(fd.get("terms") || "").split("\n").map(s => s.trim()).filter(Boolean), _note: fd.get("note") || null });
+  if (error) throw error; closeModal(); toast("ویرایش برای ناشر ارسال شد"); render(); };
+ACT["bk-act"] = async el => { const form = document.getElementById("bkpf"), p = S.bkEdit; let note = form.note.value || null;
+  if (el.dataset.a === "reject") { note = prompt("دلیل رد:", note || ""); if (note === null) return; }
+  const { error } = await sb.rpc("admin_book_proposal", { _id: p.id, _action: el.dataset.a, _changes: {}, _extra_terms: String(form.terms.value || "").split("\n").map(s => s.trim()).filter(Boolean), _note: note });
+  if (error) return toast(errMsg(error), true); closeModal(); toast(t("a_done")); render(); };
+
+/* ===================== navigation & action bar ===================== */
+(function navBooks() {
+  const oc = window.renderChrome;
+  window.renderChrome = function () { oc(); const nav = document.getElementById("nav");
+    if (nav && !nav.querySelector('[href="#/books"]')) { const a = nav.querySelector('[href="#/products"]'); const h = `<a href="#/books" class="${(location.hash || "").startsWith("#/books") ? "on" : ""}">${esc(t("books"))}</a>`; a ? a.insertAdjacentHTML("afterend", h) : nav.insertAdjacentHTML("beforeend", h); requestAnimationFrame(fitNav); } };
+  const om = window.menuGroups;
+  window.menuGroups = function () { const g = om(); if (/^#\/admin/.test(location.hash || "")) return g;
+    const shop = g.find(x => x.title === t("g_shop")); if (shop && !shop.items.some(i => i.href === "#/books")) shop.items.splice(2, 0, { href: "#/books", label: t("bookStore"), icon: ADMIN_ICONS.books, badge: 0, on: (location.hash || "").startsWith("#/books") });
+    const me = g.find(x => x.title === t("g_me")); if (me && S.session && !me.items.some(i => i.href === "#/library")) me.items.splice(1, 0, { href: "#/library", label: t("myLibrary"), icon: ADMIN_ICONS.books, badge: 0, on: (location.hash || "").startsWith("#/library") });
+    if (me && S.partnerStatus === "approved" && !me.items.some(i => i.href === "#/publisher")) me.items.push({ href: "#/publisher", label: "کتاب‌های من (ناشر)", icon: ADMIN_ICONS.books, badge: 0, on: (location.hash || "").startsWith("#/publisher") });
+    return g; };
+  BOTTOM_ITEMS.books = ["#/books", "کتاب", "grid"]; BOTTOM_ITEMS.library = ["#/library", "کتابخانه", "grid"];
+  QUICK_ITEMS.splice(2, 0, ["#/books", "کتاب‌فروشی"], ["#/library", "کتابخانه من"]);
+})();
 </script>
 
 </body>
