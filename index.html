@@ -6294,6 +6294,88 @@ FORM["sv-port-add"] = async (fd, form) => {
   QUICK_ITEMS.splice(3, 0, ["#/services", "خدمات"], ["#/my-services", "سفارش‌های خدمات"]);
 })();
 </script>
+<script>
+/* ===== clear messages for every server error code (no raw codes on screen) ===== */
+Object.assign(I18N.fa, {
+  err_TEXT_REQUIRED: "متن واردشده خیلی کوتاه است؛ لطفاً کامل‌تر بنویسید (حداقل چند کلمه).", err_TITLE_REQUIRED: "عنوان را وارد کنید.",
+  err_NOT_A_PARTNER: "این امکان فقط برای همکاران تأییدشده است. از بخش «همکاری در فروش» درخواست همکاری بدهید.",
+  err_SERVICES_BANNED: "به دلیل تخلف از قرارداد، امکان ارائه خدمات برای شما غیرفعال است.", err_NO_REVISIONS_LEFT: "تعداد اصلاحات قرارداد تمام شده است.",
+  err_SELF_ORDER: "ثبت سفارش یا پیشنهاد برای درخواست خودتان ممکن نیست.", err_PACKAGES_REQUIRED: "حداقل یک بسته با نام و قیمت وارد کنید.",
+  err_INSUFFICIENT_FUNDS: "موجودی کیف پول کافی نیست؛ ابتدا کیف پول را شارژ کنید.", err_INVALID_STATUS: "این کار در وضعیت فعلی ممکن نیست؛ صفحه را تازه کنید.",
+  err_INVALID_FILE: "فایل نامعتبر است؛ دوباره بارگذاری کنید.", err_INVALID_FILES: "فایل نامعتبر است؛ دوباره بارگذاری کنید.", err_INVALID_IMAGE: "تصویر نامعتبر است.",
+  err_INVALID_SHARE: "درصد سهم باید بین ۰ تا ۱۰۰ باشد.", err_SIGNATURE_REQUIRED: "ابتدا امضا کنید.", err_REVIEW_LOCKED: "این نظر در حال بررسی است و قابل تغییر نیست.",
+  err_SURVEY_OFF: "نظرسنجی برای این محصول فعال نیست.", err_CONFIRM_REQUIRED: "عبارت تأیید را دقیق تایپ کنید.", err_INVALID_ACTION: "درخواست نامعتبر است.",
+  err_NOT_FOUND: "مورد پیدا نشد یا دیگر در دسترس نیست.", err_NOT_AUTHENTICATED: "لطفاً ابتدا وارد حساب خود شوید.", err_CONTACT_INFO_BLOCKED: "برای حفظ ناشناس بودن، درج شماره، لینک، آی‌دی یا نشانی مجاز نیست.",
+  err_COURSE_NOT_FOUND: "دوره پیدا نشد.", err_INVALID_KIND: "نوع نامعتبر است.", err_INVALID_METHOD: "روش نامعتبر است.", err_INVALID_QUANTITY: "تعداد نامعتبر است.",
+  err_INVALID_RECEIPT: "فیش نامعتبر است.", err_INVALID_ROLE: "نقش نامعتبر است.", err_ORDER_NOT_DELIVERABLE: "این سفارش قابل تحویل نیست.", err_ORDER_NOT_PENDING: "این سفارش دیگر در انتظار نیست.",
+  err_ORDER_NOT_REFUNDABLE: "این سفارش قابل برگشت نیست.", err_PAYMENT_NOT_FOUND: "پرداخت پیدا نشد.", err_PAYMENT_NOT_PENDING: "این پرداخت قبلاً بررسی شده است.",
+  err_REGISTRATION_NOT_ACTIVE: "این ثبت‌نام فعال نیست.", err_REGISTRATION_NOT_FOUND: "ثبت‌نام پیدا نشد.", err_USER_NOT_FOUND: "کاربر پیدا نشد." });
+Object.assign(I18N.en, { err_TEXT_REQUIRED: "The text is too short; please write a little more.", err_TITLE_REQUIRED: "Please enter a title.",
+  err_NOT_A_PARTNER: "Only approved partners can do this.", err_INVALID_STATUS: "Not possible in the current state; please refresh.", err_NOT_FOUND: "Not found." });
+
+/* ===== provider panel: its own address, menu entry and clear calls to action ===== */
+S.partnerStatus = null;
+async function loadPartnerStatus() {
+  S.partnerStatus = null; if (!S.session) return;
+  const { data } = await sb.from("affiliates").select("status,services_banned").eq("user_id", S.session.user.id).maybeSingle();
+  S.partnerStatus = data ? (data.status === "approved" && !data.services_banned ? "approved" : data.status) : "none";
+}
+(function wrapLoadMe2() { const o = window.loadMe; window.loadMe = async function () { await o(); await loadPartnerStatus(); renderQMenu && renderQMenu(); }; })();
+V.provider = async () => { S.affTab = "services"; return V.affiliate(); };
+ROUTES.push([/^#\/provider\/?$/, V.provider, "auth"]);
+(function menuProvider() {
+  const om = window.menuGroups;
+  window.menuGroups = function () {
+    const g = om(); if (/^#\/admin/.test(location.hash || "")) return g;
+    const me = g.find(x => x.title === t("g_me"));
+    if (me && S.partnerStatus === "approved" && !me.items.some(i => i.href === "#/provider"))
+      me.items.splice(me.items.findIndex(i => i.href === "#/affiliate") + 1, 0, { href: "#/provider", label: "پنل ارائه خدمات", icon: ADMIN_ICONS.services, badge: 0, on: (location.hash || "").startsWith("#/provider") });
+    return g;
+  };
+})();
+(function servicesPageCta() {
+  const o = V.services;
+  V.services = async () => {
+    const h = await o();
+    const cta = S.partnerStatus === "approved"
+      ? `<div class="notice sv-cta">🛠 شما ارائه‌دهنده هستید: از <a class="link" href="#/provider">پنل ارائه خدمات</a> خدمت جدید پیشنهاد دهید یا به درخواست‌های مشتریان قیمت بدهید.</div>`
+      : `<div class="notice sv-cta">🛠 مهارتی دارید؟ (طراحی، ویرایش عکس، تایپ، ترجمه و…) <a class="link" href="#/affiliate">درخواست همکاری</a> بدهید؛ پس از تأیید، از «پنل ارائه خدمات» خدماتتان را ثبت کنید.</div>`;
+    return h.replace(/(<p class="sub">[\s\S]*?<\/p>)/, "$1" + cta);
+  };
+  for (const r of ROUTES) if (r[0].source === "^#\\/services\\/?$") r[1] = V.services;
+})();
+(function affiliateApplyNote() {
+  const o = V.affiliate;
+  V.affiliate = async () => {
+    const h = await o();
+    if (S.partnerStatus === "approved" || S.affTab === "services") return h;
+    return h.replace(/(<p class="sub">[\s\S]*?<\/p>)/, `$1<div class="notice">با تأیید همکاری، علاوه بر معرفی و پورسانت، می‌توانید <b>محصول خودتان را بفروشید</b> و <b>خدماتتان را ارائه دهید</b> (تب «🛠 خدمات من» یا «پنل ارائه خدمات» در منو).</div>`);
+  };
+  for (const r of ROUTES) if (r[0].source.includes("affiliate")) r[1] = V.affiliate;
+})();
+/* admin services: explain empty sections */
+(function adminSvcEmpty() {
+  const o = A.services;
+  A.services = async () => {
+    const h = await o();
+    if ((S.svAdmTab || "orders") === "proposals" && !(S.svAdminProps || []).length)
+      return h.replace(/<div class="empty"><p>[^<]*<\/p><\/div>/, `<div class="empty"><p>هنوز هیچ همکاری خدمتی پیشنهاد نداده است. همکاران تأییدشده از «پنل ارائه خدمات» (یا تب «🛠 خدمات من» در «همکاری در فروش») خدمت پیشنهاد می‌دهند و همین‌جا برای شما نمایش داده می‌شود.</p></div>`);
+    return h;
+  };
+})();
+/* request & order forms: show the minimums up front */
+(function formHints() {
+  const oNew = ACT["sv-req-new"];
+  ACT["sv-req-new"] = (el, e) => { oNew(el, e); const f = document.getElementById("svrq"); if (!f) return;
+    f.title.setAttribute("minlength", "2"); const d = f.querySelector('textarea[name="description"]'); if (d) { d.setAttribute("minlength", "5"); d.placeholder = "مثلاً: یک پوستر A3 برای معرفی فروشگاه با رنگ‌های سبز و طلایی می‌خواهم…"; } };
+})();
+</script>
+<script>
+(function affTabFromProvider() {
+  const o = ACT["aff-tab"];
+  ACT["aff-tab"] = (el, e) => { if ((location.hash || "").startsWith("#/provider") && el.dataset.tab !== "services") { e && e.preventDefault(); S.affTab = el.dataset.tab; location.hash = "#/affiliate"; return; } o(el, e); };
+})();
+</script>
 
 </body>
 </html>
