@@ -665,6 +665,24 @@ table{width:100%;table-layout:auto}th,td{white-space:normal!important;word-break
 .pe-mv{display:flex;gap:2px}.pe-mv button{border:1px solid var(--line);background:var(--surface);border-radius:6px;width:28px;height:28px;cursor:pointer;color:var(--text)}.pe-mv button:disabled{opacity:.35}
 .pe-add summary{cursor:pointer;font-weight:800;margin:6px 0}
 @media (prefers-reduced-motion:reduce){.db-s-cards .db-it,.db-s-cards .db-it:hover{transition:none;transform:none}}
+/* ===== services marketplace ===== */
+.anon-warn{color:var(--danger);font-size:.82rem;font-weight:700;min-height:0}.anon-warn:empty{display:none}
+.bad-input{border-color:var(--danger)!important;box-shadow:0 0 0 3px rgba(194,65,45,.15)}
+.sv-detail{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;align-items:start}@media (max-width:860px){.sv-detail{grid-template-columns:minmax(0,1fr)}}
+.sv-port{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;align-items:start}.sv-pimg img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.sv-pk{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.sv-pk label{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 10px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer}
+.sv-pk label:has(input:checked){border-color:var(--firoozeh);background:var(--firoozeh-soft)}.sv-pk small{grid-column:2/-1;color:var(--muted)}.sv-pk span{font-weight:900;color:var(--lapis-2);white-space:nowrap}
+.sv-steps{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:10px 0 14px}
+.sv-steps li{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:3px 10px 3px 4px}
+.sv-steps i{font-style:normal;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--line);font-size:.72rem;font-weight:800;color:var(--text)}
+.sv-steps li.done{color:var(--ok);border-color:#B9E2CC}.sv-steps li.done i{background:var(--ok);color:#fff}.sv-steps li.cur{color:var(--lapis-2);border-color:var(--firoozeh);font-weight:800}.sv-steps li.cur i{background:var(--firoozeh);color:#fff}
+.signs.three{grid-template-columns:repeat(3,minmax(0,1fr))}@media (max-width:560px){.signs.three{grid-template-columns:minmax(0,1fr)}}
+.pk-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) 70px 70px auto;gap:6px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.pk-row .pk-desc{grid-column:1/-1}.pk-row .anon-warn{grid-column:1/-1}
+@media (max-width:560px){.pk-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.pk-row>input[name="pk_name"]{grid-column:1/-1}}
+.admin-tabs-inline{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}.admin-tabs-inline a{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--text);font-size:.9rem}
+.admin-tabs-inline a.on{background:var(--lapis);color:var(--on-lapis);border-color:var(--lapis)}
 </style>
 </head>
 <body>
@@ -5775,6 +5793,506 @@ function dbPinsModal(keep) {
 document.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches('.db-it[role="link"],.db-it[role="button"]')) { e.preventDefault(); e.target.click(); } });
 document.addEventListener("toggle", async e => { if (e.target.id === "dbRep" && S.dbPrefs) { S.dbPrefs.reports = e.target.open; await dbSave(S.dbPrefs); } }, true);
 let dbW = innerWidth; addEventListener("resize", () => { if (S.dbPrefs && S.dbPrefs.style === "auto" && (dbW <= 700) !== (innerWidth <= 700) && /^#\/admin\/?(dashboard)?$/.test(location.hash)) render(); dbW = innerWidth; });
+</script>
+<script>
+/* =====================================================================
+   Services marketplace — provider listings & customer requests,
+   anonymous three-party contracts, escrow, delivery, arbitration
+   ===================================================================== */
+const SV_ST = { pending_vendor: ["منتظر پذیرش ارائه‌دهنده", "warn"], pending_customer: ["منتظر تأیید مهلت توسط مشتری", "warn"], pending_admin: ["منتظر تأیید مدیر", "warn"],
+  awaiting_payment: ["منتظر پرداخت", "info"], in_progress: ["در حال انجام", "info"], delivered: ["تحویل شده — منتظر تأیید مشتری", "info"], revision: ["در حال اصلاح", "info"],
+  disputed: ["شکایت — در داوری", "bad"], completed: ["تأییدشده — منتظر آزادسازی سهم", "ok"], released: ["تکمیل شده", "ok"], cancelled: ["لغو شده", ""], expired: ["منقضی شده", ""], refunded: ["بازپرداخت شده", "bad"] };
+const SP_ST = { submitted: ["در انتظار بررسی مدیر", "warn"], countered: ["ویرایش‌شده — منتظر پاسخ شما", "info"], to_sign: ["تأییدشده — منتظر امضا", "info"], live: ["فعال روی سایت", "ok"],
+  rejected: ["رد شده", "bad"], declined: ["رد توسط همکار", "bad"], withdrawn: ["انصراف", ""] };
+const SV_STEPS = [["ثبت و امضای مشتری", "customer_signed_at"], ["پذیرش و امضای ارائه‌دهنده", "vendor_signed_at"], ["تأیید و امضای مدیر", "admin_signed_at"], ["پرداخت و قطعی شدن", "paid_at"], ["تحویل", "delivered_at"], ["تأیید نهایی", "completed_at"]];
+const onum = n => String(n ?? "").replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+const svTag = (map, s) => { const x = map[s] || [s, ""]; return `<span class="tag ${x[1]}">${esc(x[0])}</span>`; };
+ESTAT.held = ["در امانت (تا تأیید تحویل)", "info"];
+Object.assign(I18N.fa, { services: "خدمات", myServices: "سفارش‌های خدمات" }); Object.assign(I18N.en, { services: "Services", myServices: "My service orders" });
+
+/* ----- anonymity: instant client check (the server enforces the same rules) ----- */
+function contactReason(t) {
+  if (!t || !t.trim()) return null;
+  const v = toEn(t).toLowerCase(), d = v.replace(/[\s\-.()_/,،]/g, "");
+  if (/(\+?98|0098|0)?9\d{9}/.test(d) || /\d{8,}/.test(d)) return "شماره تلفن یا عدد طولانی";
+  if (/[a-z0-9._%+-]+\s*(@|at)\s*[a-z0-9.-]+\.[a-z]{2,}/.test(v)) return "ایمیل";
+  if (/(https?:|www\.|t\.me|wa\.me|bit\.ly|[a-z0-9-]+\.(com|ir|net|org|me|io|co|info|app|xyz|site|online|shop|store|link|dev|ai)([^a-z]|$))/.test(v)) return "لینک یا آدرس سایت";
+  if (/(^|[^a-z0-9_])@[a-z0-9_.]{3,}/.test(v)) return "آی‌دی";
+  if (/(تلگرام|telegram|واتس ?اپ|whats ?app|اینستا|insta|روبیکا|rubika|eitaa|gmail|yahoo|outlook|دایرکت|direct|skype|اسکایپ|discord|دیسکورد)/.test(v)) return "نام پیام‌رسان یا شبکه اجتماعی";
+  if (/(^|[^آ-ی])(ایتا|آی ?دی|ایدی)([^آ-ی]|$)/.test(v) || /شماره ?(تماس|تلفن|همراه|موبایل|واتساپ)/.test(v)) return "آی‌دی یا راه ارتباطی";
+  return null;
+}
+function anonMsg(r) { return `برای حفظ ناشناس بودن طرفین، درج «${r}» مجاز نیست. لطفاً آن را حذف کنید.`; }
+function svErr(e) { const m = String((e && e.message) || e || ""); const k = m.match(/CONTACT_INFO_BLOCKED:\s*(.+)/); if (k) return anonMsg(k[1].trim());
+  return ({ SERVICES_BANNED: "به دلیل تخلف از قرارداد، امکان ارائه خدمات برای شما غیرفعال است.", NO_REVISIONS_LEFT: "تعداد اصلاحات قرارداد تمام شده است.", SELF_ORDER: "سفارش به خودتان ممکن نیست.",
+    PACKAGES_REQUIRED: "حداقل یک بسته با نام و قیمت وارد کنید.", INSUFFICIENT_FUNDS: "موجودی کیف پول کافی نیست؛ ابتدا کیف پول را شارژ کنید." })[m.replace(/^.*?([A-Z_]{4,}).*$/, "$1")] || errMsg(e); }
+document.addEventListener("input", e => {
+  if (!e.target.matches || !e.target.matches("[data-anon]")) return;
+  const r = contactReason(e.target.value), box = e.target.parentElement.querySelector(".anon-warn");
+  e.target.classList.toggle("bad-input", !!r); if (box) box.textContent = r ? anonMsg(r) : "";
+});
+const anonField = (name, label, val, rows, req) => `<div class="field"><label>${esc(label)}</label><textarea class="input" name="${name}" data-anon="1" ${req ? "required" : ""} style="min-height:${rows || 90}px">${esc(val || "")}</textarea><div class="anon-warn" aria-live="polite"></div></div>`;
+function checkAnon(...texts) { for (const t of texts) { const r = contactReason(t); if (r) throw new Error(anonMsg(r)); } }
+
+/* ----- files: images are re-encoded so hidden photo data (device, location) is removed ----- */
+async function stripImage(f) {
+  if (!/^image\/(jpeg|png|webp)$/i.test(f.type)) return f;
+  try { const bmp = await createImageBitmap(f); const c = document.createElement("canvas"); c.width = bmp.width; c.height = bmp.height; c.getContext("2d").drawImage(bmp, 0, 0);
+    const type = f.type === "image/png" ? "image/png" : "image/jpeg"; const b = await new Promise(r => c.toBlob(r, type, .92));
+    return b ? new File([b], f.name.replace(/\.[^.]+$/, "") + (type === "image/png" ? ".png" : ".jpg"), { type }) : f; } catch (e) { return f; }
+}
+async function svUpload(prefix, fileList) {
+  const out = [];
+  for (const f0 of [...(fileList || [])].slice(0, 10)) { if (!f0.size) continue; const f = await stripImage(f0); out.push(await uploadTo("service-files", `${prefix}/${rid()}.${extOf(f.name)}`, f, 50)); }
+  return out;
+}
+const fileLinks = files => (files || []).length ? `<div class="btnrow">${files.map((p, i) => `<a class="btn sm alt" target="_blank" rel="noopener" data-sb="service-files" data-sp="${esc(p)}" data-sattr="href">📎 فایل ${esc(num(i + 1))}</a>`).join("")}</div>` : "";
+
+/* ----- contracts ----- */
+const SV_ANON_CLAUSE = "ارائه‌دهنده متعهد است در هیچ متن، فایل، تصویر یا محصولی، هیچ‌گونه شماره تماس، لینک، آی‌دی، نشانی سایت یا شبکه اجتماعی، نام، امضا، لوگو یا واترمارک خود یا دیگران را قرار ندهد و به هیچ طریقی برای شناسایی یا ارتباط مستقیم با مشتری اقدام نکند. در صورت مشاهده، بار نخست اخطار رسمی داده می‌شود و در صورت تکرار، همکاری او به‌طور دائم قطع و از ارائه خدمات محروم خواهد شد.";
+const SV_ARB_CLAUSE = "در صورت هرگونه اختلاف یا شکایت، مدیر سایت به‌عنوان داور بین طرفین رسیدگی می‌کند و رأی او برای طرفین قطعی و لازم‌الاجراست.";
+function svProviderContract(p, sigUrl) {
+  const T = p.terms || {}, pk = T.packages || p.packages || [];
+  return `<article class="sheet contract"><header class="sh-head"><div class="sh-bism">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>${ORNAMENT}<h2 class="sh-title">قرارداد همکاری در ارائه خدمات</h2>
+    <p class="hint" style="margin:4px 0 0">شماره: ${esc(onum(T.proposal_number || p.proposal_number))} — تاریخ توافق: ${esc(T.agreed_at ? shamsi(T.agreed_at) : "—")}</p></header>
+    <p><b>طرف اول (فروشگاه):</b> ${esc(T.store_name || t("brand"))}<br><b>طرف دوم (ارائه‌دهنده):</b> ${esc(T.vendor_name || "")} — کد ناشناس <span dir="ltr">${esc(T.vendor_code || "")}</span></p>
+    <ol class="clauses">
+      <li><b>موضوع:</b> ارائه خدمت «${esc(T.title || p.title)}»${T.category ? " در زمینه «" + esc(T.category) + "»" : ""} از طریق فروشگاه، با بسته‌های زیر:
+        <div class="table-wrap"><table><thead><tr><th>بسته</th><th>قیمت</th><th>مدت پیشنهادی</th><th>اصلاحات</th></tr></thead><tbody>${pk.map(x => `<tr><td>${esc(x.name)}</td><td>${esc(money(x.price))}</td><td>${esc(num(x.days))} روز</td><td>${esc(num(x.revisions))}</td></tr>`).join("")}</tbody></table></div></li>
+      <li><b>سهم:</b> از مبلغ پرداختی هر سفارش، <b>${esc(pct(T.vendor_share_percent ?? (100 - p.site_share_percent)))} سهم ارائه‌دهنده</b> و <b>${esc(pct(T.site_share_percent ?? p.site_share_percent))} سهم فروشگاه</b> است.</li>
+      <li><b>دریافت وجه و امانت:</b> همه وجوه فقط به حساب فروشگاه پرداخت می‌شود. سهم ارائه‌دهنده پس از پرداخت مشتری «در امانت» ثبت و پس از تحویل، رضایت مشتری (نبود شکایت) و تأیید مدیر قطعی و طبق دوره تسویه پرداخت می‌شود.</li>
+      <li><b>مهلت تحویل:</b> مهلت هر سفارش با توافق مشتری و ارائه‌دهنده تعیین و در قرارداد همان سفارش درج می‌شود (پیش‌فرض ۵ روز). برای هر روز تأخیر، ۵٪ مبلغ سفارش و حداکثر تا ۳۰٪ از سهم ارائه‌دهنده کسر و به مشتری بازگردانده می‌شود.</li>
+      <li><b>کیفیت و مسئولیت:</b> صحت، کیفیت، اصالت و قانونی بودن کار و رعایت حقوق دیگران کاملاً بر عهده ارائه‌دهنده است.</li>
+      <li class="red"><b>ناشناس ماندن و منع ارتباط:</b> ${SV_ANON_CLAUSE}</li>
+      <li class="red"><b>داوری:</b> ${SV_ARB_CLAUSE}</li>
+      <li><b>محرمانگی:</b> اطلاعات و فایل‌های مشتری فقط برای انجام همان سفارش استفاده می‌شود و نگهداری، انتشار یا استفاده دیگر از آن ممنوع است.</li>
+      <li><b>اختیار فروشگاه:</b> فروشگاه می‌تواند نمونه‌کارها را تنظیم، خدمت را متوقف یا از سایت خارج کند.</li>
+      ${(T.extra_terms || p.extra_terms || []).map(x => `<li><b>شرط اختصاصی:</b> ${esc(x)}</li>`).join("")}
+      <li><b>اعتبار:</b> این قرارداد با امضای الکترونیکی ارائه‌دهنده در سامانه معتبر و لازم‌الاجراست.</li></ol>
+    <div class="signs"><div><span>امضای ارائه‌دهنده</span>${sigUrl ? `<img src="${esc(sigUrl)}" alt="امضا">` : `<div class="sig-empty">هنوز امضا نشده</div>`}<b>${esc(T.vendor_name || "")}</b><small>${p.signed_at ? esc(shamsi(p.signed_at)) : ""}</small></div>
+      <div><span>تأیید فروشگاه</span><div class="seal">✓ ثبت در سامانه</div><b>${esc(T.store_name || t("brand"))}</b><small>${esc(T.agreed_at ? shamsi(T.agreed_at) : "")}</small></div></div></article>`;
+}
+function svOrderContract(o) {
+  const due = o.due_at ? "تا تاریخ " + shamsi(o.due_at) + " (" + num(o.days) + " روز پس از پرداخت)" : num(o.days) + " روز پس از پرداخت و قطعی شدن قرارداد";
+  const sig = (l, at) => `<div><span>${l}</span>${at ? `<div class="seal">✓ امضای الکترونیکی</div><small>${esc(shamsi(at))}</small>` : `<div class="sig-empty">هنوز امضا نشده</div>`}</div>`;
+  return `<article class="sheet contract"><header class="sh-head"><div class="sh-bism">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>${ORNAMENT}<h2 class="sh-title">قرارداد سفارش خدمت</h2>
+    <p class="hint" style="margin:4px 0 0">شماره سفارش: ${esc(onum(o.order_number))} — تاریخ ثبت: ${esc(shamsi(o.created_at))}</p></header>
+    <p><b>سفارش‌دهنده:</b> کد ناشناس <span dir="ltr">${esc(o.customer_code)}</span> &nbsp; <b>ارائه‌دهنده:</b> کد ناشناس <span dir="ltr">${esc(o.provider_code)}</span><br><b>ضامن، واسط پرداخت و داور:</b> ${esc(o.store_name || t("brand"))}</p>
+    <ol class="clauses">
+      <li><b>موضوع:</b> «${esc(o.title)}»${o.package && o.package.desc ? " — " + esc(o.package.desc) : ""}، مطابق شرح نیاز ثبت‌شده در سامانه.</li>
+      <li><b>مبلغ:</b> ${esc(money(o.price))} که پیش از شروع کار به حساب فروشگاه پرداخت و تا تأیید تحویل نزد فروشگاه به امانت می‌ماند.</li>
+      <li><b>مهلت تحویل:</b> ${esc(due)}.</li>
+      <li><b>اصلاحات:</b> مشتری حداکثر ${esc(num(o.revisions_allowed))} بار می‌تواند درخواست اصلاح ثبت کند.</li>
+      <li><b>جریمه تأخیر:</b> برای هر روز تأخیر در تحویل، ${esc(pct(o.penalty_rate))} مبلغ سفارش تا سقف ${esc(pct(o.penalty_cap))} از سهم ارائه‌دهنده کسر و به کیف پول مشتری بازگردانده می‌شود.</li>
+      <li><b>تحویل و تأیید:</b> کار در سامانه بارگذاری می‌شود. اگر مشتری ظرف ۳ روز تأیید، درخواست اصلاح یا شکایت ثبت نکند، تحویل تأییدشده تلقی می‌شود.</li>
+      <li><b>لغو:</b> پیش از شروع کار، لغو بدون هزینه است. پس از شروع، تصمیم با داور است.</li>
+      <li class="red"><b>ناشناس ماندن و منع ارتباط:</b> طرفین هویت یکدیگر را نمی‌شناسند و هرگونه درج یا درخواست شماره، لینک، آی‌دی، نشانی یا راه ارتباط مستقیم ممنوع است. ارائه‌دهنده حق قرار دادن هیچ نام، امضا، لوگو یا واترمارکی روی کار را ندارد؛ تخلف بار نخست اخطار و بار دوم محرومیت از همکاری را در پی دارد.</li>
+      <li class="red"><b>داوری:</b> ${SV_ARB_CLAUSE}</li>
+      ${(o.extra_terms || []).map(x => `<li><b>شرط اختصاصی:</b> ${esc(x)}</li>`).join("")}
+      <li><b>اعتبار:</b> این قرارداد با امضای الکترونیکی سفارش‌دهنده، ارائه‌دهنده و مدیر سایت و پرداخت مبلغ قطعی می‌شود.</li></ol>
+    <div class="signs three">${sig("سفارش‌دهنده " + o.customer_code, o.customer_signed_at)}${sig("ارائه‌دهنده " + o.provider_code, o.vendor_signed_at)}${sig("مدیر سایت", o.admin_signed_at)}</div></article>`;
+}
+function svSteps(o) {
+  const done = SV_STEPS.map(s => !!o[s[1]]);
+  return `<ol class="sv-steps">${SV_STEPS.map((s, i) => `<li class="${done[i] ? "done" : (done.slice(0, i).every(Boolean) ? "cur" : "")}"><i>${done[i] ? "✓" : esc(num(i + 1))}</i><span>${esc(s[0])}</span></li>`).join("")}</ol>`;
+}
+function svMessages(o) {
+  const M = (o.messages || []); if (!M.length) return "";
+  const lab = { delivery: "📦 تحویل کار", revision: "✏️ درخواست اصلاح", complaint: "⚠️ شکایت", admin: "🛡 مدیر سایت" };
+  return `<h3>سوابق</h3><div class="thread">${M.map(m => `<div class="msg ${m.author === "customer" ? "from-user" : "from-admin"}"><div class="msg-h">${esc(lab[m.kind] || m.kind)}<span>${esc(fdate(m.created_at))}</span></div>${m.body ? `<div class="msg-b">${esc(m.body)}</div>` : ""}${fileLinks(m.files)}</div>`).join("")}</div>`;
+}
+
+/* ===================== CUSTOMER ===================== */
+V.services = async () => {
+  const { data } = await sb.rpc("public_services"); const L = data || []; S.svList = L;
+  return `<div class="row-head"><h1>🛠 ${esc(t("services"))}</h1><div class="btnrow">${S.session ? `<a class="btn alt" href="#/my-services">${esc(t("myServices"))}</a>` : ""}<button class="btn teal" data-act="sv-req-new">+ ثبت درخواست سفارشی</button></div></div>
+    <p class="sub">خدمات ارائه‌دهندگان تأییدشده با پرداخت امن، قرارداد رسمی و داوری فروشگاه. هویت طرفین محفوظ است. اگر خدمت دلخواهتان را پیدا نکردید، درخواست سفارشی ثبت کنید تا ارائه‌دهندگان قیمت پیشنهاد دهند.</p>` +
+    (L.length ? `<div class="pgrid2" style="--cols:4">${L.map(s => { const min = Math.min(...(s.packages || []).map(p => +p.price));
+      return `<a class="pcard pc s-${cardStyle()}" href="#/services/${encodeURIComponent(s.slug)}"><span class="cbadge vendor">${esc(s.provider_code)}</span>${stageZone(Object.assign({}, s, { image_url: ((s.portfolio || []).find(x => x.type === "image") || {}).url }), s.title)}
+        <div class="pinfo"><span class="pcat">${esc(s.category || "خدمات")}</span><b class="pname">${esc(s.title)}</b><span class="hint">${s.rating ? "★ " + esc(num(s.rating)) + " · " : ""}${esc(num(s.done || 0))} سفارش موفق</span>
+        <div class="pprice">از ${esc(money(min))}</div></div></a>`; }).join("")}</div>` : `<div class="empty"><p>هنوز خدمتی ثبت نشده. می‌توانید درخواست سفارشی ثبت کنید.</p></div>`);
+};
+V.service = async (slug) => {
+  const { data } = await sb.rpc("public_services", { _slug: decodeURIComponent(slug) }); const s = (data || [])[0];
+  if (!s) return `<div class="empty"><p>${esc(t("notFound"))}</p></div>`;
+  S.svCur = s;
+  const pf = s.portfolio || [];
+  return `<p><a class="link" href="#/services">→ ${esc(t("services"))}</a></p>
+    <div class="sv-detail"><div><h1 style="margin:0">${esc(s.title)}</h1><p class="hint">${esc(s.category || "")} · ارائه‌دهنده <b dir="ltr">${esc(s.provider_code)}</b>${s.rating ? " · ★ " + esc(num(s.rating)) + " (" + esc(num(s.reviews)) + " نظر)" : ""} · ${esc(num(s.done || 0))} سفارش موفق</p>
+      ${s.description ? `<p style="white-space:pre-wrap">${esc(s.description)}</p>` : ""}
+      ${pf.length ? `<h2>نمونه‌کارها</h2><div class="sv-port">${pf.map(x => x.type === "image" ? `<a href="${esc(x.url)}" target="_blank" rel="noopener" class="sv-pimg"><img src="${esc(x.url)}" alt="${esc(x.title || "")}" loading="lazy"></a>`
+        : `<a class="btn sm alt" href="${esc(x.url)}" target="_blank" rel="noopener">${x.type === "file" ? "📄" : "🔗"} ${esc(x.title || (x.type === "file" ? "فایل نمونه" : "مشاهده نمونه"))}</a>`).join("")}</div>` : ""}</div>
+    <div class="panel"><h2>ثبت سفارش</h2><form data-form="sv-order" id="svform">
+      <div class="sv-pk">${(s.packages || []).map((p, i) => `<label><input type="radio" name="pk" value="${i}" ${i === 0 ? "checked" : ""}><b>${esc(p.name)}</b><span>${esc(money(p.price))}</span><small>${esc(p.desc || "")}</small><small>${esc(num(p.revisions))} بار اصلاح · پیشنهاد ارائه‌دهنده: ${esc(num(p.days))} روز</small></label>`).join("")}</div>
+      ${anonField("brief", "شرح نیاز شما (چه کاری، با چه جزئیاتی)", "", 120, true)}
+      <div class="field"><label>فایل‌ها یا عکس‌های مربوط (اختیاری)</label><input class="input" type="file" name="files" multiple></div>
+      <div class="field"><label>مهلت تحویل درخواستی (روز)</label><input class="input" type="number" name="days" min="1" max="120" value="5" dir="ltr"><p class="hint" style="margin:4px 0 0">ارائه‌دهنده می‌تواند مهلت دیگری پیشنهاد دهد؛ مهلت نهایی با توافق شما در قرارداد درج می‌شود.</p></div>
+      <p class="notice">🔒 هویت شما برای ارائه‌دهنده نمایش داده نمی‌شود و هیچ راه ارتباط مستقیمی بین شما وجود ندارد. شماره، لینک، آی‌دی و نشانی در متن پذیرفته نمی‌شود.</p>
+      <label class="check"><input type="checkbox" name="agree" required> <span>قرارداد سفارش خدمت را <a href="#" class="link" data-act="sv-draft">مطالعه کردم</a> و آن را امضا می‌کنم.</span></label>
+      <button class="btn teal" type="submit" style="margin-top:10px">ثبت و امضای سفارش</button></form></div></div>`;
+};
+ACT["sv-draft"] = (el, e) => { e.preventDefault(); const f = document.getElementById("svform"), s = S.svCur, p = s.packages[+(new FormData(f).get("pk") || 0)];
+  openModal("پیش‌نویس قرارداد", svOrderContract({ order_number: "—", created_at: new Date().toISOString(), customer_code: "C-…", provider_code: s.provider_code, store_name: S.settings?.store_name, title: s.title + " — " + p.name, package: p, price: p.price, days: +f.days.value || 5, revisions_allowed: p.revisions, penalty_rate: 5, penalty_cap: 30, extra_terms: [] }), `<button class="btn" data-act="close-modal">${esc(t("close"))}</button>`); };
+FORM["sv-order"] = async (fd, form) => {
+  if (!S.session) { S.next = location.hash; location.hash = "#/login"; return; }
+  checkAnon(fd.get("brief"));
+  const { data, error } = await sb.rpc("svc_create_order", { _service_id: S.svCur.id, _package: +fd.get("pk"), _brief: fd.get("brief"), _days: +fd.get("days") || 5 });
+  if (error) throw new Error(svErr(error));
+  const files = form.querySelector('input[name="files"]').files;
+  if (files.length) { const paths = await svUpload(`ord/${data.id}/brief`, files); await sb.rpc("svc_set_files", { _kind: "order", _id: data.id, _files: paths }); }
+  toast(`✅ سفارش #${onum(data.order_number)} ثبت و امضا شد`); location.hash = "#/my-services";
+};
+V.myServices = async () => {
+  sb.rpc("svc_tick");
+  const [{ data: O }, { data: R }] = await Promise.all([sb.rpc("svc_my_orders"), sb.rpc("svc_my_requests")]);
+  S.svMy = O || []; S.svMyReq = R || [];
+  const tab = S.svTab || "orders";
+  return `<div class="row-head"><h1>${esc(t("myServices"))}</h1><div class="btnrow"><a class="btn alt" href="#/services">${esc(t("services"))}</a><button class="btn teal" data-act="sv-req-new">+ درخواست سفارشی</button></div></div>
+    <div class="mini-seg" style="margin-bottom:14px"><button class="${tab === "orders" ? "on" : ""}" data-act="sv-tab" data-t="orders">سفارش‌ها (${esc(num(S.svMy.length))})</button><button class="${tab === "req" ? "on" : ""}" data-act="sv-tab" data-t="req">درخواست‌های سفارشی (${esc(num(S.svMyReq.length))})</button></div>` +
+    (tab === "orders" ? (S.svMy.length ? `<div class="list">${S.svMy.map(o => `<div class="li click" data-act="sv-open" data-id="${o.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(onum(o.order_number))} — ${esc(o.title)}</div>
+        <div class="m">${esc(money(o.price))}${sep()}ارائه‌دهنده ${esc(o.provider_code)}${o.due_at ? sep() + "مهلت: " + esc(fday(o.due_at)) : ""}</div></div>${svTag(SV_ST, o.status)}</div>`).join("")}</div>` : `<div class="empty"><p>هنوز سفارشی ندارید.</p></div>`)
+     : (S.svMyReq.length ? `<div class="list">${S.svMyReq.map(r => `<div class="li click" data-act="sv-req-open" data-id="${r.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(onum(r.request_number))} — ${esc(r.title)}</div>
+        <div class="m">${esc(num(r.bids))} پیشنهاد${sep()}${esc(fdate(r.created_at))}</div></div>${svTag({ open: ["باز — دریافت پیشنهاد", "info"], awarded: ["انتخاب شده", "ok"], cancelled: ["لغو شده", ""], expired: ["منقضی شده", ""] }, r.status)}</div>`).join("")}</div>` : `<div class="empty"><p>درخواستی ثبت نکرده‌اید.</p></div>`));
+};
+ROUTES.push([/^#\/services\/?$/, V.services], [/^#\/services\/([^/?]+)$/, V.service], [/^#\/my-services\/?$/, V.myServices, "auth"]);
+ACT["sv-tab"] = el => { S.svTab = el.dataset.t; render(); };
+async function svCustomerModal(id) {
+  const { data } = await sb.rpc("svc_my_orders"); S.svMy = data || []; const o = S.svMy.find(x => x.id === id); if (!o) return;
+  S.svO = o;
+  let acts = "", extra = "";
+  if (o.status === "pending_customer") extra = `<div class="notice">ارائه‌دهنده مهلت <b>${esc(num(o.vendor_days))} روز</b> را پیشنهاد داده است (درخواست شما: ${esc(num(o.customer_days))} روز). با پذیرش، قرارداد با این مهلت دوباره امضا می‌شود.</div>`,
+    acts = `<button class="btn danger" data-act="sv-days" data-ok="0">نمی‌پذیرم (لغو)</button><button class="btn teal" data-act="sv-days" data-ok="1">می‌پذیرم و امضا می‌کنم</button>`;
+  if (o.status === "awaiting_payment") extra = `<div class="notice">قرارداد توسط ارائه‌دهنده و مدیر سایت امضا شد. با پرداخت، قرارداد قطعی و کار شروع می‌شود. موجودی کیف پول: <b>${esc(money(S.profile?.wallet_balance || 0))}</b></div>`,
+    acts = `<button class="btn alt" data-act="topup">شارژ کیف پول</button><button class="btn teal" data-act="sv-pay">پرداخت ${esc(money(o.price))} از کیف پول</button>`;
+  if (o.status === "delivered") acts = `<button class="btn alt" data-act="sv-cact" data-a="complaint">شکایت</button>${o.revisions_used < o.revisions_allowed ? `<button class="btn alt" data-act="sv-cact" data-a="revision">درخواست اصلاح (${esc(num(o.revisions_allowed - o.revisions_used))} باقی‌مانده)</button>` : ""}<button class="btn teal" data-act="sv-accept">تأیید تحویل</button>`;
+  if (["in_progress", "revision"].includes(o.status)) acts = `<button class="btn alt" data-act="sv-cact" data-a="complaint">شکایت</button>`;
+  if (["pending_vendor", "pending_admin"].includes(o.status)) acts = `<button class="btn alt" data-act="sv-cancel">لغو سفارش</button>`;
+  if (["completed", "released"].includes(o.status) && !o.review) extra += `<form data-form="sv-review" class="survey"><h2>⭐ نظرسنجی</h2><div class="field"><label>کیفیت کار</label>${starsInput("quality")}</div><div class="field"><label>رضایت شما</label>${starsInput("satisfaction")}</div>${anonField("comment", "توضیحات (اختیاری)", "", 60)}<button class="btn teal" type="submit">ثبت نظر</button></form>`;
+  openModal(`سفارش خدمت #${onum(o.order_number)}`, `<p>${svTag(SV_ST, o.status)}</p>${svSteps(o)}
+    <div class="sumline"><span>خدمت</span><span>${esc(o.title)}</span></div><div class="sumline"><span>مبلغ</span><span>${esc(money(o.price))}</span></div>
+    <div class="sumline"><span>مهلت</span><span>${o.due_at ? esc(fdate(o.due_at)) : esc(num(o.days)) + " روز پس از پرداخت"}</span></div><div class="sumline"><span>ارائه‌دهنده</span><span dir="ltr">${esc(o.provider_code)}</span></div>
+    ${o.refund_amount ? `<div class="sumline"><span>بازپرداخت</span><span>${esc(money(o.refund_amount))}</span></div>` : ""}${o.penalty_amount && o.status === "released" ? `<div class="sumline"><span>جریمه تأخیر به شما</span><span>${esc(money(o.penalty_amount))}</span></div>` : ""}
+    ${extra}<h3>شرح نیاز شما</h3><p style="white-space:pre-wrap">${esc(o.brief || "")}</p>${fileLinks(o.brief_files)}${svMessages(o)}`,
+    `<button class="btn alt" data-act="sv-contract">📜 قرارداد</button>${acts}`);
+  hydrateSigned(document.getElementById("modalIn"));
+}
+function starsInput(name) { return `<div class="stars" role="radiogroup">${[1, 2, 3, 4, 5].map(n => `<label><input type="radio" name="${name}" value="${n}" required><span>★</span></label>`).join("")}</div>`; }
+Object.assign(ACT, {
+  "sv-open": el => svCustomerModal(el.dataset.id),
+  "sv-contract": () => openModal("قرارداد سفارش خدمت", svOrderContract(S.svO), `<button class="btn alt" data-act="print-sheet">🖨️ چاپ</button><button class="btn" data-act="close-modal">${esc(t("close"))}</button>`),
+  "sv-days": async el => { const { error } = await sb.rpc("svc_customer_days", { _id: S.svO.id, _accept: el.dataset.ok === "1" }); if (error) return toast(svErr(error), true); closeModal(); toast(t("a_done")); render(); },
+  "sv-pay": async el => { el.disabled = true; const { error } = await sb.rpc("svc_pay_wallet", { _id: S.svO.id }); el.disabled = false; if (error) return toast(svErr(error), true); await loadMe(); closeModal(); toast("✅ پرداخت شد و قرارداد قطعی شد؛ کار شروع شد"); render(); },
+  "sv-accept": async () => { if (!confirm("تحویل را تأیید می‌کنید؟ بعد از تأیید، امکان درخواست اصلاح نیست.")) return; const { error } = await sb.rpc("svc_customer_action", { _id: S.svO.id, _action: "accept" }); if (error) return toast(svErr(error), true); toast("از شما سپاسگزاریم 🌷"); svCustomerModal(S.svO.id); },
+  "sv-cancel": async () => { if (!confirm("سفارش لغو شود؟")) return; const { error } = await sb.rpc("svc_customer_action", { _id: S.svO.id, _action: "cancel" }); if (error) return toast(svErr(error), true); closeModal(); render(); },
+  "sv-cact": el => { const a = el.dataset.a;
+    openModal(a === "revision" ? "درخواست اصلاح" : "ثبت شکایت", `<form data-form="sv-cact" id="svca" data-a="${a}">${anonField("body", a === "revision" ? "چه چیزی باید اصلاح شود؟" : "شرح شکایت", "", 110, true)}<div class="field"><label>فایل (اختیاری)</label><input class="input" type="file" name="files" multiple></div>
+      ${a === "complaint" ? `<p class="hint">مدیر سایت به‌عنوان داور بررسی می‌کند و رأی او برای طرفین لازم‌الاجراست.</p>` : ""}</form>`, `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" type="submit" form="svca">ثبت</button>`); }
+});
+FORM["sv-cact"] = async (fd, form) => { checkAnon(fd.get("body")); const paths = await svUpload(`ord/${S.svO.id}/note`, form.querySelector('input[name="files"]').files);
+  const { error } = await sb.rpc("svc_customer_action", { _id: S.svO.id, _action: form.dataset.a, _body: fd.get("body"), _files: paths }); if (error) throw new Error(svErr(error)); toast(t("a_done")); svCustomerModal(S.svO.id); };
+FORM["sv-review"] = async fd => { checkAnon(fd.get("comment")); const { error } = await sb.rpc("svc_review", { _id: S.svO.id, _quality: +fd.get("quality"), _satisfaction: +fd.get("satisfaction"), _comment: fd.get("comment") || null }); if (error) throw new Error(svErr(error)); toast("نظر شما ثبت شد 🌷"); svCustomerModal(S.svO.id); };
+/* customer requests */
+ACT["sv-req-new"] = () => {
+  if (!S.session) { S.next = "#/my-services"; location.hash = "#/login"; return; }
+  openModal("ثبت درخواست سفارشی", `<form data-form="sv-req" id="svrq"><div class="field"><label>زمینه (مثلاً طراحی گرافیک، ویرایش عکس، تایپ و ترجمه)</label><input class="input" name="category" maxlength="80" data-anon="1"><div class="anon-warn"></div></div>
+    <div class="field"><label>عنوان</label><input class="input" name="title" required maxlength="150" data-anon="1"><div class="anon-warn"></div></div>${anonField("description", "شرح کامل کاری که می‌خواهید", "", 130, true)}
+    <div class="grid2"><div class="field"><label>بودجه تقریبی (تومان، اختیاری)</label><input class="input" type="number" name="budget" min="0" dir="ltr"></div><div class="field"><label>مهلت تحویل (روز)</label><input class="input" type="number" name="days" min="1" max="120" value="5" dir="ltr"></div></div>
+    <div class="field"><label>فایل‌ها یا عکس‌ها (اختیاری)</label><input class="input" type="file" name="files" multiple></div>
+    <p class="notice">🔒 ارائه‌دهندگان فقط متن و فایل‌های درخواست را می‌بینند، نه هویت شما را. درخواست ۷ روز برای دریافت پیشنهاد باز می‌ماند.</p></form>`,
+    `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" type="submit" form="svrq">ثبت درخواست</button>`);
+};
+FORM["sv-req"] = async (fd, form) => {
+  checkAnon(fd.get("title"), fd.get("description"), fd.get("category"));
+  const { data, error } = await sb.rpc("svc_create_request", { _category: fd.get("category") || null, _title: fd.get("title"), _description: fd.get("description"), _budget: +fd.get("budget") || 0, _days: +fd.get("days") || 5 });
+  if (error) throw new Error(svErr(error));
+  const files = form.querySelector('input[name="files"]').files;
+  if (files.length) { const paths = await svUpload(`req/${data.id}`, files); await sb.rpc("svc_set_files", { _kind: "request", _id: data.id, _files: paths }); }
+  closeModal(); S.svTab = "req"; toast("✅ درخواست ثبت شد؛ پیشنهادها را در همین صفحه می‌بینید"); if (location.hash === "#/my-services") render(); else location.hash = "#/my-services";
+};
+ACT["sv-req-open"] = async el => {
+  const r = S.svMyReq.find(x => x.id === el.dataset.id); if (!r) return; S.svReq = r;
+  const { data: B } = await sb.rpc("svc_request_bids", { _request_id: r.id });
+  openModal(`درخواست #${onum(r.request_number)} — ${r.title}`, `<p style="white-space:pre-wrap">${esc(r.description)}</p>${fileLinks(r.files)}
+    <h3>پیشنهادهای دریافتی (${esc(num((B || []).length))})</h3>${(B || []).length ? `<div class="list">${B.map(b => `<div class="li" style="flex-wrap:wrap"><div class="grow" style="min-width:200px"><div class="t">${esc(money(b.price))} · ${esc(num(b.days))} روز · ${esc(num(b.revisions))} اصلاح</div>
+      <div class="m">ارائه‌دهنده <b dir="ltr">${esc(b.provider_code)}</b>${b.rating ? sep() + "★ " + esc(num(b.rating)) : ""}${sep()}${esc(num(b.done))} سفارش موفق</div>${b.note ? `<div class="m">«${esc(b.note)}»</div>` : ""}</div>
+      ${r.status === "open" && b.status === "pending" ? `<button class="btn sm teal" data-act="sv-choose" data-id="${b.bid_id}">انتخاب و امضای قرارداد</button>` : svTag({ pending: ["در انتظار", ""], accepted: ["انتخاب شده", "ok"], rejected: ["انتخاب نشد", ""] }, b.status)}</div>`).join("")}</div>`
+      : `<p class="hint">هنوز پیشنهادی نرسیده؛ به محض رسیدن اعلان می‌گیرید.</p>`}`,
+    `${r.status === "open" ? `<button class="btn alt" data-act="sv-req-cancel">بستن درخواست</button>` : ""}<button class="btn" data-act="close-modal">${esc(t("close"))}</button>`);
+  hydrateSigned(document.getElementById("modalIn"));
+};
+ACT["sv-choose"] = async el => {
+  if (!confirm("این پیشنهاد انتخاب شود؟ با انتخاب، قرارداد سفارش را امضا می‌کنید و به دیگر پیشنهاددهندگان اطلاع داده می‌شود.")) return;
+  const { error } = await sb.rpc("svc_choose_bid", { _bid_id: el.dataset.id }); if (error) return toast(svErr(error), true);
+  closeModal(); S.svTab = "orders"; toast("✅ پیشنهاد انتخاب شد؛ منتظر امضای ارائه‌دهنده و تأیید مدیر"); render();
+};
+ACT["sv-req-cancel"] = async () => { if (!confirm("درخواست بسته شود؟")) return; await sb.rpc("svc_cancel_request", { _id: S.svReq.id }); closeModal(); render(); };
+
+/* ===================== PROVIDER (inside «همکاری در فروش») ===================== */
+(function vendorServicesTab() {
+  const orig = V.affiliate;
+  V.affiliate = async () => {
+    if (S.affTab !== "services") { const h = await orig(); return h.replace(/(<a href="#\/affiliate" data-act="aff-tab" data-tab="vendor"[^>]*>[^<]*<\/a>)/, `$1<a href="#/affiliate" data-act="aff-tab" data-tab="services">🛠 خدمات من</a>`); }
+    const { data: a } = await sb.rpc("my_affiliate");
+    if (!a || a.status !== "approved") { S.affTab = "ref"; return orig(); }
+    const tabs = `<nav class="admin-tabs-inline"><a href="#/affiliate" data-act="aff-tab" data-tab="ref">🤝 معرفی و پورسانت</a><a href="#/affiliate" data-act="aff-tab" data-tab="vendor">🏪 فروش محصولات من</a><a href="#/affiliate" data-act="aff-tab" data-tab="services" class="on">🛠 خدمات من</a></nav>`;
+    return `<h1>🛠 خدمات من</h1><p class="sub">خدماتتان را ارائه دهید، سفارش بگیرید و به درخواست‌های مشتریان قیمت پیشنهاد دهید؛ همه‌چیز ناشناس و با قرارداد رسمی.</p>` + tabs + await svVendorPanel();
+  };
+  for (const r of ROUTES) if (r[0].source.includes("affiliate")) r[1] = V.affiliate;
+})();
+async function svVendorPanel() {
+  sb.rpc("svc_tick");
+  const [{ data: P }, { data: O }, rq, { data: st }] = await Promise.all([sb.from("service_proposals").select("*").order("created_at", { ascending: false }), sb.rpc("svc_vendor_orders"), sb.rpc("svc_open_requests"),
+    sb.from("vendor_strikes").select("reason,created_at").order("created_at", { ascending: false })]);
+  S.svProps = P || []; S.svVO = O || []; S.svOpen = rq.data || [];
+  const banned = rq.error && /SERVICES_BANNED/.test(rq.error.message);
+  const active = S.svVO.filter(o => !["released", "cancelled", "expired", "refunded"].includes(o.status));
+  return (banned ? `<div class="notice" style="background:#FBE7E3;border-color:#E9B4AA;color:#7A2414">به دلیل تخلف از قرارداد، امکان ارائه خدمات برای شما غیرفعال شده است.</div>` : "") +
+    ((st || []).length ? `<div class="notice">⚠️ اخطارهای ثبت‌شده: ${st.map(x => esc(x.reason) + " (" + esc(fday(x.created_at)) + ")").join("، ")}</div>` : "") +
+    `<section class="section"><div class="row-head"><h2>📥 سفارش‌های من</h2><span class="hint">مشتری فقط با کد سفارش نمایش داده می‌شود</span></div>
+      ${S.svVO.length ? `<div class="list">${S.svVO.map(o => `<div class="li click" data-act="sv-v-open" data-id="${o.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(onum(o.order_number))} — ${esc(o.title)}</div>
+        <div class="m">مشتری ${esc(o.customer_code)}${sep()}${esc(money(o.price))} (سهم شما ${esc(money(o.vendor_amount || Math.floor(o.price * (100 - o.site_share_percent) / 100)))})${o.due_at ? sep() + "مهلت: " + esc(fdate(o.due_at)) : ""}</div></div>${svTag(SV_ST, o.status)}</div>`).join("")}</div>`
+        : `<div class="empty"><p>هنوز سفارشی ندارید.</p></div>`}</section>
+    <section class="section"><div class="row-head"><h2>📣 درخواست‌های باز مشتریان</h2><span class="hint">${esc(num(S.svOpen.filter(r => !r.my_status).length))} درخواست بدون پیشنهاد شما</span></div>
+      ${S.svOpen.length ? `<div class="list">${S.svOpen.map(r => `<div class="li click" data-act="sv-bid-open" data-id="${r.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(onum(r.request_number))} — ${esc(r.title)}</div>
+        <div class="m">${esc(r.category || "")}${r.budget ? sep() + "بودجه " + esc(money(r.budget)) : ""}${sep()}مهلت ${esc(num(r.desired_days))} روز${sep()}${esc(num(r.bids))} پیشنهاد</div></div>
+        ${r.my_status ? svTag({ pending: ["پیشنهاد شما: " + money(r.my_price), "info"], accepted: ["انتخاب شدید", "ok"], rejected: ["انتخاب نشد", ""], withdrawn: ["پس گرفته شد", ""] }, r.my_status) : `<span class="tag warn">جدید</span>`}</div>`).join("")}</div>`
+        : `<div class="empty"><p>فعلاً درخواست بازی نیست.</p></div>`}</section>
+    <section class="section"><div class="row-head"><h2>🧰 خدمات من</h2>${banned ? "" : `<button class="btn teal" data-act="sv-prop-new">+ پیشنهاد خدمت جدید</button>`}</div>
+      ${S.svProps.length ? `<div class="list">${S.svProps.map(p => `<div class="li" style="flex-wrap:wrap"><div class="grow" style="min-width:200px"><div class="t">#${esc(onum(p.proposal_number))} — ${esc(p.title)}</div>
+        <div class="m">${esc(num((p.packages || []).length))} بسته${sep()}سهم شما ${esc(pct(100 - p.site_share_percent))}${p.admin_note && ["countered", "rejected"].includes(p.status) ? sep() + "یادداشت مدیر: " + esc(p.admin_note) : ""}</div></div>
+        <div class="btnrow" style="align-items:center">${svTag(SP_ST, p.status)}${p.status === "countered" ? `<button class="btn sm teal" data-act="sv-prop-diff" data-id="${p.id}">بررسی تغییرات</button>` : ""}
+        ${p.status === "to_sign" ? `<button class="btn sm teal" data-act="sv-prop-contract" data-id="${p.id}">✍️ امضای قرارداد</button>` : ""}${p.status === "live" ? `<button class="btn sm alt" data-act="sv-prop-contract" data-id="${p.id}">📜 قرارداد</button>` : ""}
+        ${p.status === "submitted" ? `<button class="btn sm alt" data-act="sv-prop-withdraw" data-id="${p.id}">انصراف</button>` : ""}</div></div>`).join("")}</div>` : `<div class="empty"><p>هنوز خدمتی پیشنهاد نداده‌اید.</p></div>`}</section>
+    <p class="hint">درآمد خدمات در تب «فروش محصولات من»، بخش صورت‌حساب، با وضعیت «در امانت» یا «قابل تسویه» نمایش داده می‌شود.</p>`;
+}
+function pkRow(p, i) { p = p || {}; return `<div class="pk-row" data-i="${i}"><input class="input" name="pk_name" placeholder="نام بسته (مثلاً ترمیم ساده)" value="${esc(p.name || "")}" data-anon="1">
+  <input class="input" name="pk_price" type="number" min="1000" placeholder="قیمت" value="${esc(p.price || "")}" dir="ltr"><input class="input" name="pk_days" type="number" min="1" max="120" placeholder="روز" value="${esc(p.days || 5)}" dir="ltr">
+  <input class="input" name="pk_rev" type="number" min="0" max="10" placeholder="اصلاح" value="${esc(p.revisions ?? 2)}" dir="ltr"><button type="button" class="btn sm alt" data-act="pk-del" aria-label="حذف بسته">✕</button>
+  <input class="input pk-desc" name="pk_desc" placeholder="شرح کوتاه بسته" value="${esc(p.desc || "")}" data-anon="1"><div class="anon-warn"></div></div>`; }
+function readPackages(form) { return [...form.querySelectorAll(".pk-row")].map(r => ({ name: r.querySelector('[name="pk_name"]').value.trim(), desc: r.querySelector('[name="pk_desc"]').value.trim(),
+  price: +r.querySelector('[name="pk_price"]').value, days: +r.querySelector('[name="pk_days"]').value || 5, revisions: +r.querySelector('[name="pk_rev"]').value || 0 })).filter(x => x.name); }
+function svProposalForm(p, admin) {
+  p = p || { packages: [{}], site_share_percent: 40, extra_terms: [] }; S.svEditProp = p;
+  const lib = ["فایل نهایی با کیفیت قابل چاپ تحویل شود.", "فایل‌های لایه‌باز (منبع) همراه کار تحویل شود.", "حق استفاده تجاری از کار کاملاً متعلق به مشتری است.", "از تصاویر و فونت‌های دارای مجوز استفاده شود.", "یک پیش‌نمایش اولیه پیش از کار نهایی ارائه شود."];
+  openModal(admin ? `ویرایش پیشنهاد خدمت #${onum(p.proposal_number)}` : "پیشنهاد خدمت جدید", `<form data-form="${admin ? "sv-prop-counter" : "sv-prop-submit"}" id="spform">
+    <div class="grid2"><div class="field"><label>زمینه</label><input class="input" name="category" value="${esc(p.category || "")}" placeholder="مثلاً طراحی گرافیک" data-anon="1"><div class="anon-warn"></div></div>
+      <div class="field"><label>عنوان خدمت</label><input class="input" name="title" required value="${esc(p.title || "")}" data-anon="1"><div class="anon-warn"></div></div></div>
+    ${anonField("description", "توضیحات خدمت", p.description, 100)}
+    <div class="field"><label>بسته‌ها و تعرفه‌ها <span class="hint">(نام، قیمت به تومان، مدت پیشنهادی به روز، تعداد اصلاح)</span></label><div id="pkRows">${(p.packages || [{}]).map(pkRow).join("")}</div>
+      <button type="button" class="btn sm alt" data-act="pk-add">+ افزودن بسته</button></div>
+    <div class="field"><label>سهم فروشگاه (درصد)</label><input class="input" name="share" type="number" min="0" max="100" value="${esc(p.site_share_percent)}" dir="ltr" style="max-width:140px"><p class="hint" style="margin:4px 0 0">پیش‌فرض ۴۰٪ فروشگاه و ۶۰٪ ارائه‌دهنده</p></div>
+    ${admin ? `<div class="field"><label>شرایط و تعهدات اختصاصی این خدمت</label>${lib.map(x => `<label class="check"><input type="checkbox" name="lib" value="${esc(x)}" ${(p.extra_terms || []).includes(x) ? "checked" : ""}> ${esc(x)}</label>`).join("")}
+      <textarea class="input" name="custom_terms" placeholder="شرط‌های دیگر — هر شرط در یک خط" style="min-height:70px;margin-top:6px">${esc((p.extra_terms || []).filter(x => !lib.includes(x)).join("\n"))}</textarea></div>
+      <div class="field"><label>یادداشت برای همکار</label><input class="input" name="note" value="${esc(p.admin_note || "")}"></div>`
+      : `<p class="notice">🔒 در هیچ بخشی شماره، لینک، آی‌دی یا نام شبکه اجتماعی ننویسید. نمونه‌کارها را مدیر سایت تنظیم می‌کند.</p>`}</form>`,
+    admin ? `<button class="btn danger" data-act="sv-prop-act" data-a="reject" style="margin-inline-end:auto">رد</button><button class="btn alt" type="submit" form="spform">ارسال ویرایش برای همکار</button><button class="btn teal" data-act="sv-prop-act" data-a="approve">تأیید با همین شرایط</button>`
+      : `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" type="submit" form="spform">ارسال برای مدیر</button>`);
+}
+function readTerms(form) { const fd = new FormData(form); return [...fd.getAll("lib"), ...String(fd.get("custom_terms") || "").split("\n").map(s => s.trim()).filter(Boolean)]; }
+Object.assign(ACT, {
+  "sv-prop-new": () => svProposalForm(null, false),
+  "pk-add": () => { const w = document.getElementById("pkRows"); if (w.children.length >= 10) return toast("حداکثر ۱۰ بسته", true); w.insertAdjacentHTML("beforeend", pkRow({}, w.children.length)); },
+  "pk-del": el => { const w = document.getElementById("pkRows"); if (w.children.length > 1) el.closest(".pk-row").remove(); },
+  "sv-prop-withdraw": async el => { if (!confirm("از این پیشنهاد انصراف می‌دهید؟")) return; await sb.rpc("svc_proposal_respond", { _id: el.dataset.id, _accept: false }); render(); },
+  "sv-prop-diff": el => { const p = S.svProps.find(x => x.id === el.dataset.id), o = p.vendor_offer || {};
+    const row = (k, a, b) => `<tr class="${JSON.stringify(a) !== JSON.stringify(b) ? "changed" : ""}"><td>${k}</td><td>${esc(typeof a === "object" ? (a || []).map(x => x.name + ": " + money(x.price)).join("، ") : a ?? "")}</td><td>${esc(typeof b === "object" ? (b || []).map(x => x.name + ": " + money(x.price)).join("، ") : b ?? "")}</td></tr>`;
+    openModal("تغییرات مدیر", (p.admin_note ? `<div class="notice">یادداشت مدیر: ${esc(p.admin_note)}</div>` : "") + `<div class="table-wrap"><table class="diff"><thead><tr><th>مورد</th><th>پیشنهاد شما</th><th>ویرایش مدیر</th></tr></thead><tbody>
+      ${row("عنوان", o.title, p.title)}${row("زمینه", o.category, p.category)}${row("توضیحات", o.description, p.description)}${row("بسته‌ها", o.packages, p.packages)}${row("سهم فروشگاه", pct(o.site_share_percent), pct(p.site_share_percent))}</tbody></table></div>
+      ${(p.extra_terms || []).length ? `<h3>شرایط اختصاصی</h3><ul>${p.extra_terms.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}`,
+      `<button class="btn danger" data-act="sv-prop-resp" data-id="${p.id}" data-ok="0">رد</button><button class="btn teal" data-act="sv-prop-resp" data-id="${p.id}" data-ok="1">پذیرش</button>`); },
+  "sv-prop-resp": async el => { const { error } = await sb.rpc("svc_proposal_respond", { _id: el.dataset.id, _accept: el.dataset.ok === "1" }); if (error) return toast(svErr(error), true); closeModal(); await render(); if (el.dataset.ok === "1") { const p = S.svProps.find(x => x.id === el.dataset.id); if (p) svProviderSign(p); } },
+  "sv-prop-contract": el => { const p = (S.svProps || S.svAdminProps || []).find(x => x.id === el.dataset.id) || (S.svAdminProps || []).find(x => x.id === el.dataset.id); if (p) svProviderSign(p); },
+  "sv-prop-sign": async el => {
+    if (!S.sigDirty) return toast("ابتدا امضا کنید.", true); el.disabled = true;
+    try { const blob = await new Promise(r => document.getElementById("sigPad").toBlob(r, "image/png"));
+      const path = await uploadTo("signatures", `${S.session.user.id}/svc-${el.dataset.id}-${Date.now()}.png`, new File([blob], "sig.png", { type: "image/png" }), 2);
+      const { error } = await sb.rpc("svc_sign_contract", { _id: el.dataset.id, _signature_path: path }); if (error) throw error; closeModal(); toast("✅ قرارداد امضا شد و خدمت شما روی سایت قرار گرفت"); render(); }
+    catch (e) { el.disabled = false; toast(svErr(e), true); }
+  }
+});
+async function svProviderSign(p) {
+  let sig = null; if (p.signature_path) try { sig = await signed("signatures", p.signature_path); } catch (e) {}
+  const canSign = p.status === "to_sign" && !S.isAdminView && p.user_id === S.session?.user?.id;
+  openModal("قرارداد همکاری در ارائه خدمات", svProviderContract(p, sig) + (canSign ? sigPadHtml() : ""),
+    canSign ? `<button class="btn alt" data-act="close-modal">بعداً</button><button class="btn teal" data-act="sv-prop-sign" data-id="${p.id}">✍️ امضا و تأیید قرارداد</button>` : `<button class="btn alt" data-act="print-sheet">🖨️ چاپ</button><button class="btn" data-act="close-modal">${esc(t("close"))}</button>`);
+  if (canSign) initSigPad();
+}
+FORM["sv-prop-submit"] = async (fd, form) => {
+  const pk = readPackages(form); checkAnon(fd.get("title"), fd.get("description"), fd.get("category"), ...pk.flatMap(x => [x.name, x.desc]));
+  const { error } = await sb.rpc("svc_submit_proposal", { _category: fd.get("category") || null, _title: fd.get("title"), _description: fd.get("description") || "", _packages: pk, _site_share: +fd.get("share") || 40 });
+  if (error) throw new Error(svErr(error)); closeModal(); toast("✅ پیشنهاد خدمت برای مدیر ارسال شد"); render();
+};
+async function svVendorModal(id) {
+  const { data } = await sb.rpc("svc_vendor_orders"); S.svVO = data || []; const o = S.svVO.find(x => x.id === id); if (!o) return; S.svO = o;
+  let body = "", acts = "";
+  if (o.status === "pending_vendor") { body = `<form data-form="sv-v-accept" id="svva"><div class="field"><label>مهلت تحویل (روز)</label><input class="input" type="number" name="days" min="1" max="120" value="${esc(o.days)}" dir="ltr" style="max-width:140px">
+      <p class="hint" style="margin:4px 0 0">مشتری ${esc(num(o.customer_days))} روز خواسته است. اگر عدد دیگری بنویسید، برای تأیید مشتری ارسال می‌شود.</p></div>
+      <label class="check"><input type="checkbox" name="agree" required> قرارداد این سفارش و تعهد عدم درج هرگونه نام، لوگو، واترمارک یا راه ارتباطی را می‌پذیرم و امضا می‌کنم.</label></form>`;
+    acts = `<button class="btn danger" data-act="sv-v-decline">نمی‌پذیرم</button><button class="btn teal" type="submit" form="svva">پذیرش و امضا</button>`; }
+  if (["in_progress", "revision"].includes(o.status)) { body = `<form data-form="sv-deliver" id="svdl">${anonField("body", "توضیح تحویل (اختیاری)", "", 70)}<div class="field"><label>فایل‌های کار</label><input class="input" type="file" name="files" multiple></div>
+      <p class="notice" style="background:#FBE7E3;border-color:#E9B4AA;color:#7A2414">⚠️ هیچ نام، امضا، لوگو، واترمارک، شماره یا لینکی روی کار نگذارید. تخلف بار اول اخطار و بار دوم محرومیت دارد.</p></form>`;
+    acts = `<button class="btn teal" type="submit" form="svdl">بارگذاری و تحویل</button>`; }
+  openModal(`سفارش #${onum(o.order_number)} — مشتری ${o.customer_code}`, `<p>${svTag(SV_ST, o.status)}</p>${svSteps(o)}
+    <div class="sumline"><span>مبلغ / سهم شما</span><span>${esc(money(o.price))} / ${esc(money(o.vendor_amount || Math.floor(o.price * (100 - o.site_share_percent) / 100)))}</span></div>
+    <div class="sumline"><span>مهلت</span><span>${o.due_at ? esc(fdate(o.due_at)) : esc(num(o.days)) + " روز پس از پرداخت"}</span></div><div class="sumline"><span>اصلاحات</span><span>${esc(num(o.revisions_used))} از ${esc(num(o.revisions_allowed))}</span></div>
+    ${o.penalty_amount ? `<div class="sumline"><span>جریمه تأخیر</span><span>${esc(money(o.penalty_amount))}</span></div>` : ""}
+    <h3>شرح نیاز مشتری</h3><p style="white-space:pre-wrap">${esc(o.brief || "")}</p>${fileLinks(o.brief_files)}${svMessages(o)}${body}`,
+    `<button class="btn alt" data-act="sv-contract">📜 قرارداد</button>${acts}`);
+  hydrateSigned(document.getElementById("modalIn"));
+}
+Object.assign(ACT, {
+  "sv-v-open": el => svVendorModal(el.dataset.id),
+  "sv-v-decline": async () => { if (!confirm("این سفارش را نمی‌پذیرید؟")) return; const { error } = await sb.rpc("svc_vendor_respond", { _id: S.svO.id, _accept: false }); if (error) return toast(svErr(error), true); closeModal(); render(); },
+  "sv-bid-open": el => { const r = S.svOpen.find(x => x.id === el.dataset.id); if (!r) return; S.svBidReq = r; const editable = !r.my_status || r.my_status === "pending" || r.my_status === "withdrawn";
+    openModal(`درخواست #${onum(r.request_number)} — ${r.title}`, `<p class="hint">${esc(r.category || "")}${r.budget ? " · بودجه تقریبی " + esc(money(r.budget)) : ""} · مهلت درخواستی ${esc(num(r.desired_days))} روز · ${esc(num(r.bids))} پیشنهاد</p>
+      <p style="white-space:pre-wrap">${esc(r.description)}</p>${fileLinks(r.files)}
+      ${editable ? `<form data-form="sv-bid" id="svbid"><div class="grid2"><div class="field"><label>قیمت پیشنهادی (تومان)</label><input class="input" type="number" name="price" min="1000" required value="${esc(r.my_price || "")}" dir="ltr"></div>
+        <div class="field"><label>مدت تحویل (روز)</label><input class="input" type="number" name="days" min="1" max="120" value="${esc(r.my_days || r.desired_days)}" dir="ltr"></div></div>
+        <div class="field"><label>تعداد اصلاح</label><input class="input" type="number" name="revisions" min="0" max="10" value="${esc(r.my_revisions ?? 2)}" dir="ltr" style="max-width:140px"></div>
+        ${anonField("note", "توضیح کوتاه برای مشتری (بدون هیچ راه ارتباطی)", r.my_note, 70)}</form>` : `<p>${svTag({ accepted: ["پیشنهاد شما انتخاب شد", "ok"], rejected: ["پیشنهاد دیگری انتخاب شد", ""] }, r.my_status)}</p>`}`,
+      `${r.my_status === "pending" ? `<button class="btn alt" data-act="sv-bid-withdraw">پس گرفتن پیشنهاد</button>` : ""}<button class="btn alt" data-act="close-modal">${esc(t("close"))}</button>${editable ? `<button class="btn teal" type="submit" form="svbid">${r.my_status === "pending" ? "ویرایش پیشنهاد" : "ارسال پیشنهاد"}</button>` : ""}`);
+    hydrateSigned(document.getElementById("modalIn")); },
+  "sv-bid-withdraw": async () => { await sb.rpc("svc_bid_withdraw", { _request_id: S.svBidReq.id }); closeModal(); render(); }
+});
+Object.assign(FORM, {
+  "sv-v-accept": async fd => { const { error } = await sb.rpc("svc_vendor_respond", { _id: S.svO.id, _accept: true, _days: +fd.get("days") || S.svO.days }); if (error) throw new Error(svErr(error)); closeModal(); toast("✅ قرارداد امضا شد"); render(); },
+  "sv-deliver": async (fd, form) => { checkAnon(fd.get("body")); const files = form.querySelector('input[name="files"]').files;
+    if (!files.length && !String(fd.get("body") || "").trim()) throw new Error("فایل یا توضیح تحویل را وارد کنید.");
+    const paths = await svUpload(`ord/${S.svO.id}/work`, files);
+    const { error } = await sb.rpc("svc_deliver", { _id: S.svO.id, _body: fd.get("body") || "", _files: paths }); if (error) throw new Error(svErr(error)); closeModal(); toast("✅ کار تحویل داده شد"); render(); },
+  "sv-bid": async fd => { checkAnon(fd.get("note")); const { error } = await sb.rpc("svc_bid", { _request_id: S.svBidReq.id, _price: +fd.get("price"), _days: +fd.get("days") || 5, _revisions: +fd.get("revisions") || 0, _note: fd.get("note") || null });
+    if (error) throw new Error(svErr(error)); closeModal(); toast("✅ پیشنهاد شما ثبت شد"); render(); }
+});
+
+/* ===================== ADMIN ===================== */
+Object.assign(ADMIN_I18N.fa, { a_services: "خدمات همکاران" }); Object.assign(ADMIN_I18N.en, { a_services: "Partner services" });
+ADMIN_TABS.splice(ADMIN_TABS.indexOf("vendors") + 1, 0, "services"); OWNER_TABS.push("services");
+ADMIN_GROUPS.find(g => g[0] === "همکاران")[1].push("services");
+ADMIN_ICONS.services = "M14.7 6.3a4 4 0 00-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.1-.5-.5-2.1z"; ADMIN_BADGE.services = "services";
+DB_ACTIONS["svc-review"] = ["بررسی خدمات و سفارش‌ها", "services", null, ADMIN_ICONS.services];
+DB_GROUPS.find(g => g[0] === "partners")[4].push(["services", ["svc-review"]]);
+A.services = async () => {
+  S.isAdminView = true; await sb.rpc("svc_tick");
+  const sub = S.svAdmTab || "orders";
+  const [{ data: P }, { data: SV }, { data: O }, { data: RQ }, { data: AF }] = await Promise.all([
+    sb.from("service_proposals").select("*").order("created_at", { ascending: false }), sb.from("services").select("*").order("created_at", { ascending: false }),
+    sb.from("service_orders").select("*").order("created_at", { ascending: false }).limit(300), sb.from("service_requests").select("*").order("created_at", { ascending: false }).limit(200),
+    sb.from("affiliates").select("id,user_id,full_name,code,service_strikes,services_banned")]);
+  S.svAdminProps = P || []; S.svAdminSv = SV || []; S.svAdminO = O || []; S.svAdminRq = RQ || []; const aff = {}; (AF || []).forEach(a => aff[a.id] = a); S.svAff = aff;
+  const need = S.svAdminO.filter(o => ["pending_admin", "disputed", "completed"].includes(o.status)).length, pend = S.svAdminProps.filter(p => p.status === "submitted").length;
+  const segs = [["orders", "سفارش‌ها", need], ["proposals", "پیشنهادهای خدمت", pend], ["services", "خدمات فعال", 0], ["requests", "درخواست‌های سفارشی", 0]];
+  let body = "";
+  if (sub === "orders") {
+    const f = S.svOFilter || "action", groups = { action: ["pending_admin", "disputed", "completed"], active: ["pending_vendor", "pending_customer", "awaiting_payment", "in_progress", "delivered", "revision"], done: ["released", "refunded", "cancelled", "expired"] };
+    const L = f === "all" ? S.svAdminO : S.svAdminO.filter(o => groups[f].includes(o.status));
+    const users = await profileMap(L.map(o => o.customer_id));
+    body = `<div class="chips-row" style="margin-bottom:10px">${[["action", "نیاز به اقدام شما"], ["active", "در جریان"], ["done", "پایان‌یافته"], ["all", "همه"]].map(([k, l]) => `<button class="btn sm ${f === k ? "" : "alt"}" data-act="sv-of" data-f="${k}">${l}</button>`).join("")}</div>` +
+      (L.length ? `<div class="list">${L.map(o => `<div class="li click" data-act="sv-a-open" data-id="${o.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(onum(o.order_number))} — ${esc(o.title)}</div>
+        <div class="m">مشتری: ${esc((users[o.customer_id] || {}).full_name || "")} (C-${esc(onum(o.order_number))})${sep()}ارائه‌دهنده: ${esc((aff[o.vendor_id] || {}).full_name || "")}${sep()}${esc(money(o.price))}${o.due_at ? sep() + "مهلت " + esc(fday(o.due_at)) : ""}</div></div>${svTag(SV_ST, o.status)}</div>`).join("")}</div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`);
+  }
+  if (sub === "proposals") body = S.svAdminProps.length ? `<div class="list">${S.svAdminProps.map(p => `<div class="li click" data-act="sv-a-prop" data-id="${p.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(onum(p.proposal_number))} — ${esc(p.title)}</div>
+      <div class="m">${esc((aff[p.vendor_id] || {}).full_name || "")}${sep()}${esc(num((p.packages || []).length))} بسته${sep()}سهم فروشگاه ${esc(pct(p.site_share_percent))}</div></div>${svTag(SP_ST, p.status)}</div>`).join("")}</div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`;
+  if (sub === "services") body = S.svAdminSv.length ? `<div class="list">${S.svAdminSv.map(s => { const a = aff[s.vendor_id] || {}; return `<div class="li" style="flex-wrap:wrap"><div class="grow" style="min-width:200px"><div class="t">${esc(s.title)}</div>
+      <div class="m">${esc(a.full_name || "")} (${esc(a.code || "")})${sep()}${esc(num((s.portfolio || []).length))} نمونه‌کار${a.service_strikes ? sep() + "⚠️ " + esc(num(a.service_strikes)) + " اخطار" : ""}${a.services_banned ? sep() + "⛔ محروم" : ""}</div></div>
+      <div class="btnrow" style="align-items:center"><button class="btn sm alt" data-act="sv-port" data-id="${s.id}">🖼 نمونه‌کارها</button><button class="btn sm alt" data-act="sv-prop-contract" data-id="${s.proposal_id}">📜 قرارداد</button>
+      <button class="switch ${s.is_active ? "on" : ""}" data-act="sv-active" data-id="${s.id}" aria-pressed="${s.is_active}" aria-label="فعال بودن ${esc(s.title)}"></button></div></div>`; }).join("")}</div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`;
+  if (sub === "requests") { const users = await profileMap(S.svAdminRq.map(r => r.customer_id));
+    body = S.svAdminRq.length ? `<div class="list">${S.svAdminRq.map(r => `<div class="li click" data-act="sv-a-req" data-id="${r.id}" role="button" tabindex="0"><div class="grow"><div class="t">#${esc(onum(r.request_number))} — ${esc(r.title)}</div>
+      <div class="m">${esc((users[r.customer_id] || {}).full_name || "")}${sep()}${esc(fdate(r.created_at))}</div></div>${svTag({ open: ["باز", "info"], awarded: ["انتخاب شده", "ok"], cancelled: ["لغو شده", ""], expired: ["منقضی", ""] }, r.status)}</div>`).join("")}</div>` : `<div class="empty"><p>${esc(t("a_noData"))}</p></div>`; }
+  return `<div class="mini-seg" style="margin-bottom:14px;flex-wrap:wrap">${segs.map(([k, l, n]) => `<button class="${sub === k ? "on" : ""}" data-act="sv-adm-tab" data-t="${k}">${l}${n ? ` <span class="badge">${esc(num(n))}</span>` : ""}</button>`).join("")}</div>` + body;
+};
+Object.assign(ACT, {
+  "sv-adm-tab": el => { S.svAdmTab = el.dataset.t; render(); }, "sv-of": el => { S.svOFilter = el.dataset.f; render(); },
+  "sv-active": async el => { const s = S.svAdminSv.find(x => x.id === el.dataset.id); await sb.from("services").update({ is_active: !s.is_active }).eq("id", s.id); render(); },
+  "sv-a-prop": el => { const p = S.svAdminProps.find(x => x.id === el.dataset.id); if (["submitted", "countered"].includes(p.status)) svProposalForm(p, true); else svProviderSign(p); },
+  "sv-prop-act": async el => { const form = document.getElementById("spform"), p = S.svEditProp; let note = form.note.value || null;
+    if (el.dataset.a === "reject") { note = prompt("دلیل رد (برای همکار نمایش داده می‌شود):", note || ""); if (note === null) return; }
+    const { error } = await sb.rpc("admin_svc_proposal", { _id: p.id, _action: el.dataset.a, _changes: {}, _extra_terms: readTerms(form), _note: note });
+    if (error) return toast(svErr(error), true); closeModal(); toast(t("a_done")); render(); },
+  "sv-a-open": el => svAdminModal(el.dataset.id),
+  "sv-a-approve": async el => { const ok = el.dataset.ok === "1"; let note = null; if (!ok) { note = prompt("دلیل لغو:", ""); if (note === null) return; } else if (!confirm("قرارداد را تأیید و امضا می‌کنید؟")) return;
+    const { error } = await sb.rpc("admin_svc_approve", { _id: S.svAO.id, _approve: ok, _note: note }); if (error) return toast(svErr(error), true); closeModal(); toast(t("a_done")); render(); },
+  "sv-a-release": async () => { if (!confirm("سهم ارائه‌دهنده قطعی شود؟" + (S.svAO.penalty_amount ? `\nجریمه تأخیر ${money(S.svAO.penalty_amount)} کسر و به مشتری برگردانده می‌شود.` : ""))) return;
+    const { error } = await sb.rpc("admin_svc_release", { _id: S.svAO.id, _note: null }); if (error) return toast(svErr(error), true); closeModal(); toast(t("a_done")); render(); },
+  "sv-a-resolve": () => { const o = S.svAO;
+    openModal(`داوری سفارش #${onum(o.order_number)}`, `<form data-form="sv-resolve" id="svrs"><div class="field"><label>رأی</label><select class="input" name="decision" data-change="svres">
+      ${o.paid_at ? `<option value="release">به نفع ارائه‌دهنده (پرداخت کامل سهم)</option><option value="refund_partial">بازپرداخت بخشی به مشتری</option><option value="refund_full">بازپرداخت کامل به مشتری</option>` : `<option value="cancel">لغو سفارش (پرداختی انجام نشده)</option>`}</select></div>
+      <div class="field" id="svresAmt" hidden><label>مبلغ بازپرداخت به مشتری (تومان)</label><input class="input" type="number" name="amount" min="0" max="${o.price}" dir="ltr"></div>
+      <div class="field"><label>شرح رأی (برای هر دو طرف ارسال می‌شود)</label><textarea class="input" name="note" required></textarea></div></form>`,
+      `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn teal" type="submit" form="svrs">ثبت رأی</button>`); },
+  "sv-a-strike": async () => { const o = S.svAO, a = S.svAff[o.vendor_id] || {};
+    const reason = prompt(`ثبت تخلف برای «${a.full_name || ""}»\n(اخطارهای قبلی: ${num(a.service_strikes || 0)} — اخطار دوم به محرومیت منجر می‌شود)\nشرح تخلف:`, "درج واترمارک / راه ارتباطی در کار"); if (!reason) return;
+    const { data, error } = await sb.rpc("admin_svc_strike", { _vendor_id: o.vendor_id, _order_id: o.id, _reason: reason }); if (error) return toast(svErr(error), true);
+    toast(data.banned ? "⛔ ارائه‌دهنده محروم شد" : "⚠️ اخطار رسمی ثبت شد"); closeModal(); render(); },
+  "sv-port": el => svPortfolio(el.dataset.id),
+  "sv-port-del": async el => { const s = S.svPortS; const pf = (s.portfolio || []).filter((_, i) => i !== +el.dataset.i); await sb.from("services").update({ portfolio: pf }).eq("id", s.id); s.portfolio = pf; svPortfolio(s.id, true); },
+  "sv-a-req": async el => { const r = S.svAdminRq.find(x => x.id === el.dataset.id); const { data: B } = await sb.from("service_bids").select("*").eq("request_id", r.id).order("price");
+    openModal(`درخواست #${onum(r.request_number)} — ${r.title}`, `<p style="white-space:pre-wrap">${esc(r.description)}</p>${fileLinks(r.files)}<h3>پیشنهادها</h3>${(B || []).length ? `<div class="list">${B.map(b => `<div class="li"><div class="grow"><div class="t">${esc(money(b.price))} · ${esc(num(b.days))} روز</div><div class="m">${esc((S.svAff[b.vendor_id] || {}).full_name || "")}${b.note ? sep() + "«" + esc(b.note) + "»" : ""}</div></div>${svTag({ pending: ["در انتظار", ""], accepted: ["انتخاب شده", "ok"], rejected: ["رد", ""], withdrawn: ["پس گرفته", ""] }, b.status)}</div>`).join("")}</div>` : `<p class="hint">پیشنهادی نیست.</p>`}`,
+      `<button class="btn" data-act="close-modal">${esc(t("close"))}</button>`); hydrateSigned(document.getElementById("modalIn")); }
+});
+document.addEventListener("change", e => { if (e.target.dataset && e.target.dataset.change === "svres") { const b = document.getElementById("svresAmt"); if (b) b.hidden = e.target.value !== "refund_partial"; } });
+FORM["sv-resolve"] = async fd => { const { error } = await sb.rpc("admin_svc_resolve", { _id: S.svAO.id, _decision: fd.get("decision"), _amount: +fd.get("amount") || 0, _note: fd.get("note") });
+  if (error) throw new Error(svErr(error)); closeModal(); toast("رأی داور ثبت شد"); render(); };
+FORM["sv-prop-counter"] = async (fd, form) => { const p = S.svEditProp, pk = readPackages(form);
+  const { error } = await sb.rpc("admin_svc_proposal", { _id: p.id, _action: "counter", _changes: { title: fd.get("title"), category: fd.get("category"), description: fd.get("description"), packages: pk, site_share_percent: +fd.get("share") },
+    _extra_terms: readTerms(form), _note: fd.get("note") || null }); if (error) throw new Error(svErr(error)); closeModal(); toast("ویرایش برای همکار ارسال شد"); render(); };
+async function svAdminModal(id) {
+  const { data: o } = await sb.rpc("admin_svc_order", { _id: id }); if (!o) return;
+  const users = await profileMap([o.customer_id]);
+  const a = S.svAff[o.vendor_id] || {}, u = users[o.customer_id] || {};
+  S.svAO = o;
+  let acts = "";
+  if (o.status === "pending_admin") acts = `<button class="btn danger" data-act="sv-a-approve" data-ok="0">لغو</button><button class="btn teal" data-act="sv-a-approve" data-ok="1">تأیید و امضای قرارداد</button>`;
+  if (o.status === "completed") acts = `<button class="btn teal" data-act="sv-a-release">آزادسازی و قطعی کردن سهم</button>`;
+  if (!["released", "refunded", "cancelled", "expired"].includes(o.status)) acts = `<button class="btn alt" data-act="sv-a-resolve">⚖️ داوری / لغو</button>` + acts;
+  acts = `<button class="btn alt" data-act="sv-a-strike">⚠️ ثبت تخلف</button>` + acts;
+  openModal(`سفارش خدمت #${onum(o.order_number)}`, `<p>${svTag(SV_ST, o.status)}</p>${svSteps(o)}
+    <div class="sumline"><span>مشتری (واقعی)</span><span>${esc(u.full_name || "")} <span dir="ltr">${esc(u.email || "")}</span></span></div>
+    <div class="sumline"><span>ارائه‌دهنده (واقعی)</span><span>${esc(a.full_name || "")} (${esc(a.code || "")})${a.service_strikes ? " — ⚠️ " + esc(num(a.service_strikes)) + " اخطار" : ""}</span></div>
+    <div class="sumline"><span>مبلغ / سهم همکار / سهم فروشگاه</span><span>${esc(money(o.price))} / ${esc(money(o.vendor_amount || Math.floor(o.price * (100 - o.site_share_percent) / 100)))} / ${esc(pct(o.site_share_percent))}</span></div>
+    <div class="sumline"><span>مهلت</span><span>${esc(num(o.days))} روز (مشتری: ${esc(num(o.customer_days))}${o.vendor_days ? "، همکار: " + esc(num(o.vendor_days)) : ""})${o.due_at ? " — تا " + esc(fdate(o.due_at)) : ""}</span></div>
+    ${o.penalty_amount ? `<div class="sumline"><span>جریمه تأخیر</span><span>${esc(money(o.penalty_amount))}</span></div>` : ""}
+    <h3>شرح نیاز</h3><p style="white-space:pre-wrap">${esc(o.brief || "")}</p>${fileLinks(o.brief_files)}${svMessages(o)}`,
+    `<button class="btn alt" data-act="sv-a-contract">📜 قرارداد</button>${acts}`);
+  hydrateSigned(document.getElementById("modalIn"));
+}
+ACT["sv-a-contract"] = () => openModal("قرارداد سفارش خدمت", svOrderContract(S.svAO), `<button class="btn alt" data-act="print-sheet">🖨️ چاپ</button><button class="btn" data-act="close-modal">${esc(t("close"))}</button>`);
+function svPortfolio(id, keep) {
+  const s = S.svAdminSv.find(x => x.id === id); S.svPortS = s; const pf = s.portfolio || [];
+  const html = `<p class="hint">نمونه‌کارها فقط توسط شما تنظیم می‌شوند و در صفحه خدمت به مشتریان نمایش داده می‌شوند. مراقب باشید هیچ نشانه‌ای از هویت ارائه‌دهنده در آن‌ها نباشد.</p>
+    ${pf.length ? `<div class="list">${pf.map((x, i) => `<div class="li"><div class="grow"><div class="t">${x.type === "image" ? "🖼" : x.type === "file" ? "📄" : "🔗"} ${esc(x.title || x.url)}</div></div><a class="btn sm alt" href="${esc(x.url)}" target="_blank" rel="noopener">مشاهده</a><button class="btn sm alt" data-act="sv-port-del" data-i="${i}">✕</button></div>`).join("")}</div>` : `<p class="hint">نمونه‌کاری ثبت نشده.</p>`}
+    <form data-form="sv-port-add" id="svpa"><div class="grid2"><div class="field"><label>عنوان</label><input class="input" name="title"></div><div class="field"><label>نوع</label><select class="input" name="type"><option value="image">عکس</option><option value="file">فایل (PDF یا ویدیو)</option><option value="link">لینک</option></select></div></div>
+      <div class="field"><label>فایل یا عکس</label><input class="input" type="file" name="file"></div><div class="field"><label>یا لینک</label><input class="input" name="url" dir="ltr" placeholder="https://"></div>
+      <button class="btn teal" type="submit">افزودن نمونه‌کار</button></form>`;
+  if (keep && document.getElementById("svPortBody")) { document.getElementById("svPortBody").innerHTML = html; return; }
+  openModal(`نمونه‌کارهای «${s.title}»`, `<div id="svPortBody">${html}</div>`, `<button class="btn" data-act="close-modal">${esc(t("close"))}</button>`);
+}
+FORM["sv-port-add"] = async (fd, form) => {
+  const s = S.svPortS, f = fd.get("file"); let url = (fd.get("url") || "").trim();
+  if (f && f.size) { const ff = await stripImage(f); url = publicUrl("service-portfolio", await uploadTo("service-portfolio", `${s.id}/${rid()}.${extOf(ff.name)}`, ff, 25)); }
+  if (!url) throw new Error("فایل یا لینک را وارد کنید.");
+  const pf = (s.portfolio || []).concat({ type: fd.get("type"), url, title: (fd.get("title") || "").trim() });
+  const { error } = await sb.from("services").update({ portfolio: pf }).eq("id", s.id); if (error) throw error; s.portfolio = pf; svPortfolio(s.id, true); toast("افزوده شد");
+};
+
+/* ===================== navigation entries ===================== */
+(function navServices() {
+  const oc = window.renderChrome;
+  window.renderChrome = function () {
+    oc();
+    const nav = document.getElementById("nav");
+    if (nav && !nav.querySelector('[href="#/services"]')) { const b = nav.querySelector('[href="#/bazaar"]'); const h = `<a href="#/services" class="${(location.hash || "").startsWith("#/services") ? "on" : ""}">${esc(t("services"))}</a>`; b ? b.insertAdjacentHTML("afterend", h) : nav.insertAdjacentHTML("beforeend", h); requestAnimationFrame(fitNav); }
+  };
+  const om = window.menuGroups;
+  window.menuGroups = function () {
+    const g = om(); if (/^#\/admin/.test(location.hash || "")) return g;
+    const shop = g.find(x => x.title === t("g_shop")); if (shop && !shop.items.some(i => i.href === "#/services")) shop.items.push({ href: "#/services", label: t("services"), icon: ADMIN_ICONS.services, badge: 0, on: (location.hash || "").startsWith("#/services") });
+    const me = g.find(x => x.title === t("g_me")); if (me && S.session && !me.items.some(i => i.href === "#/my-services")) me.items.splice(1, 0, { href: "#/my-services", label: t("myServices"), icon: QI.receipt, badge: 0, on: (location.hash || "").startsWith("#/my-services") });
+    return g;
+  };
+  BOTTOM_ITEMS.services = ["#/services", "خدمات", "shop"];
+  QUICK_ITEMS.splice(3, 0, ["#/services", "خدمات"], ["#/my-services", "سفارش‌های خدمات"]);
+})();
 </script>
 
 </body>
