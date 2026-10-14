@@ -456,6 +456,9 @@ dialog[open]{animation:dlg .22s ease}
 .pgrid2.mosaic{grid-template-columns:repeat(4,minmax(0,1fr))}.pgrid2.mosaic>:first-child{grid-column:span 2;grid-row:span 2}
 @media (max-width:700px){.pgrid2.mosaic{grid-template-columns:repeat(2,minmax(0,1fr))}.pgrid2.mosaic>:first-child{grid-row:span 1}}
 .pgrid.as-list{grid-template-columns:minmax(0,1fr)}
+.pgrid.mosaic{grid-template-columns:repeat(4,minmax(0,1fr))}.pgrid.mosaic>:first-child{grid-column:span 2;grid-row:span 2}
+@media (max-width:700px){.pgrid.mosaic{grid-template-columns:repeat(2,minmax(0,1fr))}.pgrid.mosaic>:first-child{grid-row:span 1}}
+.view-reset{padding:4px 9px!important;line-height:1}
 .pc{position:relative;display:flex;flex-direction:column;text-decoration:none;color:var(--text);background:var(--surface);border-radius:22px;overflow:hidden;border:1px solid #ECE3CF;box-shadow:0 6px 18px rgba(15,81,87,.08);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s}
 .pc:hover,.pc:focus-visible{transform:translateY(-8px);box-shadow:0 26px 48px rgba(15,81,87,.2)}
 .zone{position:relative;aspect-ratio:1/.92;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
@@ -603,6 +606,65 @@ table{width:100%;table-layout:auto}th,td{white-space:normal!important;word-break
 .np-art i{display:block;background:var(--line);border-radius:99px}
 .np-tabs i{height:8px;width:26%}.np-side{flex-direction:column;align-items:flex-end}.np-side i{width:30%;height:7px}
 .np-mega i{height:10px;width:20%;border-radius:4px}
+/* ===== dashboard v2 ===== */
+.db-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end;margin-bottom:14px}
+.db-vs{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.db-vs button{border:0;background:transparent;padding:7px 12px;cursor:pointer;font-size:.86rem;color:var(--muted)}.db-vs button.on{background:var(--firoozeh-soft);color:var(--lapis-2);font-weight:800}
+.db-today{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.db-tt{font-weight:800;margin-inline-end:6px}.db-done{color:var(--ok);font-weight:800}
+.db-todo{display:inline-flex;align-items:center;gap:8px;background:#FFF6E3;border:1px solid #F1D9A2;border-radius:12px;padding:6px 8px 6px 6px;color:#3A2A08}
+.db-todo b{font-size:1.05rem;color:#8A5A10}.db-todo span{font-size:.88rem}
+.db-todo button{border:0;background:var(--lapis);color:var(--on-lapis);border-radius:9px;padding:5px 12px;font-weight:800;cursor:pointer;font-size:.82rem}
+.db-todo.red{background:#FBEBE7;border-color:#EDC2B7}.db-todo.red b{color:var(--danger)}
+@media (max-width:560px){.db-today{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.db-tt{grid-column:1/-1}.db-todo{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 6px;padding:8px}.db-todo span{font-size:.78rem;line-height:1.4}.db-todo button{grid-column:1/-1;width:100%}}
+.db-grp{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin-bottom:12px}
+.db-pins{border-color:#E3CF9A;background:color-mix(in srgb,#FFF8E6 55%,var(--surface))}
+.db-ghd{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.db-ghd h2{margin:0;font-size:1.02rem}
+.db-sum{background:var(--saffron);color:#1b1b1b;border-radius:99px;min-width:22px;height:22px;font-size:.75rem;font-weight:800;display:grid;place-items:center;padding:0 6px}
+.db-quick{display:flex;flex-wrap:wrap;gap:6px;margin-inline-start:8px}
+.db-q{border:1px dashed var(--firoozeh);background:transparent;color:var(--lapis-2);border-radius:99px;padding:3px 11px;font-size:.8rem;font-weight:700;cursor:pointer}.db-q:hover{background:var(--firoozeh-soft)}
+.db-ctl{margin-inline-start:auto;display:flex;gap:4px}
+.db-ctl>button:not(.btn){width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;font-size:.8rem;color:var(--text)}
+.db-ctl button:disabled{opacity:.35;cursor:default}
+.db-body{margin-top:10px}.db-grp.closed .db-body{display:none}.db-grp.closed .db-tg{transform:rotate(180deg)}
+@media (max-width:700px){.db-quick{order:5;flex-basis:100%;margin:6px 0 0}}
+.db-it{position:relative;color:var(--text);cursor:pointer;text-decoration:none}
+.db-star{position:absolute;top:6px;inset-inline-end:6px;border:0;background:transparent;cursor:pointer;font-size:1.05rem;color:#B5C3C4;width:30px;height:30px;border-radius:8px;z-index:2}
+.db-star.on{color:var(--saffron)}.db-star:hover{background:var(--paper)}
+.db-ibox{display:grid;place-items:center;border-radius:14px;color:#fff;flex-shrink:0;position:relative}
+.db-bd{background:var(--saffron);color:#1b1b1b;border-radius:99px;min-width:20px;height:20px;font-size:.72rem;font-weight:800;display:grid;place-items:center;padding:0 5px}
+.db-stat{font-size:.82rem;color:var(--muted)}.db-stat.warn{color:#8A5A10;font-weight:700}
+.db-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.db-act{border:0;background:var(--firoozeh-soft);color:var(--lapis-2);border-radius:9px;padding:5px 11px;font-weight:800;cursor:pointer;font-size:.82rem}.db-act:hover{background:var(--lapis);color:var(--on-lapis)}
+.db-s-icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.db-s-icons .db-it{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:8px 4px;border-radius:14px}.db-s-icons .db-it:hover{background:var(--paper)}
+.db-s-icons .db-ibox{width:58px;height:58px;border-radius:50%}.db-s-icons .db-ibox .db-bd{position:absolute;top:-4px;inset-inline-end:-6px}
+.db-s-icons .db-nm{font-weight:700;font-size:.86rem;line-height:1.4}.db-s-icons .db-stat{font-size:.74rem}.db-s-icons .db-star{top:0;inset-inline-end:auto;inset-inline-start:2px;width:26px;height:26px;font-size:.9rem}.db-s-icons .db-acts{display:none}
+.db-s-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.db-s-cards .db-it{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:16px;padding:12px;background:var(--surface);transition:transform .2s,box-shadow .2s}
+.db-s-cards .db-it:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(15,81,87,.12)}
+.db-top{display:flex;align-items:center;gap:10px;padding-inline-end:28px}.db-s-cards .db-ibox{width:44px;height:44px}.db-s-cards .db-nm{font-weight:800}
+.db-s-mosaic{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(96px,auto);gap:10px}
+.db-s-mosaic .db-it{border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:6px;color:#fff;overflow:hidden}
+.db-s-mosaic .db-ibox{width:38px;height:38px;background:rgba(255,255,255,.18)!important}.db-s-mosaic .db-stat{color:rgba(255,255,255,.9)}.db-s-mosaic .db-stat.warn{color:#FFE29A}.db-s-mosaic .db-nm{font-weight:800}
+.db-s-mosaic .db-it.big{grid-column:span 2;grid-row:span 2}.db-s-mosaic .db-it.big .db-nm{font-size:1.25rem}.db-s-mosaic .db-it.big .db-ibox{width:54px;height:54px}
+.db-s-mosaic .db-act{background:rgba(255,255,255,.95);color:#142326}.db-s-mosaic .db-it:not(.big) .db-acts{display:none}
+.db-s-mosaic .db-star{color:rgba(255,255,255,.65)}.db-s-mosaic .db-star.on{color:#FFE29A}.db-s-mosaic .db-bd{position:absolute;top:10px;inset-inline-end:42px}
+@media (max-width:700px){.db-s-mosaic{grid-template-columns:repeat(2,minmax(0,1fr))}.db-s-mosaic .db-it.big{grid-row:span 1}}
+.db-s-list{display:flex;flex-direction:column}
+.db-s-list .db-it{display:flex;align-items:center;gap:10px;padding:8px 6px;border-bottom:1px solid var(--line);flex-wrap:wrap}.db-s-list .db-it:last-child{border-bottom:0}.db-s-list .db-it:hover{background:var(--paper)}
+.db-s-list .db-ibox{width:34px;height:34px;border-radius:10px}.db-s-list .db-nm{font-weight:700;min-width:120px}.db-s-list .db-stat{flex:1;min-width:0}.db-s-list .db-star{position:static}.db-s-list .db-acts{margin:0}
+@media (max-width:560px){.db-s-list .db-stat{flex-basis:100%;order:5;padding-inline-start:44px}.db-s-list .db-nm{flex:1;min-width:0}.db-s-list .db-acts{order:6;padding-inline-start:44px}}
+.db-rep{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px}
+.db-rep summary{cursor:pointer;font-weight:800;list-style:none;display:flex;align-items:center}.db-rep summary::-webkit-details-marker{display:none}
+.db-rep summary::after{content:"▾";margin-inline-start:auto;color:var(--muted)}.db-rep[open] summary::after{content:"▴"}
+.pe-h{font-size:.95rem;margin:0 0 8px}.pe-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.pe-row{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:6px 10px}
+.pe-ic{width:32px;height:32px;border-radius:9px;background:var(--firoozeh-soft);color:var(--lapis-2);display:grid;place-items:center;flex-shrink:0}
+.pe-l{flex:1;display:flex;flex-direction:column;line-height:1.4}.pe-l small{color:var(--muted);font-size:.75rem}
+.pe-mv{display:flex;gap:2px}.pe-mv button{border:1px solid var(--line);background:var(--surface);border-radius:6px;width:28px;height:28px;cursor:pointer;color:var(--text)}.pe-mv button:disabled{opacity:.35}
+.pe-add summary{cursor:pointer;font-weight:800;margin:6px 0}
+@media (prefers-reduced-motion:reduce){.db-s-cards .db-it,.db-s-cards .db-it:hover{transition:none;transform:none}}
 </style>
 </head>
 <body>
@@ -5119,7 +5181,7 @@ const QUICK_ITEMS = [["#/products", "محصولات"], ["#/courses", "دوره�
 function homeLayout() { const h = S.settings && Array.isArray(S.settings.home_layout) ? S.settings.home_layout : null; if (!h) return JSON.parse(JSON.stringify(HOME_DEFAULT));
   const ids = h.map(x => x.id); return h.concat(HOME_DEFAULT.filter(d => !ids.includes(d.id)).map(d => ({ ...d, on: 0 }))); }
 function cardStyle() { const s = S.settings && S.settings.card_style; return CARD_STYLES.some(c => c[0] === s) ? s : "classic"; }
-S.listMode = (() => { try { return localStorage.getItem("asan-list") || "grid"; } catch (e) { return "grid"; } })();
+S.listMode = (() => { try { return localStorage.getItem("asan-view") || ""; } catch (e) { return ""; } })();   // "" = the store's own layout
 
 /* ----- product art: real image if uploaded, otherwise a glossy tile with the first letter ----- */
 const ART_COLORS = [["#5B3FD9", "#9C6BFF"], ["#E2463A", "#FF8A5B"], ["#0F8C95", "#3FD1C9"], ["#1E6BD6", "#5FB0FF"], ["#1F9D55", "#5DDB8E"], ["#C7881A", "#F2C14E"], ["#7A4BC2", "#B58CF2"], ["#D23B87", "#FF7FBF"]];
@@ -5174,19 +5236,22 @@ function lrow(item, isCourse) {
 }
 function itemsBlock(items, style, cols, isCourse) {
   if (!items.length) return "";
-  if (S.listMode === "list" && style !== "icons") style = "list";
+  if (S.listMode && style !== "icons") style = S.listMode === "grid" ? "cards" : S.listMode;
   if (style === "list") return `<div class="lrows">${items.map(x => lrow(x, isCourse)).join("")}</div>`;
   const render = isCourse ? ccard : pcard;
   return `<div class="pgrid2 ${style === "mosaic" ? "mosaic" : ""}" style="--cols:${cols || 4}">${(style === "mosaic" ? items.slice(0, 5) : items).map(render).join("")}</div>`;
 }
-function viewToggle() {
-  return `<div class="mini-seg" role="group" aria-label="نوع نمایش"><button type="button" class="${S.listMode !== "list" ? "on" : ""}" data-act="list-mode" data-m="grid">کارتی</button><button type="button" class="${S.listMode === "list" ? "on" : ""}" data-act="list-mode" data-m="list">فهرستی</button></div>`;
+function viewToggle(storeStyle) {
+  const eff = S.listMode ? (S.listMode === "grid" ? "cards" : S.listMode) : (storeStyle || "cards");
+  const b = (m, st, l) => `<button type="button" class="${eff === st ? "on" : ""}" data-act="list-mode" data-m="${m}" aria-pressed="${eff === st}">${l}</button>`;
+  return `<div class="mini-seg" role="group" aria-label="نوع نمایش">${b("grid", "cards", "کارتی")}${b("mosaic", "mosaic", "کاشی‌کاری")}${b("list", "list", "فهرستی")}</div>` +
+    (S.listMode ? `<button type="button" class="btn sm alt view-reset" data-act="list-mode" data-m="" title="بازگشت به چیدمان فروشگاه" aria-label="بازگشت به چیدمان فروشگاه">↺</button>` : "");
 }
 function homeSection(title, body, href, toggle, cls) {
   if (!body) return "";
-  return `<section class="section ${cls || ""}"><div class="row-head"><h2>${esc(title)}</h2><div class="btnrow" style="align-items:center">${toggle ? viewToggle() : ""}${href ? `<a class="link" href="${href}">${esc(t("allOf"))}</a>` : ""}</div></div>${body}</section>`;
+  return `<section class="section ${cls || ""}"><div class="row-head"><h2>${esc(title)}</h2><div class="btnrow" style="align-items:center">${toggle ? viewToggle(toggle === true ? "cards" : toggle) : ""}${href ? `<a class="link" href="${href}">${esc(t("allOf"))}</a>` : ""}</div></div>${body}</section>`;
 }
-ACT["list-mode"] = el => { S.listMode = el.dataset.m; try { localStorage.setItem("asan-list", S.listMode); } catch (e) {} render(); };
+ACT["list-mode"] = el => { S.listMode = el.dataset.m || ""; try { S.listMode ? localStorage.setItem("asan-view", S.listMode) : localStorage.removeItem("asan-view"); } catch (e) {} render(); };
 
 /* ----- configurable home ----- */
 const PSEL2 = "id,slug,name,name_i18n,image_url,is_demo,is_featured,category_id,vendor_id,sort,categories(name,name_i18n),product_variants(price,is_active)";
@@ -5214,15 +5279,15 @@ V.home = async () => {
   for (const s of homeLayout()) {
     if (!s.on) continue;
     if (s.id === "slider") out.push(`<div class="slider-slot"></div>`);
-    if (s.id === "featured") out.push(homeSection(t("featuredTitle"), itemsBlock(store.filter(p => p.is_featured).slice(0, s.style === "mosaic" ? 5 : 12), s.style, s.cols), "#/products", true));
+    if (s.id === "featured") out.push(homeSection(t("featuredTitle"), itemsBlock(store.filter(p => p.is_featured).slice(0, s.style === "mosaic" ? 5 : 12), s.style, s.cols), "#/products", s.style || "cards"));
     if (s.id === "cats" && C.length) {
       const items = C.map(c => ({ ...c, name: c.name }));
       out.push(homeSection(t("courses") && "دسته‌ها", s.style === "list"
         ? `<div class="lrows">${items.map(c => `<a class="lrow" href="#/category/${encodeURIComponent(c.slug)}">${artHtml(c, loc(c, "name"))}<div class="lt"><b>${esc(loc(c, "name"))}</b><span>${esc(num(store.filter(p => p.category_id === c.id).length))} محصول</span></div></a>`).join("")}</div>`
         : `<div class="cat-icons">${items.map(c => `<a class="cat-ic" href="#/category/${encodeURIComponent(c.slug)}">${artHtml(c, loc(c, "name"))}<span>${esc(loc(c, "name"))}</span></a>`).join("")}</div>`, "#/products"));
     }
-    if (s.id === "products") for (const g of groupByCat(store, C)) out.push(homeSection(g.c ? loc(g.c, "name") : t("otherProducts"), itemsBlock(g.items.slice(0, (s.cols || 4) * 2), s.style, s.cols), g.c ? "#/category/" + encodeURIComponent(g.c.slug) : "#/products", true));
-    if (s.id === "courses") out.push(homeSection("🎓 " + t("courses"), itemsBlock(crs.data || [], s.style, s.cols, true), "#/courses"));
+    if (s.id === "products") for (const g of groupByCat(store, C)) out.push(homeSection(g.c ? loc(g.c, "name") : t("otherProducts"), itemsBlock(g.items.slice(0, (s.cols || 4) * 2), s.style, s.cols), g.c ? "#/category/" + encodeURIComponent(g.c.slug) : "#/products", s.style || "cards"));
+    if (s.id === "courses") out.push(homeSection("🎓 " + t("courses"), itemsBlock(crs.data || [], s.style, s.cols, true), "#/courses", s.style || "cards"));
     if (s.id === "updates" && (upd.data || []).length) out.push(homeSection(t("latest"), (upd.data || []).map(updCard).join(""), "#/updates"));
     if (s.id === "bazaar" && vendor.length) {
       const groups = groupByCat(vendor, C);
@@ -5262,7 +5327,7 @@ async function mountSlider() {
   window.render = async function () {
     await oRender();
     const app = document.getElementById("app"); if (!app) return;
-    if (S.listMode === "list") app.querySelectorAll(".pgrid").forEach(g => g.classList.add("as-list"));
+    app.querySelectorAll(".pgrid").forEach(g => { g.classList.toggle("as-list", S.listMode === "list"); g.classList.toggle("mosaic", S.listMode === "mosaic"); });
     checkArtFrames(app); labelTables(app);
   };
 })();
@@ -5574,6 +5639,142 @@ document.addEventListener("keydown", e => {
     if (S.pendingAct && ACT[S.pendingAct]) { const a = S.pendingAct; S.pendingAct = null; try { await ACT[a]({ dataset: { id: "" }, closest: () => null }); } catch (e) {} }
   };
 })();
+</script>
+<script>
+/* =====================================================================
+   Admin dashboard v2: today's tasks · my quick access (editable)
+   grouped rows with each section's key actions · 4 view styles · reports
+   ===================================================================== */
+const DB_ACTIONS = {
+  "deliver":      ["تحویل سفارش‌ها", "orders", null, QI.box],
+  "review-pay":   ["بررسی فیش‌ها", "payments", null, QI.card],
+  "answer-tk":    ["پاسخ تیکت‌ها", "tickets", null, QI.chat],
+  "new-product":  ["افزودن محصول", "products", "a-product", "M12 5v14M5 12h14"],
+  "edit-products":["ویرایش محصولات", "products", null, QI.grid],
+  "new-cat":      ["دسته جدید", "categories", "a-cat", "M12 5v14M5 12h14"],
+  "add-stock":    ["ورود کد به انبار", "stock", null, QI.box],
+  "new-banner":   ["بنر جدید", "banners", "bn-edit", "M12 5v14M5 12h14"],
+  "new-course":   ["دوره جدید", "courses", "a-course", "M12 5v14M5 12h14"],
+  "review-regs":  ["بررسی ثبت‌نام‌ها", "regs", null, QI.form],
+  "aff-requests": ["درخواست‌های همکاری", "affiliates", null, QI.hands],
+  "proposals":    ["پیشنهادها و شکایت‌ها", "vendors", null, QI.shop],
+  "new-camp":     ["تخفیف مناسبتی جدید", "discounts", "a-camp", "M12 5v14M5 12h14"],
+  "new-coupon":   ["کد تخفیف جدید", "discounts", "a-coupon", "M12 5v14M5 12h14"],
+  "new-update":   ["خبر جدید", "updates", "a-upd", "M12 5v14M5 12h14"],
+  "manage-users": ["مدیریت کاربران", "users", null, QI.users],
+  "new-level":    ["سطح جدید", "levels", "a-lvl", "M12 5v14M5 12h14"],
+  "edit-layout":  ["تغییر چیدمان سایت", "layout", null, "M3 3h18v18H3zM3 9h18M9 21V9"],
+  "backup":       ["پشتیبان‌گیری و تنظیمات", "settings", null, "M12 15a3 3 0 100-6 3 3 0 000 6zM4 12h2M18 12h2M12 4v2M12 18v2"] };
+const DB_GROUPS = [
+  ["sales", "فروش", "#0F5157", "orders", [["orders", ["deliver"]], ["payments", ["review-pay"]], ["tickets", ["answer-tk"]]], ["review-pay", "deliver", "answer-tk"]],
+  ["catalog", "کالا", "#1E6BD6", "products", [["products", ["new-product", "edit-products"]], ["categories", ["new-cat"]], ["stock", ["add-stock"]], ["banners", ["new-banner"]]], ["new-product", "new-cat", "add-stock", "new-banner"]],
+  ["edu", "آموزش", "#7A4BC2", "courses", [["courses", ["new-course"]], ["regs", ["review-regs"]]], ["new-course", "review-regs"]],
+  ["partners", "همکاران", "#B5651D", "vendors", [["affiliates", ["aff-requests"]], ["vendors", ["proposals"]]], ["aff-requests", "proposals"]],
+  ["marketing", "بازاریابی", "#C81E3A", "discounts", [["discounts", ["new-camp", "new-coupon"]], ["updates", ["new-update"]]], ["new-camp", "new-coupon", "new-update"]],
+  ["system", "سیستم", "#3D5A5E", "users", [["users", ["manage-users"]], ["levels", ["new-level"]], ["layout", ["edit-layout"]], ["settings", ["backup"]]], ["new-level", "backup", "edit-layout"]]];
+const DB_STYLES = [["auto", "خودکار"], ["icons", "آیکونی"], ["cards", "کارتی"], ["mosaic", "کاشی‌کاری"], ["list", "فهرستی"]];
+const DB_DEFAULT = { style: "auto", pins: ["a:new-product", "s:orders", "s:payments"], closed: {}, order: DB_GROUPS.map(g => g[0]), reports: false };
+function dbPrefs() { const p = S.profile && S.profile.ui_prefs && S.profile.ui_prefs.dash2; const d = JSON.parse(JSON.stringify(DB_DEFAULT)); if (!p) return d;
+  const o = Object.assign(d, p); o.order = o.order.filter(id => DB_GROUPS.some(g => g[0] === id)).concat(DB_GROUPS.map(g => g[0]).filter(id => !o.order.includes(id))); return o; }
+async function dbSave(p) { const prefs = Object.assign({}, (S.profile && S.profile.ui_prefs) || {}, { dash2: p }); if (S.profile) S.profile.ui_prefs = prefs; await sb.from("profiles").update({ ui_prefs: prefs }).eq("id", S.session.user.id); }
+const dbOk = tab => S.isOwner || !OWNER_TABS.includes(tab);
+function dbStyle(p) { if (p.style !== "auto") return p.style; return innerWidth <= 700 ? "icons" : "cards"; }
+function dbStat(id, D, K) {
+  const n = x => num(x || 0);
+  return { orders: [n(D.orders_month) + " سفارش این ماه" + (D.to_deliver ? sep() + n(D.to_deliver) + " منتظر تحویل" : ""), D.to_deliver, !!D.to_deliver],
+    payments: [D.pending_payments ? n(D.pending_payments) + " فیش منتظر تأیید" : "همه بررسی شده", D.pending_payments, !!D.pending_payments],
+    tickets: [D.open_tickets ? n(D.open_tickets) + " تیکت بی‌پاسخ" : "تیکت بازی نیست", D.open_tickets, !!D.open_tickets],
+    products: [n(K.products) + " محصول فعال", 0], categories: [n(K.categories) + " دسته فعال", 0],
+    stock: [(D.low_stock || []).length ? n(D.low_stock.length) + " پلن رو به اتمام" : "موجودی کافی", (D.low_stock || []).length, !!(D.low_stock || []).length],
+    banners: [n(K.banners) + " بنر فعال", 0], courses: [n(K.courses) + " دوره فعال", 0],
+    regs: [D.new_regs ? n(D.new_regs) + " ثبت‌نام جدید" : "ثبت‌نام جدیدی نیست", D.new_regs, !!D.new_regs],
+    affiliates: [n(K.affiliates) + " همکار فعال" + (K.aff_pending ? sep() + n(K.aff_pending) + " درخواست" : ""), K.aff_pending, !!K.aff_pending],
+    vendors: [(K.proposals || K.complaints) ? [K.proposals ? n(K.proposals) + " پیشنهاد" : "", K.complaints ? n(K.complaints) + " شکایت" : ""].filter(Boolean).join("، ") : "مورد جدیدی نیست", (K.proposals || 0) + (K.complaints || 0), !!K.complaints],
+    discounts: [K.campaign ? "«" + K.campaign + "» در جریان" : n(K.coupons) + " کد تخفیف فعال", 0], updates: [n(K.updates) + " خبر منتشرشده", 0],
+    users: [n(K.users) + " کاربر" + (D.new_users_month ? sep() + n(D.new_users_month) + " جدید این ماه" : ""), 0], levels: [n(K.levels) + " سطح", 0],
+    layout: ["طرح کارت: " + (CARD_STYLES.find(c => c[0] === cardStyle()) || ["", ""])[1], 0], settings: ["کارت، پشتیبانی، پشتیبان‌گیری", 0] }[id] || ["", 0];
+}
+function dbItem(sec, grp, style, p, isMain, D, K) {
+  const [id, acts] = sec, [stat, badge, warn] = dbStat(id, D, K), color = grp[2], pinned = p.pins.includes("s:" + id), name = t("a_" + id), ic = ADMIN_ICONS[id] || QI.gear;
+  const star = `<button type="button" class="db-star ${pinned ? "on" : ""}" data-act="db-pin" data-k="s:${id}" aria-pressed="${pinned}" aria-label="${pinned ? "برداشتن از" : "افزودن به"} دسترسی سریع من: ${esc(name)}" title="سنجاق به دسترسی سریع من">${pinned ? "★" : "☆"}</button>`;
+  const bd = badge ? `<span class="db-bd">${esc(num(badge))}</span>` : "";
+  const st = `<span class="db-stat ${warn ? "warn" : ""}">${esc(stat)}</span>`;
+  const btns = acts.filter(a => dbOk(DB_ACTIONS[a][1])).map(a => `<button type="button" class="db-act" data-act="db-do" data-a="${a}">${esc(DB_ACTIONS[a][0])}</button>`).join("");
+  const open = `data-act="db-go" data-tab="${id}" role="link" tabindex="0"`;
+  if (style === "icons") return `<div class="db-it" ${open}>${star}<span class="db-ibox" style="background:${color}">${qicon(ic)}${bd}</span><span class="db-nm">${esc(name)}</span>${st}</div>`;
+  if (style === "list") return `<div class="db-it" ${open}><span class="db-ibox" style="background:${color}">${qicon(ic)}</span><span class="db-nm">${esc(name)}</span>${bd}${st}<span class="db-acts">${btns}</span>${star}</div>`;
+  if (style === "mosaic") return `<div class="db-it ${isMain ? "big" : ""}" ${open} style="background:linear-gradient(150deg,${color},${color}DD)">${star}${bd}<span class="db-ibox">${qicon(ic)}</span><span class="db-nm">${esc(name)}</span>${st}<span class="db-acts">${btns}</span></div>`;
+  return `<div class="db-it" ${open}>${star}<div class="db-top"><span class="db-ibox" style="background:${color}">${qicon(ic)}</span><span class="db-nm">${esc(name)}</span>${bd}</div>${st}<span class="db-acts">${btns}</span></div>`;
+}
+function dbPinItem(k, style, p, D, K) {
+  if (k.startsWith("s:")) { const id = k.slice(2), g = DB_GROUPS.find(x => x[4].some(s => s[0] === id)); if (!g || !dbOk(id)) return ""; return dbItem(g[4].find(s => s[0] === id), g, style, p, false, D, K); }
+  const a = DB_ACTIONS[k.slice(2)]; if (!a || !dbOk(a[1])) return "";
+  const g = DB_GROUPS.find(x => x[4].some(s => s[0] === a[1])) || DB_GROUPS[0];
+  const unpin = `<button type="button" class="db-star on" data-act="db-pin" data-k="${k}" aria-pressed="true" aria-label="برداشتن از دسترسی سریع من: ${esc(a[0])}">★</button>`;
+  const attrs = `data-act="db-do" data-a="${k.slice(2)}" role="button" tabindex="0"`;
+  if (style === "icons") return `<div class="db-it" ${attrs}>${unpin}<span class="db-ibox" style="background:${g[2]}">${qicon(a[3])}</span><span class="db-nm">${esc(a[0])}</span><span class="db-stat">اقدام سریع</span></div>`;
+  if (style === "list") return `<div class="db-it" ${attrs}><span class="db-ibox" style="background:${g[2]}">${qicon(a[3])}</span><span class="db-nm">${esc(a[0])}</span><span class="db-stat">اقدام سریع</span>${unpin}</div>`;
+  if (style === "mosaic") return `<div class="db-it" ${attrs} style="background:linear-gradient(150deg,${g[2]},${g[2]}DD)">${unpin}<span class="db-ibox">${qicon(a[3])}</span><span class="db-nm">${esc(a[0])}</span><span class="db-stat">اقدام سریع</span></div>`;
+  return `<div class="db-it" ${attrs}>${unpin}<div class="db-top"><span class="db-ibox" style="background:${g[2]}">${qicon(a[3])}</span><span class="db-nm">${esc(a[0])}</span></div><span class="db-stat">اقدام سریع</span></div>`;
+}
+A.dashboard = async () => {
+  const [{ data: D0 }, { data: K0 }] = await Promise.all([sb.rpc("admin_dashboard"), sb.rpc("admin_dashboard_counts")]);
+  const D = D0 || {}, K = K0 || {}, p = dbPrefs(), style = dbStyle(p); S.dbPrefs = p;
+  const todo = [["review-pay", "فیش منتظر تأیید", D.pending_payments], ["deliver", "سفارش منتظر تحویل", D.to_deliver], ["answer-tk", "تیکت بی‌پاسخ", D.open_tickets],
+    ["add-stock", "پلن کم‌موجود", (D.low_stock || []).length, 1], ["review-regs", "ثبت‌نام جدید", D.new_regs], ["proposals", "پیشنهاد یا شکایت همکاران", (K.proposals || 0) + (K.complaints || 0), K.complaints ? 1 : 0],
+    ["aff-requests", "درخواست همکاری", K.aff_pending]].filter(x => x[2] > 0 && dbOk(DB_ACTIONS[x[0]][1]));
+  const pins = p.pins.map(k => dbPinItem(k, style, p, D, K)).filter(Boolean);
+  const groups = p.order.map(id => DB_GROUPS.find(g => g[0] === id)).filter(Boolean).map(g => [g[0], g[1], g[2], g[3], g[4].filter(s => dbOk(s[0])), g[5].filter(a => dbOk(DB_ACTIONS[a][1]))]).filter(g => g[4].length);
+  return `<div class="db-head"><div class="db-vs" role="group" aria-label="سبک نمایش داشبورد">${DB_STYLES.map(([k, l]) => `<button type="button" class="${p.style === k ? "on" : ""}" data-act="db-style" data-s="${k}" aria-pressed="${p.style === k}">${l}${k === "auto" ? ` <small>(${style === "icons" ? "آیکونی" : "کارتی"})</small>` : ""}</button>`).join("")}</div>
+      <button type="button" class="btn sm alt" data-act="db-reset">بازگشت به پیش‌فرض</button></div>
+    <section class="db-today" aria-label="کارهای امروز"><span class="db-tt">کارهای امروز</span>${todo.length ? todo.map(x => `<span class="db-todo ${x[3] ? "red" : ""}"><b>${esc(num(x[2]))}</b><span>${esc(x[1])}</span><button type="button" data-act="db-do" data-a="${x[0]}">${esc(DB_ACTIONS[x[0]][0])}</button></span>`).join("") : `<span class="db-done">همه کارها انجام شده ✓</span>`}</section>
+    <section class="db-grp db-pins"><div class="db-ghd"><h2>⭐ دسترسی سریع من</h2><div class="db-ctl"><button type="button" class="btn sm alt" data-act="db-pins-edit">✎ ویرایش</button></div></div>
+      <div class="db-body">${pins.length ? `<div class="db-s-${style}">${pins.join("")}</div>` : `<p class="hint">با زدن ☆ روی هر بخش، یا دکمه «ویرایش»، بخش‌ها و کارهای پرکاربردتان را اینجا بگذارید.</p>`}</div></section>
+    ${groups.map((g, i) => { const sum = g[4].reduce((a, s) => a + Number(dbStat(s[0], D, K)[1] || 0), 0), closed = !!p.closed[g[0]];
+      return `<section class="db-grp ${closed ? "closed" : ""}"><div class="db-ghd"><h2>${esc(g[1])}</h2>${sum ? `<span class="db-sum">${esc(num(sum))}</span>` : ""}
+        <div class="db-quick">${g[5].map(a => `<button type="button" class="db-q" data-act="db-do" data-a="${a}">${DB_ACTIONS[a][3].startsWith("M12 5v14") ? "+ " : ""}${esc(DB_ACTIONS[a][0])}</button>`).join("")}</div>
+        <div class="db-ctl"><button type="button" data-act="db-mv" data-g="${g[0]}" data-d="-1" aria-label="بردن ردیف ${esc(g[1])} به بالا" ${i === 0 ? "disabled" : ""}>▲</button><button type="button" data-act="db-mv" data-g="${g[0]}" data-d="1" aria-label="بردن ردیف ${esc(g[1])} به پایین" ${i === groups.length - 1 ? "disabled" : ""}>▼</button>
+        <button type="button" class="db-tg" data-act="db-tg" data-g="${g[0]}" aria-expanded="${!closed}" aria-label="${closed ? "باز کردن" : "جمع کردن"} ردیف ${esc(g[1])}">⌃</button></div></div>
+        <div class="db-body"><div class="db-s-${style}">${g[4].map(s => dbItem(s, g, style, p, s[0] === g[3], D, K)).join("")}</div></div></section>`; }).join("")}
+    <details class="db-rep" ${p.reports ? "open" : ""} id="dbRep"><summary>📊 گزارش‌ها</summary><div class="dgrid" style="margin-top:12px">
+      <div class="dw"><h3>فروش امروز</h3><div class="kpi">${esc(num(D.sales_today || 0))} <small>${esc(t("toman"))}</small></div><div class="trend ${D.sales_today < D.sales_yesterday ? "down" : ""}">${esc(trendPct(D.sales_today || 0, D.sales_yesterday || 0))} نسبت به دیروز</div></div>
+      <div class="dw"><h3>فروش این ماه</h3><div class="kpi">${esc(num(D.sales_month || 0))} <small>${esc(t("toman"))}</small></div><div class="trend ${D.sales_month < D.sales_prev_month ? "down" : ""}">${esc(trendPct(D.sales_month || 0, D.sales_prev_month || 0))} نسبت به ماه قبل</div></div>
+      <div class="dw L"><h3>${esc(W_NAMES.chart)}</h3>${lineChartSvg(D.daily || [])}</div>
+      <div class="dw L"><h3>${esc(W_NAMES.top)}</h3>${(D.top || []).length ? (() => { const mx = Math.max(1, ...D.top.map(x => x.n)); return D.top.map(x => `<div class="bar-row"><div><div class="bar-l">${esc(x.name)}</div><div class="bar-b"><i style="width:${x.n / mx * 100}%"></i></div></div><b>${esc(num(x.n))}</b></div>`).join(""); })() : `<p class="hint">در ۳۰ روز اخیر فروشی ثبت نشده.</p>`}</div>
+      <div class="dw L"><h3>${esc(W_NAMES.methods)}</h3>${donutSvg(D.methods || [])}</div></div></details>`;
+};
+function dbGo(tab, act) { S.pendingAct = act || null; const h = "#/admin/" + tab; if (location.hash === h) render(); else location.hash = h; }
+Object.assign(ACT, {
+  "db-go": (el, e) => { if (e && e.target.closest("button")) return; dbGo(el.dataset.tab); },
+  "db-do": (el, e) => { if (e) e.stopPropagation(); const a = DB_ACTIONS[el.dataset.a]; if (a) dbGo(a[1], a[2]); },
+  "db-style": async el => { S.dbPrefs.style = el.dataset.s; await dbSave(S.dbPrefs); render(); },
+  "db-reset": async () => { S.dbPrefs = JSON.parse(JSON.stringify(DB_DEFAULT)); await dbSave(S.dbPrefs); render(); toast("داشبورد به حالت پیش‌فرض برگشت"); },
+  "db-tg": async el => { S.dbPrefs.closed[el.dataset.g] = !S.dbPrefs.closed[el.dataset.g]; el.closest(".db-grp").classList.toggle("closed"); el.setAttribute("aria-expanded", !S.dbPrefs.closed[el.dataset.g]); await dbSave(S.dbPrefs); },
+  "db-mv": async el => { const o = S.dbPrefs.order, i = o.indexOf(el.dataset.g), j = i + Number(el.dataset.d); if (j < 0 || j >= o.length) return; [o[i], o[j]] = [o[j], o[i]]; await dbSave(S.dbPrefs); render(); },
+  "db-pin": async (el, e) => { if (e) e.stopPropagation(); const k = el.dataset.k, P = S.dbPrefs.pins; S.dbPrefs.pins = P.includes(k) ? P.filter(x => x !== k) : P.concat(k); await dbSave(S.dbPrefs); toast(S.dbPrefs.pins.includes(k) ? "به دسترسی سریع من اضافه شد" : "از دسترسی سریع برداشته شد"); render(); },
+  "db-pins-edit": () => dbPinsModal(),
+  "db-pe-mv": el => { const P = S.dbPinDraft, i = +el.dataset.i, j = i + Number(el.dataset.d); if (j < 0 || j >= P.length) return; [P[i], P[j]] = [P[j], P[i]]; dbPinsModal(true); },
+  "db-pe-tg": el => { const k = el.dataset.k, P = S.dbPinDraft; S.dbPinDraft = P.includes(k) ? P.filter(x => x !== k) : P.concat(k); dbPinsModal(true); },
+  "db-pe-save": async () => { S.dbPrefs.pins = S.dbPinDraft; await dbSave(S.dbPrefs); closeModal(); toast("دسترسی سریع من ذخیره شد"); render(); }
+});
+function pinLabel(k) { if (k.startsWith("s:")) return [t("a_" + k.slice(2)), "بخش", ADMIN_ICONS[k.slice(2)] || QI.gear]; const a = DB_ACTIONS[k.slice(2)]; return a ? [a[0], "اقدام سریع", a[3]] : [k, "", QI.gear]; }
+function dbPinsModal(keep) {
+  if (!keep) S.dbPinDraft = [...S.dbPrefs.pins];
+  const P = S.dbPinDraft.filter(k => pinLabel(k)[1]);
+  const secs = DB_GROUPS.flatMap(g => g[4].map(s => s[0])).filter(dbOk).map(id => "s:" + id), acts = Object.keys(DB_ACTIONS).filter(a => dbOk(DB_ACTIONS[a][1])).map(a => "a:" + a);
+  const row = k => { const [l, kind, ic] = pinLabel(k), on = P.includes(k); return `<div class="pe-row"><span class="pe-ic">${qicon(ic)}</span><span class="pe-l">${esc(l)}<small>${esc(kind)}</small></span><button type="button" class="switch ${on ? "on" : ""}" data-act="db-pe-tg" data-k="${k}" aria-pressed="${on}" aria-label="${esc(l)}"></button></div>`; };
+  const html = `<h3 class="pe-h">چیده‌شده (${esc(num(P.length))})</h3>
+    ${P.length ? `<div class="pe-list">${P.map((k, i) => { const [l, kind, ic] = pinLabel(k); return `<div class="pe-row"><span class="pe-ic">${qicon(ic)}</span><span class="pe-l">${esc(l)}<small>${esc(kind)}</small></span>
+      <span class="pe-mv"><button type="button" data-act="db-pe-mv" data-i="${i}" data-d="-1" aria-label="بالا" ${i === 0 ? "disabled" : ""}>▲</button><button type="button" data-act="db-pe-mv" data-i="${i}" data-d="1" aria-label="پایین" ${i === P.length - 1 ? "disabled" : ""}>▼</button></span>
+      <button type="button" class="btn sm alt" data-act="db-pe-tg" data-k="${k}" aria-label="حذف ${esc(l)}">✕</button></div>`; }).join("")}</div>` : `<p class="hint">هنوز چیزی انتخاب نشده.</p>`}
+    <details class="pe-add" open><summary>اقدام‌های سریع</summary><div class="pe-list">${acts.map(row).join("")}</div></details>
+    <details class="pe-add"><summary>بخش‌ها</summary><div class="pe-list">${secs.map(row).join("")}</div></details>`;
+  if (keep && document.getElementById("peBody")) { document.getElementById("peBody").innerHTML = html; return; }
+  openModal("ویرایش دسترسی سریع من", `<div id="peBody">${html}</div>`, `<button class="btn alt" data-act="close-modal">${esc(t("cancel"))}</button><button class="btn" data-act="db-pe-save">${esc(t("save"))}</button>`);
+}
+document.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches('.db-it[role="link"],.db-it[role="button"]')) { e.preventDefault(); e.target.click(); } });
+document.addEventListener("toggle", async e => { if (e.target.id === "dbRep" && S.dbPrefs) { S.dbPrefs.reports = e.target.open; await dbSave(S.dbPrefs); } }, true);
+let dbW = innerWidth; addEventListener("resize", () => { if (S.dbPrefs && S.dbPrefs.style === "auto" && (dbW <= 700) !== (innerWidth <= 700) && /^#\/admin\/?(dashboard)?$/.test(location.hash)) render(); dbW = innerWidth; });
 </script>
 
 </body>
